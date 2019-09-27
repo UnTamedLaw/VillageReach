@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply from: '../jacoco.gradle'
 
 android {
     compileSdkVersion 28
@@ -14,6 +15,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            debug { testCoverageEnabled true }
         }
     }
 }
