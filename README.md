@@ -1,0 +1,2 @@
+[![CircleCI](https://circleci.com/gh/UnTamedLaw/VillageReach.svg?style=svg)](https://circleci.com/gh/UnTamedLaw/VillageReach)
+[![codecov](https://codecov.io/gh/UnTamedLaw/VillageReach/branch/master/graph/badge.svg)](https://codecov.io/gh/UnTamedLaw/VillageReach)
