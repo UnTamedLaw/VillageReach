@@ -8,7 +8,10 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
 
 import com.google.android.material.navigation.NavigationView;
 
@@ -45,6 +48,7 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigation);
         navigationView.setNavigationItemSelectedListener(this);
     }
+
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -59,7 +63,7 @@ public class MainActivity extends AppCompatActivity
                 fragment = new SyncFragment();
                 break;
             default:
-                fragment = new DeliveryFragment();
+                intent = new Intent(this, DeliveryActivity.class);
         }
         if (fragment != null) {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();

@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="@string/nav_main">
+        <menu>
+            <item
+                android:id="@+id/nav_Delivery_activity"
+                android:icon="@android:drawable/ic_input_add"
+                android:title="@string/nav_Delivery_activity" />
+        </menu>
+
+    </item>
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_delivery"

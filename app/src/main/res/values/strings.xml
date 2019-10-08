@@ -11,6 +11,13 @@
     <string name="nav_sync">Sync</string>
     <string name="nav_open_drawer">Open Navigation Drawer</string>
     <string name="nav_close_drawer">Close Navigation Drawer</string>
+    <string name="send">Send</string>
+    <string name="SaveForm">Save Form</string>
+    <string name="submit">Submit</string>
+    <string name="nav_main">Delivery Activity</string>
+    <string name="nav_Delivery_activity">Delivery Activity</string>
+    <string name="hint">Enter Delivery #</string>
+    <string name="sync_now">Sync</string>
 
 
 </resources>
