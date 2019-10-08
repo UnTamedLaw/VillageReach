@@ -9,7 +9,28 @@
     android:paddingLeft="50dp"
     tools:context=".MainActivity">
 
-    <TextView
+<androidx.drawerlayout.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+        <include
+            layout="@layout/toolbar"
+            android:id="@+id/toolbar" />
+        <FrameLayout
+            android:id="@+id/content_fragments"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </FrameLayout>
+          <TextView
         android:id="@+id/labelForUsername"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -38,4 +59,14 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:text="@string/login" />
-</LinearLayout>
+    </LinearLayout>
+
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/navigation"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start|left"
+        app:headerLayout="@layout/nav_header"
+        app:menu="@menu/nav_menu" />
+</androidx.drawerlayout.widget.DrawerLayout>
+
