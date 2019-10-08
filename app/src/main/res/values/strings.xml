@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">VillageReach</string>
+    <string name="login">login</string>
 </resources>
