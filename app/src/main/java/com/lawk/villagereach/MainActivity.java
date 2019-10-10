@@ -1,17 +1,15 @@
 package com.lawk.villagereach;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 
-import static android.provider.Telephony.BaseMmsColumns.MESSAGE_ID;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "myTracker";
     private static final int RESULT_ID = 1;
@@ -27,11 +25,11 @@ public class MainActivity extends AppCompatActivity {
 
         Log.i(TAG, "Main activity button " + button.getId() + " clicked");
 
-        EditText username = (EditText) findViewById(R.id.username);
+        EditText username = findViewById(R.id.username);
         String myUserName = username.getText().toString();
         //username.getText().clear();
 
-        EditText password = (EditText) findViewById(R.id.password);
+        EditText password = findViewById(R.id.password);
         String myPassword = password.getText().toString();
         //password.getText().clear();
 
@@ -41,4 +39,5 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra(MESSAGE_ID, mymessage);
         startActivityForResult(intent, RESULT_ID);
     }
+
 }

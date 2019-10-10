@@ -26,7 +26,7 @@ public class DeliveryActivity extends AppCompatActivity {
         String myMessage = intent.getStringExtra((MainActivity.MESSAGE_ID));
 
 
-        TextView label = (TextView)findViewById(R.id.delivery_text);
+        TextView label = findViewById(R.id.delivery_text);
             label.setText(myMessage);
     }
 

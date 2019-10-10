@@ -13,12 +13,14 @@
         android:id="@+id/labelForUsername"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textSize="16sp"
         android:text="Username:" />
 
     <EditText
         android:id="@+id/username"
         android:layout_width="260dp"
         android:layout_height="40dp"
+        android:padding="6dp"
         android:background="@drawable/shape" />
 
     <TextView
@@ -26,16 +28,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingTop="20dp"
+        android:textSize="16sp"
         android:text="Password:" />
     <EditText
         android:id="@+id/password"
         android:layout_width="260dp"
         android:layout_height="40dp"
+        android:padding="6dp"
         android:background="@drawable/shape" />
     <Button
         android:id="@+id/loginButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="@string/login" />
+        android:padding="6dp"
+        android:textSize="16sp"
+        android:text="@string/login"
+        android:onClick="onClick"/>
 </LinearLayout>
