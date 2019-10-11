@@ -18,6 +18,7 @@
     <string name="nav_Delivery_activity">Delivery Activity</string>
     <string name="hint">Enter Delivery #</string>
     <string name="sync_now">Sync</string>
+    <string name="cardviewText">CardView Here</string>
 
 
 </resources>
