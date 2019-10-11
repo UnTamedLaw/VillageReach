@@ -29,7 +29,7 @@ public class DeliveryActivity extends AppCompatActivity {
 
         Log.i(TAG, "Button" + view.getId() + " clicked. ");
 
-        EditText messageSend=(EditText)findViewById(R.id.message);
+        EditText messageSend=(EditText) this.<View>findViewById(R.id.message);
         String messageString = messageSend.getText().toString();
 
         Intent intent = new Intent (this, FormActivity.class);
