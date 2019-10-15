@@ -17,4 +17,31 @@
     <string name="orderDate">Order Date:</string>
     <string name="emergency">Emergency:</string>
     <string name="orderCode">Order Code:</string>
+    <string name="notes">Notes</string>
+
+    <string name="quantity_accepted">Qty Accepted</string>
+    <string name="quantity_shipped">Qty Shipped</string>
+    <string name="quantity_ordered">Qty Ordered</string>
+    <string name="product_unit">Product Unit</string>
+    <string name="rejection_season">Rejection Reason</string>
+    <string name="quantity_returned">Qty Returned</string>
+    <string name="product_name">Product Name</string>
+    <string name="proof_of_delivery">Proof Of Delivery</string>
+<!--    adding an array for the rejection reason of the proof of delivery form
+ I cant find the reasons.-->
+
+    <string-array name="rejection_reason">
+        <item>Item One</item>
+        <item>Item Two</item>
+        <item>Item Three</item>
+        <item>Item Four</item>
+        <item>Item Five</item>
+    </string-array>
+
+    <string name="delivered_by">Delivered BY</string>
+    <string name="received_by">Received By</string>
+    <string name="sign">Sign   </string>
+
+
+
 </resources>
