@@ -60,7 +60,7 @@ public class InternalStorageHandler {
 
 
 
-    JSONObject fileStringToJSONObject(String fileString) throws JSONException {
+    public JSONObject fileStringToJSONObject(String fileString) throws JSONException {
         return new JSONObject(fileString);
     }
 
