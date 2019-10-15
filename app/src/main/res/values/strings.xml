@@ -7,8 +7,14 @@
     <string name="submit">Submit</string>
     s<string name="hint">Enter Delivery #</string>
     <string name="sync_now">Sync</string>
-    <string name="cardviewText">CardView Here</string>
     <string name="login">Login</string>
-
-
+    <string name="orderId">Order Id:</string>
+    <string name="facilityName">Facility Name:</string>
+    <string name="supplyingFacilityName">Supplying Facility Name:</string>
+    <string name="requestingFacilityName">Requesting Facility Name:</string>
+    <string name="programName">Program Name:</string>
+    <string name="processingPeriodName">Processing Period:</string>
+    <string name="orderDate">Order Date:</string>
+    <string name="emergency">Emergency:</string>
+    <string name="orderCode">Order Code:</string>
 </resources>
