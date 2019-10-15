@@ -1,16 +1,14 @@
 <resources>
     <string name="app_name">VillageReach</string>
-    <string name="Opener">Delivery</string>
-    <string name="hello">Next</string>
-    <string name="info">Info</string>
-    <string name="app_bar_settings">settings</string>
-    <string name="Delivery">Delivery</string>
+    <string name="Delivery">Get deliveries</string>
     <string name="Sync">Sync</string>
-    <string name="title_name">OpenLMIS</string>
-    <string name="nav_delivery">Delivery</string>
-    <string name="nav_sync">Sync</string>
-    <string name="nav_open_drawer">Open Navigation Drawer</string>
-    <string name="nav_close_drawer">Close Navigation Drawer</string>
+    <string name="send">Send</string>
+    <string name="SaveForm">Save Form</string>
+    <string name="submit">Submit</string>
+    s<string name="hint">Enter Delivery #</string>
+    <string name="sync_now">Sync</string>
+    <string name="cardviewText">CardView Here</string>
+    <string name="login">Login</string>
 
 
 </resources>
