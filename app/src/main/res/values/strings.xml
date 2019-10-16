@@ -17,7 +17,7 @@
     <string name="product_unit">Product Unit</string>
     <string name="rejection_season">Rejection Reason</string>
     <string name="quantity_returned">Qty Returned</string>
-    <string name="product_name">Product Name</string>
+    <string name="id">Product Name</string>
     <string name="proof_of_delivery">Proof Of Delivery</string>
 <!--    adding an array for the rejection reason of the proof of delivery form
  I cant find the reasons.-->

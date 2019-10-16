@@ -43,8 +43,8 @@ public class DeliveryActivity extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
                 String response = data.getStringExtra(FormActivity.KEY);
 
-                TextView textView = (TextView)findViewById(R.id.responseText);
-                textView.setText(response);
+                //TextView textView = (TextView)findViewById(R.id.responseText);
+                //textView.setText(response);
             }
         }
     }
