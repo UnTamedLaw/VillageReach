@@ -29,6 +29,8 @@ public class InternalStorageHandler {
         this.fileName = fileName;
     }
 
+    // to do: serialize passed in object to json string
+
     public String readFile(Context context, String fileName) {
         try {
             FileInputStream fileInputStream = context.openFileInput(fileName);
@@ -45,9 +47,10 @@ public class InternalStorageHandler {
         } catch (IOException e) {
             Log.e("Read File", "File Read Failed" + e.toString());
         }
+        return "File Not Read";
     }
 
-    private void writeToFile(String data,Context context) {
+    public void writeToFile(String data,Context context) {
         try {
             OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput(this.fileName, Context.MODE_PRIVATE));
             outputStreamWriter.write(data);
