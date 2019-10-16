@@ -24,7 +24,7 @@ public class FormActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_form);
-        Log.i(TAG,  "Started ");
+
     //adding spinner for the dropdown for rejection reason
         //two are needed, static and dynamic
 
@@ -63,7 +63,6 @@ public class FormActivity extends AppCompatActivity {
             }
         });
     }
-
 
     //Adding First Iteration of JSON Parser for proof of delivery.
     //From demo file "api stuff," we are first capturing
