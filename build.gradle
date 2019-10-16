@@ -4,7 +4,8 @@ buildscript {
     repositories {
         google()
         jcenter()
-        
+        maven {url 'https://mvnrepository.com/artifact/com.facebook.conceal/conceal' }
+
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.5.1'
