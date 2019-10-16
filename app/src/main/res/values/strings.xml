@@ -41,7 +41,7 @@
     <string name="delivered_by">Delivered BY</string>
     <string name="received_by">Received By</string>
     <string name="sign">Sign   </string>
-
+    <string name="ViewForm">View Form</string>
 
 
 </resources>

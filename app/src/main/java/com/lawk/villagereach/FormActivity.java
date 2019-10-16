@@ -24,10 +24,6 @@ public class FormActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_form);
-        Intent intent = getIntent();
-        String messageSend = intent.getStringExtra(EXTRA_MESSAGE);
-        TextView messageString = (TextView) findViewById(R.id.message);
-        messageString.setText(messageSend);
         Log.i(TAG,  "Started ");
     //adding spinner for the dropdown for rejection reason
         //two are needed, static and dynamic
@@ -68,13 +64,7 @@ public class FormActivity extends AppCompatActivity {
         });
     }
 
-    public void onClickRespond(View view) {
-        Log.i(TAG,  "Button " + view.getId() + " clicked.");
-        Intent intent = new Intent(this, DeliveryActivity.class);
-        startActivity(intent);
-        finish();
 
-    }
     //Adding First Iteration of JSON Parser for proof of delivery.
     //From demo file "api stuff," we are first capturing
     // {shipment:
