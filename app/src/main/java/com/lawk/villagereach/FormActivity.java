@@ -24,7 +24,6 @@ public class FormActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_form);
-        Intent intent = getIntent();
 
     //adding spinner for the dropdown for rejection reason
         //two are needed, static and dynamic

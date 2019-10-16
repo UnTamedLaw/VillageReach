@@ -97,6 +97,14 @@
                 android:layout_height="match_parent"
                 android:padding="8dp"
                 android:text="@string/orderCode" />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/formClick"
+                android:onClick="formActivity"
+                android:text="@string/ViewForm"
+                />
+
         </LinearLayout>
 
         </androidx.cardview.widget.CardView>
