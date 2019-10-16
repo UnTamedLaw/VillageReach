@@ -19,10 +19,10 @@ import java.io.OutputStreamWriter;
 
 public class InternalStorageHandler {
 
-    private String fileString;
-    private Context context;
-    private String fileName;
-    private JSONObject jsonObject;
+    public String fileString;
+    public Context context;
+    public String fileName;
+    public JSONObject jsonObject;
 
     public InternalStorageHandler(Context context, String fileName) {
         this.context = context;
