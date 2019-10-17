@@ -231,8 +231,8 @@ jobs:
           command: bash <(curl -s https://codecov.io/bash)
           no_output_timeout: 30m
       - store_artifacts:
-          path: app/build/
-          destination: /build/
+          path: app/build/reports/
+          destination: /reports/
 
 workflows:
   version: 2
