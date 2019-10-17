@@ -1,7 +1,7 @@
 package com.lawk.villagereach;
 
 public class Auth {
-    public void authenticate(Credentials creds) {
+    public static void authenticate(Credentials creds) {
         if (creds == null) {
             //if storage has creds
                 //creds = storage's creds
