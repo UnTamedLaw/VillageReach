@@ -1,5 +1,6 @@
 package com.lawk.villagereach;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.EditText;
 import java.util.ArrayList;
 
 import androidx.appcompat.app.AppCompatActivity;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,16 +27,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-   public void onClick(View button) {
+    public void onClick(View button) {
+        Log.i(TAG, "Main activity button " + button.getId() + " clicked");
+        //test code
+        Auth auth = new Auth(this);
+        //test code
+        EditText username = findViewById(R.id.username);
+        String myUserName = username.getText().toString();
+        //username.getText().clear();
 
-       EditText username = findViewById(R.id.username);
-       String myUserName = username.getText().toString();
+        EditText password = findViewById(R.id.password);
+        String myPassword = password.getText().toString();
 
-       EditText password = findViewById(R.id.password);
-       String myPassword = password.getText().toString();
-
-       String  vars = "vars";
-       loginArrayList.add(new Login(myUserName, myPassword));
+        String  vars = "vars";
+        loginArrayList.add(new Login(myUserName, myPassword));
 
    }
 

@@ -5,6 +5,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -26,6 +27,8 @@
         <activity android:name=".DeliveryActivity" >
        </activity>
         <activity android:name=".FormActivity">
+        </activity>
+        <activity android:name=".LoginCredentialActivity">
         </activity>
     </application>
 
