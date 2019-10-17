@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
        EditText password = findViewById(R.id.password);
        String myPassword = password.getText().toString();
 
+       String  vars = "vars";
        loginArrayList.add(new Login(myUserName, myPassword));
 
    }
