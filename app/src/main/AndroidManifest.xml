@@ -27,6 +27,8 @@
        </activity>
         <activity android:name=".FormActivity">
         </activity>
+        <activity android:name=".LoginCredentialActivity">
+        </activity>
     </application>
 
 </manifest>
