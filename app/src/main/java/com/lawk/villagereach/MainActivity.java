@@ -38,8 +38,11 @@ public class MainActivity extends AppCompatActivity {
 
         EditText password = findViewById(R.id.password);
         String myPassword = password.getText().toString();
-
-        String  vars = "vars";
+        String mymessage = myUserName + myPassword;
+        
+        Intent intent = new Intent(this, DeliveryActivity.class);
+        intent.putExtra(MESSAGE_ID, mymessage);
+        startActivityForResult(intent, RESULT_ID);
         loginArrayList.add(new Login(myUserName, myPassword));
 
    }
