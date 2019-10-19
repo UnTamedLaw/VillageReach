@@ -24,24 +24,28 @@ public class Auth {
     private static final String TAG = "myTracker";
     public Auth() {
         Log.i(TAG,"auth object created");
-        Credentials fakeCreds = new Credentials("administrator", "password");
     }
 
     public static void authenticate(Credentials creds, Context context) {
         //test code
-        requestToken(creds, context);
-        //test code
-        if (creds == null) {
-            //if storage has creds
-                //creds = storage's creds
-            //else
-                //throw error
-        }
-        //InternalStorageHandler.setToken(this.requestToken(creds))
+        requestToken(creds, context, new VolleyCallback(){
+            @Override
+            public void onSuccess(JSONObject result) {
+                try {
+                    String token = "bearer " + result.getString("access_token");
+                    Log.i(TAG, token);
+                    //function that tells internal storage handler to insert the string into the db
+                    //then code that tells the UI that auth has been done goes here (probably another callback)
+                } catch(JSONException error) {
+                    Log.e(TAG, error.toString());
+
+                }
+            }
+        });
     }
 
 
-    private static String requestToken(Credentials creds, Context context) {
+    private static void requestToken(Credentials creds, Context context, final VolleyCallback callback) {
         //volley stuff to get string
         if (Networking.isConnected(context)) {
             Log.i(TAG,"requesting token");
@@ -52,13 +56,7 @@ public class Auth {
             JsonObjectRequest tokenRequest = new JsonObjectRequest(Request.Method.POST, url, null, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
-                    Log.i(TAG, response.toString());
-                    try {
-                        String access_token = response.getString("access_token");
-                        Log.i(TAG, access_token);
-                    } catch (JSONException error) {
-                        Log.e(TAG,error.toString());
-                    }
+                    callback.onSuccess(response);
                 }
             }, new Response.ErrorListener() {
                 @Override
@@ -83,12 +81,7 @@ public class Auth {
                     return params;
                 }
             };
-            //queue.add(tokenRequest);
             Networking.getInstance(context).addToRequestQueue(tokenRequest);
-            return token;
-        } else {
-            return null;
         }
-
     }
 }
