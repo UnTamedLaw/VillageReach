@@ -28,60 +28,59 @@ public class Auth {
 
     public static void authenticate(Credentials creds, Context context) {
         //test code
-        requestToken(creds, context, new VolleyCallback(){
-            @Override
-            public void onSuccess(JSONObject result) {
-                try {
-                    String token = "bearer " + result.getString("access_token");
-                    Log.i(TAG, token);
-                    //function that tells internal storage handler to insert the string into the db
-                    //then code that tells the UI that auth has been done goes here (probably another callback)
-                } catch(JSONException error) {
-                    Log.e(TAG, error.toString());
-
+        if (Networking.isConnected(context)) {
+            requestToken(creds, context, new VolleyCallback(){
+                @Override
+                public void onSuccess(JSONObject result) {
+                    try {
+                        String token = "bearer " + result.getString("access_token");
+                        Log.i(TAG, token);
+                        //function that tells internal storage handler to insert the string into the db
+                        //then code that tells the UI that auth has been done goes here (probably another callback)
+                    } catch(JSONException error) {
+                        Log.e(TAG, error.toString());
+                    }
                 }
-            }
-        });
+            });
+        }
+
     }
 
 
     private static void requestToken(Credentials creds, Context context, final VolleyCallback callback) {
-        //volley stuff to get string
-        if (Networking.isConnected(context)) {
-            Log.i(TAG,"requesting token");
-            RequestQueue queue = Networking.getInstance(context).getRequestQueue();
-            String url = " https://demo-v3.openlmis.org/api/oauth/token?grant_type=password&username=" + creds.username + "&password=" + creds.password;
-            String token = "bearer ";
+        Log.i(TAG,"requesting token");
+        RequestQueue queue = Networking.getInstance(context).getRequestQueue();
+        String url = " https://demo-v3.openlmis.org/api/oauth/token?grant_type=password&username=" + creds.username + "&password=" + creds.password;
+        String token = "bearer ";
 
-            JsonObjectRequest tokenRequest = new JsonObjectRequest(Request.Method.POST, url, null, new Response.Listener<JSONObject>() {
-                @Override
-                public void onResponse(JSONObject response) {
-                    callback.onSuccess(response);
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Log.i(TAG, "response code: " + Integer.toString(error.networkResponse.statusCode));
-                    VolleyLog.e(TAG, error);
-                }
-            }) {
-                @Override
-                public Map<String, String> getHeaders() throws AuthFailureError {
-                    Map<String, String> headers = new HashMap<String, String>();
-                    headers.put("Authorization", "Basic dXNlci1jbGllbnQ6Y2hhbmdlbWU=");
-                    headers.put("content-type", "application/json; charset=utf-8");
-                    return headers;
-                }
-                @Override
-                public Map<String, String> getParams() throws AuthFailureError {
-                    Map<String, String> params = new HashMap<String, String>();
-                    params.put("grant_type", "password");
-                    params.put("username", "administrator");
-                    params.put("password", "password");
-                    return params;
-                }
-            };
-            Networking.getInstance(context).addToRequestQueue(tokenRequest);
-        }
+        JsonObjectRequest tokenRequest = new JsonObjectRequest(Request.Method.POST, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                callback.onSuccess(response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.i(TAG, "response code: " + Integer.toString(error.networkResponse.statusCode));
+                VolleyLog.e(TAG, error);
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<String, String>();
+                headers.put("Authorization", "Basic dXNlci1jbGllbnQ6Y2hhbmdlbWU=");
+                headers.put("content-type", "application/json; charset=utf-8");
+                return headers;
+            }
+            @Override
+            public Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("grant_type", "password");
+                params.put("username", "administrator");
+                params.put("password", "password");
+                return params;
+            }
+        };
+        Networking.getInstance(context).addToRequestQueue(tokenRequest);
     }
 }
