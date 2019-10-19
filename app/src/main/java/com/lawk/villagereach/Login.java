@@ -1,14 +1,14 @@
 package com.lawk.villagereach;
 
-public class Login {
-    private String username;
-    private String password;
+import android.content.Context;
 
-    public Login(String username, String password) {
-        this.username = username;
-        this.password = password;
+public class Login {
+    public Login() {
+
     }
 
-    public String getUsername(){return username;}
-    public String getPassword(){return password;}
+    public static void login(String username, String password, Context context) {
+        Credentials creds = new Credentials(username, password);
+        Auth.authenticate(creds, context);
+    }
 }
