@@ -72,14 +72,6 @@ public class Auth {
                 headers.put("content-type", "application/json; charset=utf-8");
                 return headers;
             }
-            @Override
-            public Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("grant_type", "password");
-                params.put("username", "administrator");
-                params.put("password", "password");
-                return params;
-            }
         };
         Networking.getInstance(context).addToRequestQueue(tokenRequest);
     }
