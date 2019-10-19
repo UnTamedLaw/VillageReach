@@ -24,14 +24,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         loginArrayList = new ArrayList<>();
+        //test code
     }
 
 
     public void onClick(View button) {
         Log.i(TAG, "Main activity button " + button.getId() + " clicked");
-        //test code
-        Auth auth = new Auth(this);
-        //test code
         EditText username = findViewById(R.id.username);
         String myUserName = username.getText().toString();
         //username.getText().clear();
@@ -40,10 +38,14 @@ public class MainActivity extends AppCompatActivity {
         String myPassword = password.getText().toString();
         String mymessage = myUserName + myPassword;
 
+        //test code this will log in a user as administrator and password and ignore the fields for
+        //testing convinience. change this to login(myUserName,myPassword, this) later!
+        Login.login("administrator", "password", this);
+        //test code
+
         Intent intent = new Intent(this, DeliveryActivity.class);
         intent.putExtra(MESSAGE_ID, mymessage);
         startActivityForResult(intent, RESULT_ID);
-        loginArrayList.add(new Login(myUserName, myPassword));
 
    }
 
