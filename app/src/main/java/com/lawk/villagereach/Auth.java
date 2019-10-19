@@ -22,12 +22,8 @@ import java.util.Map;
 
 public class Auth {
     private static final String TAG = "myTracker";
-    public Auth() {
-        Log.i(TAG,"auth object created");
-    }
 
     public static void authenticate(Credentials creds, Context context) {
-        //test code
         if (Networking.isConnected(context)) {
             requestToken(creds, context, new VolleyCallback(){
                 @Override
@@ -43,16 +39,11 @@ public class Auth {
                 }
             });
         }
-
     }
-
 
     private static void requestToken(Credentials creds, Context context, final VolleyCallback callback) {
         Log.i(TAG,"requesting token");
-        RequestQueue queue = Networking.getInstance(context).getRequestQueue();
         String url = " https://demo-v3.openlmis.org/api/oauth/token?grant_type=password&username=" + creds.username + "&password=" + creds.password;
-        String token = "bearer ";
-
         JsonObjectRequest tokenRequest = new JsonObjectRequest(Request.Method.POST, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -63,6 +54,7 @@ public class Auth {
             public void onErrorResponse(VolleyError error) {
                 Log.i(TAG, "response code: " + Integer.toString(error.networkResponse.statusCode));
                 VolleyLog.e(TAG, error);
+                //throw some kind of error
             }
         }) {
             @Override
