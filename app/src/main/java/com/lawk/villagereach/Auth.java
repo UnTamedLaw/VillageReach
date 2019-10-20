@@ -24,7 +24,6 @@ public class Auth {
     private static final String TAG = "myTracker";
 
     public static void authenticate(Credentials creds, Context context) {
-<<<<<<< HEAD
         //test code
         String authToken = requestToken(creds, context);
         //test code
@@ -40,8 +39,6 @@ public class Auth {
 
     private static String requestToken(Credentials creds, Context context) {
         //volley stuff to get string
-=======
->>>>>>> dev
         if (Networking.isConnected(context)) {
             requestToken(creds, context, new VolleyCallback(){
                 @Override
