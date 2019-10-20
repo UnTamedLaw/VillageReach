@@ -1,6 +1,7 @@
 package com.lawk.villagereach;
 
 import android.content.Context;
+import android.nfc.Tag;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -19,14 +20,21 @@ import java.io.OutputStreamWriter;
 
 public class InternalStorageHandler {
 
-    public String fileString;
-    public Context context;
-    public String fileName;
-    public JSONObject jsonObject;
+    private final String TAG = "Internal Storage Says:";
+//    private String fileString;
+    private Context context;
+    private static InternalStorageHandler instance;
+    private String fileName = "tokenFile.txt";
 
-    public InternalStorageHandler(Context context, String fileName) {
+    public InternalStorageHandler(Context context) {
         this.context = context;
-        this.fileName = fileName;
+    }
+
+    public static synchronized InternalStorageHandler getInstance(Context context){
+      if(instance == null){
+          instance = new InternalStorageHandler(context);
+      }
+      return instance;
     }
 
     // to do: serialize passed in object to json string
@@ -50,10 +58,10 @@ public class InternalStorageHandler {
         return "File Not Read";
     }
 
-    public void writeToFile(String data,Context context) {
+    public void writeToFile(String dataToBeStored, Context context) {
         try {
             OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput(this.fileName, Context.MODE_PRIVATE));
-            outputStreamWriter.write(data);
+            outputStreamWriter.write(dataToBeStored);
             outputStreamWriter.close();
         }
         catch (IOException e) {
@@ -66,6 +74,23 @@ public class InternalStorageHandler {
     public JSONObject fileStringToJSONObject(String fileString) throws JSONException {
         return new JSONObject(fileString);
     }
+
+//    public Context getContext() {
+//        return context;
+//    }
+//
+//    public void setContext(Context context) {
+//        this.context = context;
+//    }
+//
+//    public String getFileName() {
+//        return fileName;
+//    }
+//
+//    public void setFileName(String fileName) {
+//        this.fileName = fileName;
+//    }
+
 
 
 }

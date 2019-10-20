@@ -38,9 +38,11 @@ public class MainActivity extends AppCompatActivity {
         String myPassword = password.getText().toString();
         String mymessage = myUserName + myPassword;
 
+        InternalStorageHandler.getInstance(this);
         //test code this will log in a user as administrator and password and ignore the fields for
         //testing convinience. change this to login(myUserName,myPassword, this) later!
         Login.login("administrator", "password", this);
+
         //test code
 
         Intent intent = new Intent(this, DeliveryActivity.class);
