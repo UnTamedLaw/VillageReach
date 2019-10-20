@@ -12,3 +12,8 @@ gradle.properties
 google_maps_api_key.xml
 google_maps_api+key.xml
 google-services.json
+.project
+.settings/
+app/.classpath
+app/.project
+app/.settings/
