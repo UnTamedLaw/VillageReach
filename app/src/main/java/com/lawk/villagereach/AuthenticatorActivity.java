@@ -72,6 +72,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
         findViewById(R.id.loginButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Login.login("administrator", "password", getApplicationContext());
                 submit();
             }
         });

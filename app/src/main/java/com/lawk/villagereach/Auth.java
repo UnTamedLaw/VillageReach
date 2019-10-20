@@ -21,9 +21,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Auth {
-    private static final String TAG = "myTracker";
+    private static final String TAG = "myTracker: ";
 
-    public static void authenticate(Credentials creds, Context context) {
+    public static void authenticate(Credentials creds, final Context context) {
         if (Networking.isConnected(context)) {
             requestToken(creds, context, new VolleyCallback(){
                 @Override
@@ -32,6 +32,9 @@ public class Auth {
                         String token = "bearer " + result.getString("access_token");
                         Log.i(TAG, token);
                         //function that tells internal storage handler to insert the string into the db
+                        InternalStorageHandler.getInstance(context).writeToFile(token, context);
+                        String tokenReadFromFile = InternalStorageHandler.getInstance(context).readFile(context, "tokenFile.txt");
+                        Log.i(TAG, tokenReadFromFile);
                         //then code that tells the UI that auth has been done goes here (probably another callback)
                     } catch(JSONException error) {
                         Log.e(TAG, error.toString());
