@@ -29,7 +29,7 @@ public class Auth {
 
     public static void authenticate(Credentials creds, Context context) {
         //test code
-        requestToken(creds, context);
+        String authToken = requestToken(creds, context);
         //test code
         if (creds == null) {
             //if storage has creds
