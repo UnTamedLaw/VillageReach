@@ -5,9 +5,11 @@ import android.content.Context;
 import android.util.Log;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.NoConnectionError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
@@ -23,48 +25,27 @@ import java.util.Map;
 public class Auth {
     private static final String TAG = "myTracker";
 
-    public static void authenticate(Credentials creds, Context context) {
-        if (Networking.isConnected(context)) {
-            requestToken(creds, context, new VolleyCallback(){
-                @Override
-                public void onSuccess(JSONObject result) {
-                    try {
-                        String token = "bearer " + result.getString("access_token");
-                        Log.i(TAG, token);
-                        //function that tells internal storage handler to insert the string into the db
-                        //then code that tells the UI that auth has been done goes here (probably another callback)
-                    } catch(JSONException error) {
-                        Log.e(TAG, error.toString());
-                    }
+    public static void authenticate(Credentials creds,final Context context, final AuthCallback callback) {
+        NetworkingTest.tokenFromServer(creds, context, new VolleyCallback() {
+            @Override
+            public void onSuccess(JSONObject result) {
+                try {
+                    String access_token = result.getString("access_token");
+                    String token = "bearer " + access_token;
+                    Log.i(TAG,"Auth: now pushing this token to storage:" + token);
+                    InternalStorageHandler.getInstance(context).writeToFile(token, context);
+                    callback.onSuccess();
+                } catch(JSONException e) {
+                    Log.e(TAG,"Auth: I can't parse this Json");
+                    //if this fails, there's something wrong with the server.
                 }
-            });
-        }
-    }
+            }
+            @Override
+            public void onFailure(VolleyError error) {
+                Log.i(TAG, "Auth: response code: " + Integer.toString(error.networkResponse.statusCode));
+                callback.onFailure(error);
+            }
+        });
 
-    private static void requestToken(Credentials creds, Context context, final VolleyCallback callback) {
-        Log.i(TAG,"requesting token");
-        String url = " https://demo-v3.openlmis.org/api/oauth/token?grant_type=password&username=" + creds.username + "&password=" + creds.password;
-        JsonObjectRequest tokenRequest = new JsonObjectRequest(Request.Method.POST, url, null, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                callback.onSuccess(response);
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.i(TAG, "response code: " + Integer.toString(error.networkResponse.statusCode));
-                VolleyLog.e(TAG, error);
-                //throw some kind of error
-            }
-        }) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> headers = new HashMap<String, String>();
-                headers.put("Authorization", "Basic dXNlci1jbGllbnQ6Y2hhbmdlbWU=");
-                headers.put("content-type", "application/json; charset=utf-8");
-                return headers;
-            }
-        };
-        Networking.getInstance(context).addToRequestQueue(tokenRequest);
     }
 }

@@ -18,61 +18,24 @@ import java.util.Map;
 public class Sync {
     private static final String TAG = "myTracker";
 
-
-    public static void sync(Context context) {
-        if (Networking.isConnected(context)) {
-            //sendDrafts();
-            requestData(context, new VolleyCallback() {
-                @Override
-                public void onSuccess(JSONObject result) {
-                    Log.i(TAG,result.toString());
-                    try {
-                        JSONArray content = result.getJSONArray("content");
-                        Log.i(TAG,"processing batch with number of orders:" + Integer.toString(content.length()));
-                        for (int index = 0; index < content.length(); index++) {
-                            JSONObject order = content.getJSONObject(index);
-                            String id = order.getString("id");
-                            //code to make order objects here
-                            Log.i(TAG, "processing id: " + id);
-                        }
-                    } catch(Exception e) {
-                        Log.e(TAG,e.getLocalizedMessage());
-                    }
-                }
-            });
-        }
-    }
-
-
-    private static void sendDrafts() {
-        //request to send off drafts
-    }
-
-    private static void requestData(Context context, final VolleyCallback callback) {
-        //make this the real token when storage is ready
-        final String token = "bearer 104cc482-861e-4af9-b77b-26ff92c42e4d";
-        Log.i(TAG, "requesting data");
+    public static void sync(Context context, final SyncCallback callback) {
+        String token = InternalStorageHandler.getInstance(context).readFile(context,"tokenFile.txt");
+        Log.i(TAG, "Sync is now using this token from storage" + token);
         String url = "https://demo-v3.openlmis.org/api/orders?status=TRANSFER_FAILED&status=READY_TO_PACK&status=RECEIVED&status=SHIPPED&status=IN_ROUTE";
-        JsonObjectRequest dataRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+        NetworkingTest.dataFromServer(token, url, context, new VolleyCallback() {
             @Override
-            public void onResponse(JSONObject response) {
-                callback.onSuccess(response);
+            public void onSuccess(JSONObject result) {
+                //parse result as object
+                //store into storage
+                Log.i(TAG,"Syncing");
+                //change type to whatever is the most convinient for the UI
+                Order[] orderArray = new Order[10];
+                callback.onSuccess(orderArray);
             }
-        }, new Response.ErrorListener() {
             @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.i(TAG, "response code: " + Integer.toString(error.networkResponse.statusCode));
-                VolleyLog.e(TAG, error);
+            public void onFailure(VolleyError error) {
+                callback.onFailure(error);
             }
-        }) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> headers = new HashMap<String, String>();
-                headers.put("Authorization", token);
-                headers.put("content-type", "application/json; charset=utf-8");
-                return headers;
-            }
-        };
-        Networking.getInstance(context).addToRequestQueue(dataRequest);
+        });
     }
 }
