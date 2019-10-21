@@ -68,14 +68,20 @@ public class VillageReachAuthenticator extends AbstractAccountAuthenticator {
                     Log.i(TAG, "> re-auth with the existing password");
                     //authToken = "TestToken";
                     // here is where we will call our actual Auth Service
-                    Credentials credentials = new Credentials(account.name, password);
-                    Auth.authenticate(credentials, context);
+                    Credentials credentials = new Credentials(account.name, password, account.type);
+                    Auth.requestTokenForAccountManager(credentials, context, response);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
         }
 
+        /*
+        *
+        * Probably won't need this since we handle putting the strings into  passing the bundle in Auth.requestTokenForAccountManager
+        * via the AccountAuthenticatorResponse class.
+        *
+        * */
         // when the token comes back, either by peeking or requesting a new one,
         // create and return a new bundle with our Account info.
         if (!TextUtils.isEmpty(authToken)) {

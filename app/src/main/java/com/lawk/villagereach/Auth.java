@@ -1,7 +1,11 @@
 package com.lawk.villagereach;
 
 
+import android.accounts.Account;
+import android.accounts.AccountAuthenticatorResponse;
+import android.accounts.AccountManager;
 import android.content.Context;
+import android.os.Bundle;
 import android.util.Log;
 
 import com.android.volley.AuthFailureError;
@@ -43,8 +47,54 @@ public class Auth {
             });
         }
     }
+    /*
+    *
+    * This method is another server authentication request built specifically for the AccountManager implementation.
+    * rather than make this method take a callback as an argument, we use the
+    *
+    *
+    *
+    */
+    public static void requestTokenForAccountManager(final Credentials creds, Context context, final AccountAuthenticatorResponse authResponse) {
+        Log.i(TAG, "Requesting Token From VR Authenticator Class ");
+        String url = " https://demo-v3.openlmis.org/api/oauth/token?grant_type=password&username=" + creds.username + "&password=" + creds.password;
+        JsonObjectRequest tokenRequest = new JsonObjectRequest(Request.Method.POST, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject jsonResponse) {
+                Bundle bundleForAccountAuthenticator = new Bundle();
+                String authToken = null;
+                try {
+                    authToken = "bearer " + jsonResponse.getString("access_token");
+                    Log.i(TAG, authToken);
+                } catch(JSONException err) {
+                    Log.e(TAG, err.toString());
+                }
 
-    public static void requestTokenTwo(Credentials creds, Context context, final Volley)
+                bundleForAccountAuthenticator.putString(AccountManager.KEY_ACCOUNT_NAME, creds.username);
+                bundleForAccountAuthenticator.putString(AccountManager.KEY_ACCOUNT_TYPE, creds.type);
+                bundleForAccountAuthenticator.putString(AccountManager.KEY_AUTHTOKEN, authToken);
+
+                authResponse.onResult(bundleForAccountAuthenticator);
+
+                //callback.onSuccess(jsonResponse);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.i(TAG, "response code: " + Integer.toString(error.networkResponse.statusCode));
+                VolleyLog.e(TAG, error);
+                //throw some kind of error
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<String, String>();
+                headers.put("Authorization", "Basic dXNlci1jbGllbnQ6Y2hhbmdlbWU=");
+                headers.put("content-type", "application/json; charset=utf-8");
+                return headers;
+            }
+        };
+    }
 
     private static void requestToken(Credentials creds, Context context, final VolleyCallback callback) {
         Log.i(TAG,"requesting token");
