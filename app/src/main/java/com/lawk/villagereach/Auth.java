@@ -44,6 +44,8 @@ public class Auth {
         }
     }
 
+    public static void requestTokenTwo(Credentials creds, Context context, final Volley)
+
     private static void requestToken(Credentials creds, Context context, final VolleyCallback callback) {
         Log.i(TAG,"requesting token");
         String url = " https://demo-v3.openlmis.org/api/oauth/token?grant_type=password&username=" + creds.username + "&password=" + creds.password;

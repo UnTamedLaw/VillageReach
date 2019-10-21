@@ -58,7 +58,7 @@ public class VillageReachAuthenticator extends AbstractAccountAuthenticator {
 
         String authToken = accountManager.peekAuthToken(account, authTokenType);
 
-        Log.d(TAG,"> peekAuthToken returned" + authToken);
+        Log.i(TAG,"> peekAuthToken returned" + authToken);
 
         // if the peeking the auth token doesn't return anything,
         if (TextUtils.isEmpty(authToken)) {
@@ -66,7 +66,10 @@ public class VillageReachAuthenticator extends AbstractAccountAuthenticator {
             if (password != null) {
                 try {
                     Log.i(TAG, "> re-auth with the existing password");
-                    authToken = "TestToken"; // here is where we will call our actual Auth Service
+                    //authToken = "TestToken";
+                    // here is where we will call our actual Auth Service
+                    Credentials credentials = new Credentials(account.name, password);
+                    Auth.authenticate(credentials, context);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
