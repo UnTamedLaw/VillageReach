@@ -60,7 +60,7 @@ public class VillageReachAuthenticator extends AbstractAccountAuthenticator {
 
         Log.i(TAG,"> peekAuthToken returned" + authToken);
 
-        // if the peeking the auth token doesn't return anything,
+        // if the peeking the auth token doesn't return anything, go and get a new token
         if (TextUtils.isEmpty(authToken)) {
             final String password = accountManager.getPassword(account);
             if (password != null) {
@@ -81,9 +81,11 @@ public class VillageReachAuthenticator extends AbstractAccountAuthenticator {
         * Probably won't need this since we handle putting the strings into  passing the bundle in Auth.requestTokenForAccountManager
         * via the AccountAuthenticatorResponse class.
         *
-        * */
-        // when the token comes back, either by peeking or requesting a new one,
-        // create and return a new bundle with our Account info.
+        *
+        * when the token comes back, either by peeking or requesting a new one,
+        * create and return a new bundle with our Account info.
+        *
+        */
         if (!TextUtils.isEmpty(authToken)) {
             final Bundle result = new Bundle();
             result.putString(AccountManager.KEY_ACCOUNT_NAME, account.name);

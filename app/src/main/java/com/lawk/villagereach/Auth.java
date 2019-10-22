@@ -47,6 +47,8 @@ public class Auth {
             });
         }
     }
+
+
     /*
     *
     * This method is another server authentication request built specifically for the AccountManager implementation.
@@ -55,7 +57,7 @@ public class Auth {
     *
     *
     */
-    public static void requestTokenForAccountManager(final Credentials creds, Context context, final AccountAuthenticatorResponse authResponse) {
+    public static void requestTokenForAccountManager(final Credentials creds, Context context, final AccountAuthenticatorResponse authResponse) { //don't think we need the callback, but maybe if this gets called in the UI
         Log.i(TAG, "Requesting Token From VR Authenticator Class ");
         String url = " https://demo-v3.openlmis.org/api/oauth/token?grant_type=password&username=" + creds.username + "&password=" + creds.password;
         JsonObjectRequest tokenRequest = new JsonObjectRequest(Request.Method.POST, url, null, new Response.Listener<JSONObject>() {
@@ -81,11 +83,23 @@ public class Auth {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                Bundle bundleForAccountAuthenticator = new Bundle();
                 Log.i(TAG, "response code: " + Integer.toString(error.networkResponse.statusCode));
                 VolleyLog.e(TAG, error);
-                //throw some kind of error
+                int errorCode = (error.networkResponse == null ? -1 : error.networkResponse.statusCode);
+                String errorMessage = null;
+                if (error.getLocalizedMessage() != null) {
+                    errorMessage = error.getLocalizedMessage();
+                } else if ( error.getMessage() != null) {
+                    errorMessage = error.getMessage();
+                } else {
+                    errorMessage = error.toString();
+                }
+                bundleForAccountAuthenticator.putInt(AccountManager.KEY_ERROR_CODE, errorCode);
+                bundleForAccountAuthenticator.putString(AccountManager.KEY_ERROR_MESSAGE, errorMessage);
+                authResponse.onError(errorCode, errorMessage);
             }
-        }) {
+        })  {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> headers = new HashMap<String, String>();
