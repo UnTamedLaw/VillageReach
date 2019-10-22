@@ -2,6 +2,7 @@ package com.lawk.villagereach;
 
 import android.accounts.AccountAuthenticatorActivity;
 import android.accounts.AccountManager;
+import android.net.Network;
 import android.os.Bundle;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -72,7 +73,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
         findViewById(R.id.loginButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Login.login("administrator", "password", getApplicationContext());
+                //Login.login("administrator", "password", getApplicationContext());
                 submit();
             }
         });
@@ -83,8 +84,9 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
 
         final String userName = ((TextView) findViewById(R.id.username)).getText().toString();
         final String password = ((TextView) findViewById(R.id.password)).getText().toString();
-
         final String accountType = getIntent().getStringExtra(ACCOUNT_TYPE);
+
+        final Credentials creds = new Credentials(userName, password, accountType);
 
         /*
          *   todo: If no account exists in AccountManager, add an account, and send a token request and store in AM.
@@ -94,6 +96,36 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
          *
          *
          */
+
+        class LoginClass extends AsyncTask<String, Void, Intent>{
+
+            @Override
+            protected Intent doInBackground(String... params){
+
+                String authToken;
+                Bundle bundleForAccountManager = new Bundle();
+
+                try {
+
+                    if (Networking.isConnected(getBaseContext())) {
+                        Auth.authenticate(creds, getBaseContext());
+
+                    }
+                } catch (Exception e) {
+
+                }
+
+            }
+
+            @Override
+            protected void onPostExecute(Intent intent) {
+                if (intent.hasExtra(KEY_ERROR_MESSAGE)) {
+                    Toast.makeText(getBaseContext(), intent.getStringExtra(KEY_ERROR_MESSAGE), Toast.LENGTH_SHORT).show();
+                } else {
+                    finishLogin(intent);
+                }
+            }
+        };
 
         String mymessage = userName + password;
 
