@@ -1,3 +1,47 @@
 <resources>
     <string name="app_name">VillageReach</string>
+    <string name="Delivery">Get deliveries</string>
+    <string name="Sync">Sync</string>
+    <string name="send">Send</string>
+    <string name="SaveForm">Save Form</string>
+    <string name="submit">Submit</string>
+    s<string name="hint">Enter Delivery #</string>
+    <string name="sync_now">Sync</string>
+    <string name="login">Login</string>
+    <string name="orderId">Order Id:</string>
+    <string name="facilityName">Facility Name:</string>
+    <string name="supplyingFacilityName">Supplying Facility Name:</string>
+    <string name="requestingFacilityName">Requesting Facility Name:</string>
+    <string name="programName">Program Name:</string>
+    <string name="processingPeriodName">Processing Period:</string>
+    <string name="orderDate">Order Date:</string>
+    <string name="emergency">Emergency:</string>
+    <string name="orderCode">Order Code:</string>
+    <string name="notes">Notes</string>
+
+    <string name="quantity_accepted">Qty Accepted</string>
+    <string name="quantity_shipped">Qty Shipped</string>
+    <string name="quantity_ordered">Qty Ordered</string>
+    <string name="product_unit">Product Unit</string>
+    <string name="rejection_season">Rejection Reason</string>
+    <string name="quantity_returned">Qty Returned</string>
+    <string name="id">Product Name</string>
+    <string name="proof_of_delivery">Proof Of Delivery</string>
+<!--    adding an array for the rejection reason of the proof of delivery form
+ I cant find the reasons.-->
+
+    <string-array name="rejection_reason">
+        <item>Item One</item>
+        <item>Item Two</item>
+        <item>Item Three</item>
+        <item>Item Four</item>
+        <item>Item Five</item>
+    </string-array>
+
+    <string name="delivered_by">Delivered BY</string>
+    <string name="received_by">Received By</string>
+    <string name="sign">Sign   </string>
+    <string name="ViewForm">View Form</string>
+
+
 </resources>

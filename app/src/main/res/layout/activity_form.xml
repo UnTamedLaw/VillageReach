@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:padding="16dp">
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:orientation="horizontal"
+       >
+
+    <Button
+        android:id="@+id/saveForm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/SaveForm" />
+
+    <Button
+        android:id="@+id/submit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+            android:onClick="onClickRespond"
+            android:text="@string/submit"
+
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:text="@string/proof_of_delivery"
+            android:padding="5dp"
+            />
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="8dp"
+            card_view:cardCornerRadius="4dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:padding="5dp"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+
+
+                <TextView
+                    android:id="@+id/product_name"
+                    android:layout_width="95dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="top|left"
+                    android:gravity="left"
+                    android:text="@string/id"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/product_unit"
+                    android:layout_width="95dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="top|left"
+                    android:gravity="left"
+                    android:text="@string/product_unit"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/quantity_ordered"
+                    android:layout_width="95dp"
+                    android:layout_height="35dp"
+                    android:layout_gravity="top|left"
+                    android:gravity="left"
+                    android:text="@string/quantity_ordered"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/quantity_shipped"
+                    android:layout_width="95dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="top|left"
+                    android:gravity="left"
+                    android:text="@string/quantity_shipped"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/quantity_accepted"
+                    android:layout_width="95dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="top|left"
+                    android:gravity="left"
+                    android:text="@string/quantity_accepted"
+                    android:textStyle="bold" />
+
+                <Spinner
+                    android:id="@+id/static_spinner_for_rejection_reason"
+                    android:layout_width="95dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top"
+                    android:textStyle="bold" />
+
+                <Spinner
+                    android:id="@+id/dynamic_spinner_for_rejection_reason"
+                    android:layout_width="95dp"
+                    android:layout_height="wrap_content" />
+
+                <EditText
+                    android:id="@+id/notes"
+                    android:layout_width="95dp"
+                    android:layout_height="40dp"
+                    android:text="@string/notes" />
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/delivered_by"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center|start"
+                android:text="@string/delivered_by"
+                android:textAllCaps="true"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/delivery_signature"
+                android:layout_width="80dp"
+                android:layout_height="40dp"
+                android:gravity="bottom|start"
+                android:hint="@string/sign"
+                android:inputType="text"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center|end"
+                android:text="@string/delivered_by"
+                android:textAllCaps="true"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/receive_signature"
+                android:layout_width="80dp"
+                android:layout_height="40dp"
+                android:hint="@string/sign"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>
+</ScrollView>
