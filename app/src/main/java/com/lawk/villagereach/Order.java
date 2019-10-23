@@ -12,8 +12,9 @@ public class Order {
     private String processingPeriod;
     private String createdDate;
     private Boolean emergency;
+    private String id;
 
-    public Order(String ordercode, String status, String requestingFacility, String supplyingFacility, String program, String processingPeriod, String createdDate, Boolean emergency) {
+    public Order(String id, String ordercode, String status, String requestingFacility, String supplyingFacility, String program, String processingPeriod, String createdDate, Boolean emergency) {
         this.ordercode = ordercode;
         this.status = status;
         this.requestingFacility = requestingFacility;
@@ -22,7 +23,9 @@ public class Order {
         this.processingPeriod = processingPeriod;
         this.createdDate = createdDate;
         this.emergency = emergency;
+        this.id = id;
     }
+    public String getId() { return id;}
     public String toString() {
         return getClass().toString();
     }
