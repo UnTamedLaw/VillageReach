@@ -359,7 +359,7 @@ public class DeliveryActivity extends AppCompatActivity {
                 String date = contents.getString("createdDate");
                 boolean emergency = contents.getBoolean("emergency");
 
-                Log.i(TAG, "anu " + orderCode);
+                Log.i(TAG, " Order Code: " + orderCode + " date: " + date + " Emergency: " + emergency);
 
             }
 
