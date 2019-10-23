@@ -9,7 +9,7 @@
     <string name="sync_now">Sync</string>
     <string name="login">Login</string>
     <string name="orderId">Order Id:</string>
-    <string name="facilityName">Facility Name:</string>
+    <string name="facilityName"> Receiving Facility Name:</string>
     <string name="supplyingFacilityName">Supplying Facility Name:</string>
     <string name="requestingFacilityName">Requesting Facility Name:</string>
     <string name="programName">Program Name:</string>

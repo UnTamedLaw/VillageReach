@@ -356,6 +356,9 @@ public class DeliveryActivity extends AppCompatActivity {
             for (int start = 0; start < content.length(); start++) {
                 JSONObject contents = content.getJSONObject(start);
                 String orderCode = contents.getString("orderCode");
+                String date = contents.getString("createdDate");
+                boolean emergency = contents.getBoolean("emergency");
+
                 Log.i(TAG, "anu " + orderCode);
 
             }
