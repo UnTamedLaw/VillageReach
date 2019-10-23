@@ -26,6 +26,7 @@ public class Order {
     public String toString() {
         return getClass().toString();
     }
+
     public String getOrdercode() {
         return ordercode;
     }
