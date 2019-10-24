@@ -25,7 +25,7 @@ public class FormActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_form);
 
-    //adding spinner for the dropdown for rejection reason
+    //add             ing spinner for the dropdown for rejection reason
         //two are needed, static and dynamic
 
         Spinner staticSpinner = (Spinner) findViewById(static_spinner_for_rejection_reason);

@@ -24,6 +24,17 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         loginArrayList = new ArrayList<>();
+
+        //encrypt password
+        /*encryptPwd.setOnLickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                outputString = ()
+            }
+
+        });*/
+
+
     }
 
 
@@ -46,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
         loginArrayList.add(new Login(myUserName, myPassword));
 
    }
+
 
 
 }
