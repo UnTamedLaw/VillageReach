@@ -1,6 +1,8 @@
 package com.lawk.villagereach;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -25,9 +27,15 @@ import com.google.gson.GsonBuilder;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import static com.lawk.villagereach.MainActivity.MESSAGE_ID;
+
 public class DeliveryActivity extends AppCompatActivity {
 
     private static final String TAG = "Anu";
+    private static  String RESULT = "DeliveryResponse";
+    private  Order[] orders;
+    public String data;
+
     private String dummydata = "{\"content\":[\n" +
             "  {\n" +
             "    \"id\":\"35e5059a-fd92-4078-a448-b00402b3fb5b\",\n" +
@@ -348,33 +356,39 @@ public class DeliveryActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_delivery);
-        try{
-            JSONObject jsonObject = new JSONObject(dummydata);
-            JSONArray content = jsonObject.getJSONArray("content");
+        setContentView(R.layout.delivery_recycler);
 
-            for (int start = 0; start < content.length(); start++) {
-                JSONObject contents = content.getJSONObject(start);
-                String orderCode = contents.getString("orderCode");
-                String date = contents.getString("createdDate");
-                boolean emergency = contents.getBoolean("emergency");
+        Intent intent = getIntent();
+        String data = intent.getStringExtra(MESSAGE_ID);
+        Log.e(TAG, data);
 
-                Log.i(TAG, "anu " + orderCode);
+        final RecyclerView recyclerView = findViewById(R.id.recyclerview);
+        recyclerView.setHasFixedSize(true);
 
+        LinearLayoutManager manager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(manager);
+
+
+        this.orders = Order.initOrders(data);
+        OrderRecyclerAdapter adapter = new OrderRecyclerAdapter(orders);
+        recyclerView.setAdapter(adapter);
+
+        adapter.setListener(new OrderRecyclerAdapter.Listener() {
+            @Override
+            public void onClick(int id) {
+                Log.i(TAG, "Clicked order with id " + orders[id].getId());
+                Intent intent = new Intent(getApplicationContext(), FormActivity.class);
+                String orderId = String.valueOf(orders[id]);
+                intent.putExtra(RESULT, orderId);
+                startActivity(intent);
             }
+        });
 
-        } catch(Exception e) {
-            e.printStackTrace();
-        }
 
-//            GsonBuilder builder = new GsonBuilder();
-//            Gson gson = builder.create();
-//            Order orderArray = gson.fromJson(dummydata, Order.class);
-//
-//            Log.i(TAG, "gson" + orderArray.toString());
+
     }
-    public void formActivity(View view) {
-        Intent intent = new Intent(DeliveryActivity.this, FormActivity.class);
-        startActivity(intent);
-    }
+//    public void formActivity(View view) {
+//        Intent intent = new Intent(DeliveryActivity.this, FormActivity.class);
+//        startActivity(intent);
+//    }
 }
