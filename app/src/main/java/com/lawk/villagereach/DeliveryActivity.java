@@ -7,9 +7,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-
 import java.util.ArrayList;
 
+
+
+import java.util.ArrayList;
 
 public class DeliveryActivity extends AppCompatActivity {
 
@@ -18,8 +20,6 @@ public class DeliveryActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private OrderRecyclerAdapter orderRecyclerAdapter;
     private ArrayList<Order> orderModelArrayList;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +36,7 @@ public class DeliveryActivity extends AppCompatActivity {
 
         orderRecyclerAdapter = new OrderRecyclerAdapter(DeliveryActivity.this, orderModelArrayList);
         recyclerView.setAdapter(orderRecyclerAdapter);
+
     }
    public void formActivity(View view) {
         Intent intent = new Intent(DeliveryActivity.this, FormActivity.class);
