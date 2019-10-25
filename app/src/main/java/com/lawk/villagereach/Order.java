@@ -100,64 +100,7 @@ public class Order {
     public void setEmergency(Boolean emergency) {
         this.emergency = emergency;
     }
-
-    public static class Builder {
-        Order order;
-
-        public Builder() {
-            order = new Order("", "", "", "", "", "", "", "", false);
-        }
-
-        public  Builder id(String id) {
-            order.id = id;
-            return this;
-        }
-
-        public Builder orderCode(String orderCode) {
-            order.ordercode = orderCode;
-            return this;
-        }
-
-        public Builder status(String status) {
-            order.status = status;
-            return this;
-        }
-
-        public Builder requestingFacility(String requestingFacility) {
-            order.requestingFacility = requestingFacility;
-            return this;
-        }
-
-        public Builder supplyingFacility(String supplyingFacility) {
-            order.supplyingFacility = supplyingFacility;
-            return this;
-        }
-
-        public Builder program(String program) {
-            order.program = program;
-            return this;
-        }
-
-        public Builder processingPeriod(String proccessingPeriod) {
-            order.processingPeriod = proccessingPeriod;
-            return this;
-        }
-
-        public Builder createdDate(String createdDate) {
-            order.createdDate = createdDate;
-            return this;
-        }
-
-        public Builder emergency(boolean emergency) {
-            order.emergency = emergency;
-            return this;
-        }
-
-        public Order build(){
-            return order;
-        }
-    }
-
+    
 
     }
 
