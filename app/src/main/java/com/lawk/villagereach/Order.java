@@ -1,12 +1,6 @@
 package com.lawk.villagereach;
 
-import android.util.Log;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.Date;
 
 public class Order {
 
@@ -164,35 +158,8 @@ public class Order {
         }
     }
 
-    public static Order[] initOrder(){
-
-        OrderModel model = new OrderModel();
-
-        //Kevin
-        //need access to your array here
-        ArrayList<Order> orderList = model.orderArrayList<>();
-
-        //Kevin
-        //need items from inside your array here
-        orderList.add(new Builder().id(id)
-                .orderCode(orderCode)
-                .status(status)
-                .requestingFacility(requestingFacility)
-                .supplyingFacility(supplyingFacility)
-                .program(program)
-                .processingPeriod(processingPeriod)
-                .createdDate(createdDate)
-                .emergency(emergency)
-                .build());
-
-        Order[]orders = new Order[orderList.size()];
-        orders = orderList.toArray(orders);
-        return orders;
-
-        //testorder
-        //Order myOrder = new Order("new ip","new ordercode", "new status", "new requesting facility", "new supplier", "new program", "new proccessing period", "new date", false );
 
     }
 
-}
+
 

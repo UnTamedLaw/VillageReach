@@ -12,7 +12,8 @@ public class OrderModel {
     private static final String TAG = "Data:";
 
 
-    public static void grabJson() {
+    public static ArrayList<Order> grabJson() {
+        orderArrayList = new ArrayList<>();
         String dummydata = "{\"content\":[\n" +
                 "  {\n" +
                 "    \"id\":\"35e5059a-fd92-4078-a448-b00402b3fb5b\",\n" +
@@ -897,7 +898,7 @@ public class OrderModel {
                 "  \"numberOfElements\" : 8,\n" +
                 "  \"size\" : 2000,\n" +
                 "  \"number\" : 0\n" +
-                "} ";
+                "}  ";
         try{
             JSONObject jsonObject = new JSONObject(dummydata);
             JSONArray content = jsonObject.getJSONArray("content");
@@ -922,16 +923,16 @@ public class OrderModel {
 
                 JSONObject processingP = contents.getJSONObject("processingPeriod");
                 String periodName = processingP.getString("name");
-                orderArrayList = new ArrayList<>();
+
                 orderArrayList.add(new Order(id, orderCode, status, requestingFacility, supplyingFacility, programName, periodName, createdDate, emergency ));
                 //  Log.i(TAG, " id: " + id + " Order Code: " + orderCode + " status " + status + " Requesting Facility " +
                 //          requestingFacility + " SupplyingFacility " + supplyingFacility + " Program Name " + programName +
                 //          " Period " + periodName + " date: " + createdDate + " Emergency: " + emergency);
-
             }
         } catch(Exception e) {
             e.printStackTrace();
         }
+        return orderArrayList;
 
     }
 }

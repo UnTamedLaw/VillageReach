@@ -1,9 +1,12 @@
 package com.lawk.villagereach;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import java.util.ArrayList;
 
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
@@ -11,17 +14,22 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class OrderRecyclerAdapter extends RecyclerView.Adapter<OrderRecyclerAdapter.ViewHolder> {
 
+    private Context context;
+    private ArrayList<Order> orderArrayList;
     private Listener listener;
 
-    public void  setListener(Listener listener) {
+    public void setListener(Listener listener) {
         this.listener = listener;
     }
+
     interface Listener {
         void onClick(int id);
     }
 
-    private Order[] orders;
-
+    public OrderRecyclerAdapter(Context context, ArrayList<Order> orderArrayList) {
+        this.context = context;
+        this.orderArrayList = orderArrayList;
+    }
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private CardView layout;
 
@@ -33,7 +41,7 @@ public class OrderRecyclerAdapter extends RecyclerView.Adapter<OrderRecyclerAdap
 
     @Override
     public int getItemCount() {
-        return orders.length;
+        return orderArrayList.size();
     }
 
     @Override
@@ -56,16 +64,16 @@ public class OrderRecyclerAdapter extends RecyclerView.Adapter<OrderRecyclerAdap
         TextView orderDate = cardView.findViewById(R.id.order_date);
         TextView emergency = cardView.findViewById(R.id.emergency);
 
-        Order order = orders[id];
+        Order currentOrder = orderArrayList.get(id);
 
-        orderNumber.setText(order.getOrdercode());
-        orderStatus.setText(order.getStatus());
-        requestingFacility.setText(order.getRequestingFacility());
-        supplyingDepot.setText(order.getSupplyingFacility());
-        program.setText(order.getProgram());
-        period.setText(order.getProcessingPeriod());
-        orderDate.setText(order.getCreatedDate());
-        emergency.setText(order.getEmergency().toString());
+        orderNumber.setText(currentOrder.getOrdercode());
+        orderStatus.setText(currentOrder.getStatus());
+        requestingFacility.setText(currentOrder.getRequestingFacility());
+        supplyingDepot.setText(currentOrder.getSupplyingFacility());
+        program.setText(currentOrder.getProgram());
+        period.setText(currentOrder.getProcessingPeriod());
+        orderDate.setText(currentOrder.getCreatedDate());
+        emergency.setText(currentOrder.getEmergency().toString());
 
         cardView.setOnClickListener(new View.OnClickListener() {
             @Override
