@@ -100,9 +100,7 @@ public class Order {
     public void setEmergency(Boolean emergency) {
         this.emergency = emergency;
     }
-    
+
 
     }
-
-
 
