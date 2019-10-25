@@ -1,9 +1,10 @@
 package com.lawk.villagereach;
 
-import java.util.Date;
+
 
 public class Order {
 
+    private String id;
     private String ordercode;     //gives order number
     private String status;
     private String requestingFacility;
@@ -12,9 +13,9 @@ public class Order {
     private String processingPeriod;
     private String createdDate;
     private Boolean emergency;
-    private String id;
 
     public Order(String id, String ordercode, String status, String requestingFacility, String supplyingFacility, String program, String processingPeriod, String createdDate, Boolean emergency) {
+        this.id = id;
         this.ordercode = ordercode;
         this.status = status;
         this.requestingFacility = requestingFacility;
@@ -23,11 +24,17 @@ public class Order {
         this.processingPeriod = processingPeriod;
         this.createdDate = createdDate;
         this.emergency = emergency;
-        this.id = id;
     }
-    public String getId() { return id;}
     public String toString() {
         return getClass().toString();
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getOrdercode() {
@@ -93,4 +100,7 @@ public class Order {
     public void setEmergency(Boolean emergency) {
         this.emergency = emergency;
     }
-}
+
+
+    }
+

@@ -29,97 +29,23 @@
             android:text="@string/Sync" />
     </LinearLayout>
 
-    <LinearLayout
+
+    <RelativeLayout
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:context=".MainActivity">
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/card_view"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerview"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="top"
-            android:layout_margin="8dp"
-            card_view:cardCornerRadius="4dp">
+            android:layout_height="match_parent"
+            android:background="@android:color/darker_gray"/>
 
-            <LinearLayout
-                 android:orientation="vertical"
-                 android:layout_width="match_parent"
-                 android:layout_height="match_parent">
-            <TextView
-                android:id="@+id/order_id_label"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="8dp"
-                android:text="@string/orderId" />
 
-            <TextView
-                android:id="@+id/facility_name_label"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="8dp"
-                android:text="@string/facilityName" />
+    </RelativeLayout>
 
-            <TextView
-                android:id="@+id/supplying_facility_name_label"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="8dp"
-                android:text="@string/supplyingFacilityName" />
 
-            <TextView
-                android:id="@+id/program_name_label"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="8dp"
-                android:text="@string/programName" />
-
-            <TextView
-                android:id="@+id/processing_period_name_label"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="8dp"
-                android:text="@string/processingPeriodName" />
-
-            <TextView
-                android:id="@+id/order_date_label"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="8dp"
-                android:text="@string/orderDate" />
-
-            <TextView
-                android:id="@+id/emergency_label"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="8dp"
-                android:text="@string/emergency" />
-
-            <TextView
-                android:id="@+id/order_code_label"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="8dp"
-                android:text="@string/orderCode" />
-
-            <TextView
-                android:id="@+id/tester"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="8dp"
-                />
-            <Button style="@style/Widget.AppCompat.Button.Colored"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/formClick"
-                android:onClick="formActivity"
-                android:text="@string/ViewForm"
-                />
-
-        </LinearLayout>
-
-        </androidx.cardview.widget.CardView>
-
-    </LinearLayout>
 
 </LinearLayout>
 </ScrollView>

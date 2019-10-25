@@ -1,29 +1,44 @@
 package com.lawk.villagereach;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
+import java.util.ArrayList;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
+
 
 import java.util.ArrayList;
 
 public class DeliveryActivity extends AppCompatActivity {
+
+    private static final String TAG = "Anu";
+    private static  String RESULT = "DeliveryResponse";
+    private RecyclerView recyclerView;
+    private OrderRecyclerAdapter orderRecyclerAdapter;
+    private ArrayList<Order> orderModelArrayList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_delivery);
 
-        OrderModel model = new OrderModel();
+        recyclerView = findViewById(R.id.recyclerview);
+        recyclerView.setHasFixedSize(true);
+        LinearLayoutManager manager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(manager);
 
-        model.grabJson();
+        OrderModel model = new OrderModel();
+        orderModelArrayList = model.grabJson();
+
+        orderRecyclerAdapter = new OrderRecyclerAdapter(DeliveryActivity.this, orderModelArrayList);
+        recyclerView.setAdapter(orderRecyclerAdapter);
+
     }
-    public void formActivity(View view) {
+   public void formActivity(View view) {
         Intent intent = new Intent(DeliveryActivity.this, FormActivity.class);
         startActivity(intent);
     }

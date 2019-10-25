@@ -9,14 +9,13 @@
     <string name="sync_now">Sync</string>
     <string name="login">Login</string>
     <string name="orderId">Order Id:</string>
-    <string name="facilityName"> Receiving Facility Name:</string>
-    <string name="supplyingFacilityName">Supplying Facility Name:</string>
-    <string name="requestingFacilityName">Requesting Facility Name:</string>
+    <string name="supplyingFacilityName">Supplying depot:</string>
+    <string name="requestingFacilityName">Requesting facility:</string>
     <string name="programName">Program Name:</string>
-    <string name="processingPeriodName">Processing Period:</string>
+    <string name="processingPeriodName">Period:</string>
     <string name="orderDate">Order Date:</string>
     <string name="emergency">Emergency:</string>
-    <string name="orderCode">Order Code:</string>
+    <string name="orderCode">Order no:</string>
     <string name="notes">Notes</string>
 
     <string name="quantity_accepted">Qty Accepted</string>
@@ -42,6 +41,8 @@
     <string name="received_by">Received By</string>
     <string name="sign">Sign   </string>
     <string name="ViewForm">View Form</string>
+    <string name="status_label">Order status:</string>
+    <string name="program">Program:</string>
 
 
 </resources>
