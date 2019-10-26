@@ -10,6 +10,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONObject;
@@ -92,6 +93,31 @@ public class NetworkingTest {
             @Override
             public void onErrorResponse(VolleyError error) {
                 //do nothing here. propagate error up stack
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<String, String>();
+                headers.put("Authorization", token);
+                headers.put("content-type", "application/json; charset=utf-8");
+                return headers;
+            }
+        };
+        NetworkingTest.getInstance(context).addToRequestQueue(dataRequest);
+    }
+
+    public static void dataFromServerString(final String token, String url, Context context, final StringCallback callback) {
+        StringRequest dataRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                //stuff
+                Log.i(TAG, "NetworkingTest: dataFromServerString response: " + response);
+                callback.onSuccess(response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
             }
         }) {
             @Override
