@@ -88,12 +88,12 @@ public class Auth {
                 params.put("password", "password");
                 return params;
             }
-        };
+        };   
         queue.add(tokenRequest);
 
         return token;
     }
-    private String encrypt (String Data, String password) throws Exception{
+    public String encrypt (String Data, String password) throws Exception{
         SecretKeySpec key = generateKey(password);
         Cipher c = Cipher.getInstance(AES);
         c.init(Cipher.ENCRYPT_MODE,key);
@@ -101,7 +101,7 @@ public class Auth {
         String encryptedValue = Base64.encodeToString(encVal, Base64.DEFAULT);
         return encryptedValue;
     }
-    private String decrypt(String outputString, String password)throws Exception{
+    public String decrypt(String outputString, String password)throws Exception{
         SecretKeySpec key = generateKey(password);
         Cipher c = Cipher.getInstance(AES);
         c.init(Cipher.DECRYPT_MODE, key);
