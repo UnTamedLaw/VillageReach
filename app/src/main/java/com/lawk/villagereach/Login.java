@@ -14,6 +14,7 @@ public class Login {
 
     public static void login(String username, String password, final Context context, final AuthCallback callback) {
         Credentials creds = new Credentials(username, password);
+        final String test = "test";
         if (NetworkingTest.isConnected(context)) {
             Auth.authenticate(creds, context, new AuthCallback() {
                 @Override

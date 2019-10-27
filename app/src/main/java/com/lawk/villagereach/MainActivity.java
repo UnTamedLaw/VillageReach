@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
         //testing convinience. change this to login(myUserName,myPassword, this) later!
         Log.i(TAG,"MainActivity: BEGIN LOGIN PROCEDURE");
         Login.login("administrator", "password", this, new AuthCallback() {
+            String test = "Test";
             @Override
             public void onSuccess() {
                 Log.i(TAG,"MainActivity: END LOGIN PROCEDURE: successfully logged in and maybe synced");
