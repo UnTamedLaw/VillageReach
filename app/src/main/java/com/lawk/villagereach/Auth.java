@@ -1,7 +1,11 @@
 package com.lawk.villagereach;
 
 
+import android.accounts.Account;
+import android.accounts.AccountAuthenticatorResponse;
+import android.accounts.AccountManager;
 import android.content.Context;
+import android.os.Bundle;
 import android.util.Log;
 
 import com.android.volley.AuthFailureError;
@@ -23,7 +27,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Auth {
-    private static final String TAG = "myTracker";
+    private static final String TAG = "myTracker: ";
 
     public static void authenticate(Credentials creds,final Context context, final AuthCallback callback) {
         NetworkingTest.tokenFromServer(creds, context, new VolleyCallback() {
