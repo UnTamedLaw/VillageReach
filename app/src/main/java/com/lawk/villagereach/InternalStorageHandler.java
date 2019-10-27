@@ -21,11 +21,10 @@ import java.io.OutputStreamWriter;
 public class InternalStorageHandler {
 
     private final String TAG = "Internal Storage Says:";
-<<<<<<< HEAD
+
     //    private String fileString;
-=======
+
 //    private String fileString;
->>>>>>> SG_requestTokenAltForAM
     private Context context;
     private static InternalStorageHandler instance;
     private String fileName = "tokenFile.txt";
@@ -35,17 +34,10 @@ public class InternalStorageHandler {
     }
 
     public static synchronized InternalStorageHandler getInstance(Context context){
-<<<<<<< HEAD
         if(instance == null){
             instance = new InternalStorageHandler(context);
         }
         return instance;
-=======
-      if(instance == null){
-          instance = new InternalStorageHandler(context);
-      }
-      return instance;
->>>>>>> SG_requestTokenAltForAM
     }
 
     // to do: serialize passed in object to json string

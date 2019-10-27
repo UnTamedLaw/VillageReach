@@ -69,7 +69,10 @@ public class VillageReachAuthenticator extends AbstractAccountAuthenticator {
                     //authToken = "TestToken";
                     // here is where we will call our actual Auth Service
                     Credentials credentials = new Credentials(account.name, password, account.type);
-                    Auth.requestTokenForAccountManager(credentials, context, response);
+                    //Auth.authenticate(credentials, context, new AuthCallback() {
+                        //@Override
+                        //onSuccess();
+                    //});
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

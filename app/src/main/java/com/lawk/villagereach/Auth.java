@@ -38,7 +38,7 @@ public class Auth {
                     String token = "bearer " + access_token;
                     Log.i(TAG,"Auth: now pushing this token to storage:" + token);
                     InternalStorageHandler.getInstance(context).writeToFile(token, context);
-                    callback.onSuccess();
+                    callback.onSuccess(token);
                 } catch(JSONException e) {
                     Log.e(TAG,"Auth: I can't parse this Json");
                     //if this fails, there's something wrong with the server.

@@ -108,13 +108,14 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
                 try {
 
                     if (Networking.isConnected(getBaseContext())) {
-                        Auth.authenticate(creds, getBaseContext());
+                        //Auth.authenticate(creds, getBaseContext());
 
                     }
                 } catch (Exception e) {
 
                 }
 
+                return null;
             }
 
             @Override
@@ -122,7 +123,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
                 if (intent.hasExtra(KEY_ERROR_MESSAGE)) {
                     Toast.makeText(getBaseContext(), intent.getStringExtra(KEY_ERROR_MESSAGE), Toast.LENGTH_SHORT).show();
                 } else {
-                    finishLogin(intent);
+                    //finishLogin(intent);
                 }
             }
         };
