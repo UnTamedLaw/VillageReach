@@ -102,6 +102,8 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
             @Override
             protected Intent doInBackground(String... params){
 
+
+
                 String authToken;
                 Bundle bundleForAccountManager = new Bundle();
 

@@ -61,9 +61,9 @@ public class InternalStorageHandler {
         return "File Not Read";
     }
 
-    public void writeToFile(String dataToBeStored, Context context) {
+    public void writeToFile(String dataToBeStored, Context context, String fileName) {
         try {
-            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput(this.fileName, Context.MODE_PRIVATE));
+            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput(fileName, Context.MODE_PRIVATE));
             outputStreamWriter.write(dataToBeStored);
             outputStreamWriter.close();
         }
