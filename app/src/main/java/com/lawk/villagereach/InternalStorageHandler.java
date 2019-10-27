@@ -1,6 +1,7 @@
 package com.lawk.villagereach;
 
 import android.content.Context;
+import android.nfc.Tag;
 import android.util.Log;
 
 import com.facebook.android.crypto.keychain.AndroidConceal;
@@ -31,14 +32,32 @@ import static java.lang.System.out;
 
 public class InternalStorageHandler {
 
-    public String fileString;
-    public Context context;
-    public String fileName;
-    public JSONObject jsonObject;
+    private final String TAG = "Internal Storage Says:";
+<<<<<<< HEAD
+    //    private String fileString;
+=======
+//    private String fileString;
+>>>>>>> SG_requestTokenAltForAM
+    private Context context;
+    private static InternalStorageHandler instance;
+    private String fileName = "tokenFile.txt";
 
-    public InternalStorageHandler(Context context, String fileName) {
+    public InternalStorageHandler(Context context) {
         this.context = context;
-        this.fileName = fileName;
+    }
+
+    public static synchronized InternalStorageHandler getInstance(Context context){
+<<<<<<< HEAD
+        if(instance == null){
+            instance = new InternalStorageHandler(context);
+        }
+        return instance;
+=======
+      if(instance == null){
+          instance = new InternalStorageHandler(context);
+      }
+      return instance;
+>>>>>>> SG_requestTokenAltForAM
     }
 
     // to do: serialize passed in object to json string
@@ -62,10 +81,10 @@ public class InternalStorageHandler {
         return "File Not Read";
     }
 
-    public void writeToFile(String data,Context context) {
+    public void writeToFile(String dataToBeStored, Context context) {
         try {
             OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput(this.fileName, Context.MODE_PRIVATE));
-            outputStreamWriter.write(data);
+            outputStreamWriter.write(dataToBeStored);
             outputStreamWriter.close();
         }
         catch (IOException e) {
@@ -78,6 +97,23 @@ public class InternalStorageHandler {
     public JSONObject fileStringToJSONObject(String fileString) throws JSONException {
         return new JSONObject(fileString);
     }
+
+//    public Context getContext() {
+//        return context;
+//    }
+//
+//    public void setContext(Context context) {
+//        this.context = context;
+//    }
+//
+//    public String getFileName() {
+//        return fileName;
+//    }
+//
+//    public void setFileName(String fileName) {
+//        this.fileName = fileName;
+//    }
+
 
 
 }

@@ -63,7 +63,10 @@ public class FormActivity extends AppCompatActivity {
             }
         });
     }
+    public void onClickRespond(View view){
+        startActivity(new Intent(FormActivity.this, DeliveryActivity.class ));
 
+    }
     //Adding First Iteration of JSON Parser for proof of delivery.
     //From demo file "api stuff," we are first capturing
     // {shipment:

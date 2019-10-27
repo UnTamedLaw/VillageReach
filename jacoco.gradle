@@ -21,7 +21,7 @@ task jacocoTestReport(type : JacocoReport, dependsOn : 'testDebugUnitTest') {
     }
 
     classDirectories = fileTree(
-            dir      : 'build/intermediates/classes/debug',
+            dir      : 'build/intermediates/javac/debug/compileDebugJavaWithJavac/classes/com/lawk',
             excludes : [
                     '**/R.class',
                     '**/R$*.class',
@@ -44,11 +44,57 @@ task jacocoTestReport(type : JacocoReport, dependsOn : 'testDebugUnitTest') {
     sourceDirectories = files(coverageSourceDirs)
     executionData     = fileTree(
             dir     : "$buildDir",
-            include : [ 'jacoco/testDebugUnitTest.exec', 'outputs/code-coverage/connected/*coverage.ec' ]
+            include : [ 'jacoco/testDebugUnitTest.exec', 'outputs/code_coverage/debugAndroidTest/connected/*coverage.ec' ]
     )
 
     doFirst {
-        files('build/intermediates/classes/debug').getFiles().each { file ->
+        files('build/intermediates/javac/debug/compileDebugJavaWithJavac/classes/com/lawk').getFiles().each { file ->
+            if (file.name.contains('$$')) {
+                file.renameTo(file.path.replace('$$', '$'))
+            }
+        }
+    }
+}
+
+task jacocoTestReportLocal(type : JacocoReport, dependsOn : ['testDebugUnitTest', 'createDebugCoverageReport']) {
+    group       = 'Reporting'
+    description = 'Generate JaCoCo coverage reports'
+
+    reports {
+        xml.enabled  = true
+        html.enabled = true
+    }
+
+    classDirectories = fileTree(
+            dir      : 'build/intermediates/javac/debug/compileDebugJavaWithJavac/classes/com/lawk',
+            excludes : [
+                    '**/R.class',
+                    '**/R$*.class',
+                    '**/*$ViewInjector*.*',
+                    '**/*$ViewBinder*.*',
+                    '**/BuildConfig.*',
+                    '**/Manifest*.*',
+                    '**/*RealmProxy.*',
+                    '**/*ColumnInfo.*',
+                    '**/*RealmModule*.*',
+                    '**/AutoValue_*.*',
+                    '**/Dagger*.*',
+                    '**/*Module_Provide*Factory.*',
+                    '**/*_Factory.*',
+                    '**/*_MembersInjector.*',
+                    '**/*_LifecycleAdapter.*',
+                    '**/models/**'
+            ]
+    )
+
+    sourceDirectories = files(coverageSourceDirs)
+    executionData     = fileTree(
+            dir     : "$buildDir",
+            include : [ 'jacoco/testDebugUnitTest.exec', 'outputs/code_coverage/debugAndroidTest/connected/*coverage.ec' ]
+    )
+
+    doFirst {
+        files('build/intermediates/javac/debug/compileDebugJavaWithJavac/classes/com/lawk').getFiles().each { file ->
             if (file.name.contains('$$')) {
                 file.renameTo(file.path.replace('$$', '$'))
             }
