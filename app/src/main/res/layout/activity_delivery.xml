@@ -19,14 +19,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/Delivery" />
+            android:text="@string/Delivery"
+            android:onClick="showDelivery"/>
 
         <Button style="@style/Widget.AppCompat.Button.Colored"
             android:id="@+id/sync"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/Sync" />
+            android:text="@string/Sync"
+            android:onClick="showSync"/>
     </LinearLayout>
 
 
