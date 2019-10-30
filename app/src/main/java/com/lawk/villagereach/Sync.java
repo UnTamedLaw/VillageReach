@@ -28,8 +28,6 @@ public class Sync {
                         @Override
                         public void onSuccess(String result) {
                             Shipment shipment = gson.fromJson(result, Shipment.class);
-
-
                         }
                         @Override
                         public void onFailure(VolleyError error) {

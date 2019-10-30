@@ -3,9 +3,6 @@ package com.lawk.villagereach;
 import com.google.gson.annotations.SerializedName;
 
 public class Shipment {
-    @SerializedName("order")
-    public Orderable order;
-//  @SerializedName("lineItems");
     @SerializedName("status")
     public String status;
     @SerializedName("receivedBy")
@@ -17,4 +14,10 @@ public class Shipment {
     @SerializedName("id")
     public String id;
 
+    public static class Order {
+        @SerializedName("id")
+        public String id;
+        @SerializedName("emergency")
+        public Boolean emergency;
+    }
 }
