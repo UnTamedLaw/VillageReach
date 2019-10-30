@@ -8,7 +8,8 @@ public class ProofOfDelivery {
     public String status;
     @SerializedName("shipment")
     public Stub shipment;
-//  @SerializedName("lineItems")
+    @SerializedName("lineItems")
+    public LineItem[] lineItems;
     @SerializedName("receivedBy")
     public String receivedBy;
     @SerializedName("deliveredBy")

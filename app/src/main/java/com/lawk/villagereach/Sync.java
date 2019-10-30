@@ -22,21 +22,41 @@ public class Sync {
                 ProofsOfDeliveryContent allPods = gson.fromJson(result, ProofsOfDeliveryContent.class);
                 ProofOfDelivery[] allPodsArray = allPods.content;
                 //put all the proofOfDelivery items into storage by their ID
-                for (int index = 0; index < allPodsArray.length; index++) {
-                    String shipmentUrl = allPodsArray[index].shipment.href;
+                for (int podIndex = 0; podIndex < allPodsArray.length; podIndex++) {
+                    ProofOfDelivery currentPod = allPodsArray[podIndex];
+                    for (int lineItemIndex = 0; lineItemIndex < currentPod.lineItems.length; lineItemIndex++) {
+                        LineItem currentLineItem = currentPod.lineItems[lineItemIndex];
+                        String currentLineItemUrl = currentLineItem.orderable.href;
+                        NetworkingTest.dataFromServerString(token, currentLineItemUrl, context, new StringCallback() {
+                            @Override
+                            public void onSuccess(String result) {
+                                Orderable orderable = gson.fromJson(result, Orderable.class);
+                                //send orderable off to the storage
+                                Log.i(TAG, result);
+
+                            }
+
+                            @Override
+                            public void onFailure(VolleyError error) {
+
+                            }
+                        });
+                    }
+                    String shipmentUrl = allPodsArray[podIndex].shipment.href;
                     NetworkingTest.dataFromServerString(token, shipmentUrl, context, new StringCallback() {
                         @Override
                         public void onSuccess(String result) {
                             Shipment shipment = gson.fromJson(result, Shipment.class);
                             //send shipment to storage
                             String orderUrl = shipment.order.href;
+
                             NetworkingTest.dataFromServerString(token, orderUrl, context, new StringCallback() {
                                 @Override
                                 public void onSuccess(String result) {
                                     Order order = gson.fromJson(result, Order.class);
                                     //send order to storage
-                                }
 
+                                }
                                 @Override
                                 public void onFailure(VolleyError error) {
 

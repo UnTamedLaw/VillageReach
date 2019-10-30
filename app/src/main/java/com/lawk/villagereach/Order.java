@@ -9,5 +9,4 @@ public class Order {
     public String orderCode;
     public String status;
     public String id;
-    public String href;
 }

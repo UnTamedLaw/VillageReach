@@ -3,11 +3,9 @@ package com.lawk.villagereach;
 import com.google.gson.annotations.SerializedName;
 
 public class Shipment {
-    public Order order;
-    public String status;
-    public String receivedBy;
-    public String deliveredBy;
+    public Stub order;
     public String receivedDate;
+    public LineItem[] lineItems;
 
     public String id;
 }
