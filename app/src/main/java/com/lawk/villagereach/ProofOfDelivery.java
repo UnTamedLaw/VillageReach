@@ -6,6 +6,8 @@ import com.google.gson.annotations.SerializedName;
 public class ProofOfDelivery {
     @SerializedName("status")
     public String status;
+    @SerializedName("shipment")
+    public Stub shipment;
 //  @SerializedName("lineItems")
     @SerializedName("receivedBy")
     public String receivedBy;
@@ -13,6 +15,7 @@ public class ProofOfDelivery {
     public String deliveredBy;
     @SerializedName("id")
     public String id;
+
 }
 //public class ProofOfDelivery {
 //    private String proofofdeliveryid;

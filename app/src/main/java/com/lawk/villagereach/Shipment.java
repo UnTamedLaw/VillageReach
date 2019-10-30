@@ -8,10 +8,6 @@ public class Shipment {
     public String receivedBy;
     public String deliveredBy;
     public String receivedDate;
-    public String id;
 
-    public class Order {
-        public String id;
-        public Boolean emergency;
-    }
+    public String id;
 }

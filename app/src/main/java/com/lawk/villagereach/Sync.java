@@ -13,8 +13,8 @@ public class Sync {
         final String token = InternalStorageHandler.getInstance(context).readFile(context,"tokenFile.txt");
         Log.i(TAG, "Sync is now using this token from storage" + token);
         //String url = "https://demo-v3.openlmis.org/api/orders?status=TRANSFER_FAILED&status=READY_TO_PACK&status=RECEIVED&status=SHIPPED&status=IN_ROUTE";
-        String newurl = "https://demo-v3.openlmis.org/api/proofsOfDelivery";
-        NetworkingTest.dataFromServerString(token, newurl, context, new StringCallback() {
+        String podArrayUrl = "https://demo-v3.openlmis.org/api/proofsOfDelivery";
+        NetworkingTest.dataFromServerString(token, podArrayUrl, context, new StringCallback() {
             @Override
             public void onSuccess(String result) {
                 Log.i(TAG, "syncing");
@@ -23,21 +23,43 @@ public class Sync {
                 ProofOfDelivery[] allPodsArray = allPods.content;
                 //put all the proofOfDelivery items into storage by their ID
                 for (int index = 0; index < allPodsArray.length; index++) {
-                    String url = "https://demo-v3.openlmis.org/api/proofsOfDelivery/" + allPodsArray[index].id + "?expand=shipment";
-                    NetworkingTest.dataFromServerString(token, url, context, new StringCallback() {
+                    String shipmentUrl = allPodsArray[index].shipment.href;
+                    NetworkingTest.dataFromServerString(token, shipmentUrl, context, new StringCallback() {
                         @Override
                         public void onSuccess(String result) {
                             Shipment shipment = gson.fromJson(result, Shipment.class);
-                            String json = "{\"intValue\":1,\"stringValue\":\"one\",\"innerFoo\":{\"name\":\"inner\",\"second\":\"test\"}}";
+                            //send shipment to storage
+                            String orderUrl = shipment.order.href;
+                            NetworkingTest.dataFromServerString(token, orderUrl, context, new StringCallback() {
+                                @Override
+                                public void onSuccess(String result) {
+                                    Order order = gson.fromJson(result, Order.class);
+                                    //send order to storage
+                                }
 
-                            FooWithInner targetObject = new Gson().fromJson(json, FooWithInner.class);
-                            //breakpoint here. foowithinner will have a nesed object but shipment won't
+                                @Override
+                                public void onFailure(VolleyError error) {
+
+                                }
+                            });
                         }
                         @Override
                         public void onFailure(VolleyError error) {
 
                         }
                     });
+//                    String orderUrl = "https://demo-v3.openlmis.org/api/order/"
+//                    NetworkingTest.dataFromServerString(token, orderUrl, context, new StringCallback() {
+//                        @Override
+//                        public void onSuccess(String result) {
+//
+//                        }
+//
+//                        @Override
+//                        public void onFailure(VolleyError error) {
+//
+//                        }
+//                    });
                 }
 
             }
