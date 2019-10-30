@@ -4,8 +4,6 @@ package com.lawk.villagereach;
 import com.google.gson.annotations.SerializedName;
 
 public class ProofOfDelivery {
-    @SerializedName("shipment")
-    public Shipment shipment;
     @SerializedName("status")
     public String status;
 //  @SerializedName("lineItems")

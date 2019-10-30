@@ -23,11 +23,15 @@ public class Sync {
                 ProofOfDelivery[] allPodsArray = allPods.content;
                 //put all the proofOfDelivery items into storage by their ID
                 for (int index = 0; index < allPodsArray.length; index++) {
-                    String url = "https://demo-v3.openlmis.org/api/proofsOfDelivery/" + allPodsArray[index].id + "?expand=shipment.order";
+                    String url = "https://demo-v3.openlmis.org/api/proofsOfDelivery/" + allPodsArray[index].id + "?expand=shipment";
                     NetworkingTest.dataFromServerString(token, url, context, new StringCallback() {
                         @Override
                         public void onSuccess(String result) {
                             Shipment shipment = gson.fromJson(result, Shipment.class);
+                            String json = "{\"intValue\":1,\"stringValue\":\"one\",\"innerFoo\":{\"name\":\"inner\",\"second\":\"test\"}}";
+
+                            FooWithInner targetObject = new Gson().fromJson(json, FooWithInner.class);
+                            //breakpoint here. foowithinner will have a nesed object but shipment won't
                         }
                         @Override
                         public void onFailure(VolleyError error) {
