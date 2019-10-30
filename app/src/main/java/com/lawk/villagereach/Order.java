@@ -5,28 +5,28 @@ import com.google.gson.annotations.SerializedName;
 
 public class Order {
 
-    @SerializedName("createdDate")
-    public String createdDate;
-    @SerializedName("emergency")
-    public Boolean emergency;
-    @SerializedName("facility")
-    public Facility facility;
+//    @SerializedName("createdDate")
+//    public String createdDate;
+//    @SerializedName("emergency")
+//    public Boolean emergency;
+//    @SerializedName("facility")
+//    public Facility facility;
     @SerializedName("id")
     public String id;
-    @SerializedName("processingPeriod")
-    public ProcessingPeriod processingPeriod;
-    @SerializedName("program")
-    public Program program;
-    @SerializedName("quotedCost")
-    public Long quotedCost;
-    @SerializedName("receivingFacility")
-    public Facility receivingFacility;
-    @SerializedName("requestingFacility")
-    public Facility requestingFacility;
-    @SerializedName("status")
-    public String status;
-    @SerializedName("supplyingFacility")
-    public Facility supplyingFacility;
+//    @SerializedName("processingPeriod")
+//    public ProcessingPeriod processingPeriod;
+//    @SerializedName("program")
+//    public Program program;
+//    @SerializedName("quotedCost")
+//    public Long quotedCost;
+//    @SerializedName("receivingFacility")
+//    public Facility receivingFacility;
+//    @SerializedName("requestingFacility")
+//    public Facility requestingFacility;
+//    @SerializedName("status")
+//    public String status;
+//    @SerializedName("supplyingFacility")
+//    public Facility supplyingFacility;
 
 }
 //
