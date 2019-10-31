@@ -33,7 +33,7 @@ public class Auth {
                     String access_token = result.getString("access_token");
                     String token = "bearer " + access_token;
                     Log.i(TAG,"Auth: now pushing this token to storage:" + token);
-                    InternalStorageHandler.getInstance(context).writeToFile(token, context);
+                    InternalStorageHandler.getInstance(context).writeToFile(token, "token");
                     callback.onSuccess();
                 } catch(JSONException e) {
                     Log.e(TAG,"Auth: I can't parse this Json");

@@ -4,6 +4,9 @@ import android.content.Context;
 import android.nfc.Tag;
 import android.util.Log;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -16,6 +19,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
+import java.lang.reflect.Type;
+import java.util.HashMap;
 
 
 public class InternalStorageHandler {
@@ -38,10 +43,9 @@ public class InternalStorageHandler {
     }
 
     // to do: serialize passed in object to json string
-
-    public String readFile(Context context, String fileName) {
+    public String readFile(String filename) {
         try {
-            FileInputStream fileInputStream = context.openFileInput(fileName);
+            FileInputStream fileInputStream = context.openFileInput(filename);
             InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream);
             BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
             StringBuilder stringBuilder = new StringBuilder();
@@ -58,9 +62,42 @@ public class InternalStorageHandler {
         return "File Not Read";
     }
 
-    public void writeToFile(String dataToBeStored, Context context) {
+    public void writePodOrderableToFile(Orderable podOrderable) {
+        Gson gson = new Gson();
+        if (this.readFile("podOrderableMap") == "File Not Read") {
+            HashMap<String, Object> podOrderableMap = new HashMap<String, Object>();
+            podOrderableMap.put(podOrderable.id, podOrderable);
+            String podOrderableMapString = gson.toJson(podOrderableMap);
+            writeToFile(podOrderableMapString, "podOrderableMap");
+        } else {
+            Type type = new TypeToken<HashMap<String, Object>>(){}.getType();
+            String podOrderableMapString = readFile("podOrderableMap");
+            HashMap<String, Object> podOrderableMap = gson.fromJson(podOrderableMapString, type);
+            podOrderableMap.put(podOrderable.id, podOrderable);
+            String newPodOrderableMapString = gson.toJson(podOrderableMap);
+            writeToFile(newPodOrderableMapString, "podOrderableMap");
+        }
+    }
+
+    public void writeOrderToFile(Order order) {
+        Gson gson = new Gson();
+        if (this.readFile("orderMap") == "File Not Read") {
+            HashMap<String, Object> orderMap = new HashMap<String, Object>();
+            orderMap.put(order.id, order);
+            String orderMapString = gson.toJson(orderMap);
+            writeToFile(orderMapString, "orderMap");
+        } else {
+            Type type = new TypeToken<HashMap<String, Object>>(){}.getType();
+            String orderMapString = readFile("orderMap");
+            HashMap<String, Object> orderMap = gson.fromJson(orderMapString, type);
+            orderMap.put(order.id, order);
+            String newOrderMapString = gson.toJson(orderMap);
+            writeToFile(newOrderMapString, "orderMap");
+        }
+    }
+    public void writeToFile(String dataToBeStored, String filename) {
         try {
-            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput(this.fileName, Context.MODE_PRIVATE));
+            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput(filename, Context.MODE_PRIVATE));
             outputStreamWriter.write(dataToBeStored);
             outputStreamWriter.close();
         }

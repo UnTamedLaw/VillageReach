@@ -82,36 +82,12 @@ public class NetworkingTest {
         NetworkingTest.getInstance(context).addToRequestQueue(tokenRequest);
     }
 
-    public static void dataFromServer(final String token, String url, Context context, final VolleyCallback callback) {
-        JsonObjectRequest dataRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                Log.i(TAG,"NetworkingTest: dataFromServer response: " + response.toString());
-                callback.onSuccess(response);
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                //do nothing here. propagate error up stack
-            }
-        }) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> headers = new HashMap<String, String>();
-                headers.put("Authorization", token);
-                headers.put("content-type", "application/json; charset=utf-8");
-                return headers;
-            }
-        };
-        NetworkingTest.getInstance(context).addToRequestQueue(dataRequest);
-    }
-
     public static void dataFromServerString(final String token, String url, Context context, final StringCallback callback) {
         StringRequest dataRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 //stuff
-                Log.i(TAG, "NetworkingTest: dataFromServerString response: " + response);
+                //Log.i(TAG, "NetworkingTest: dataFromServerString response: " + response);
                 callback.onSuccess(response);
             }
         }, new Response.ErrorListener() {
