@@ -20,7 +20,6 @@ public class Sync {
     private static final String TAG = "myTracker";
 
     public static void sync(final Context context, final SyncCallback callback) {
-
         final Gson gson = new Gson();
         final String token = InternalStorageHandler.getInstance(context).readFile("token");
         Log.i(TAG, "Sync is now using this token from storage" + token);
@@ -30,7 +29,7 @@ public class Sync {
             public void onSuccess(String result) {
                 Log.i(TAG, "Sync: syncing begins");
                 //make a map from all the pods gotten from inside the result (in content)
-                ProofsOfDeliveryContent allPods = gson.fromJson(result, ProofsOfDeliveryContent.class);
+                final ProofsOfDeliveryContent allPods = gson.fromJson(result, ProofsOfDeliveryContent.class);
                 HashMap<String, ProofOfDelivery> podMap = new HashMap<>();
                 Set<String> orderableIdSet = new HashSet<>();
                 for (ProofOfDelivery currentPod : allPods.content) {
@@ -55,41 +54,47 @@ public class Sync {
                         String orderableMapString = gson.toJson(orderableMap);
                         InternalStorageHandler.getInstance(context).writeToFile(orderableMapString, "orderableMap");
                         Log.i(TAG,"Sync: orderables written to file");
+                        int numberOfRequestsToMake = allPods.content.length;
+                        //countDownLatch starts with the number of requests i have left to make (basically one for every proof of delivery
+                        //and goes down every time one completes or fails
+                        final CountDownLatch countDownLatch = new CountDownLatch(numberOfRequestsToMake);
+                        for (ProofOfDelivery currentPod : allPods.content) {
+                            String podSpecificShipmentOrderUrl = currentPod.shipment.href + "?expand=order";
+                            NetworkingTest.dataFromServerString(token, podSpecificShipmentOrderUrl, context, new StringCallback() {
+                                @Override
+                                public void onSuccess(String result) {
+                                    Shipment currentShipment = gson.fromJson(result, Shipment.class);
+                                    Order currentOrder = currentShipment.order;
+                                    InternalStorageHandler.getInstance(context).writeShipmentToFile(currentShipment);
+                                    Log.i(TAG, "Sync: a shipment written to file");
+                                    InternalStorageHandler.getInstance(context).writeOrderToFile(currentOrder);
+                                    Log.i(TAG, "Sync: a order written to file");
+                                    countDownLatch.countDown();
+                                    //when the countdown hits 0, execute the callback
+                                    if (countDownLatch.getCount() == 0) {
+                                        Log.i(TAG, "Sync: sync completed");
+                                        callback.onSuccess();
+                                    }
+                                }
+                                @Override
+                                public void onFailure(VolleyError error) {
+                                    countDownLatch.countDown();
+                                    if (countDownLatch.getCount() == 0) {
+                                        Log.i(TAG, "Sync: sync maybe failed");
+                                        callback.onFailure(error);
+                                    }
+                                }
+                            });
+                        }
                     }
                     @Override
                     public void onFailure(VolleyError error) {
                     }
                 });
-                int numberOfRequestsToMake = allPods.content.length;
-                final CountDownLatch countDownLatch = new CountDownLatch(numberOfRequestsToMake);
-                for (ProofOfDelivery currentPod : allPods.content) {
-                    String podSpecificShipmentOrderUrl = currentPod.shipment.href + "?expand=order";
-                    NetworkingTest.dataFromServerString(token, podSpecificShipmentOrderUrl, context, new StringCallback() {
-                        @Override
-                        public void onSuccess(String result) {
-                            Shipment currentShipment = gson.fromJson(result, Shipment.class);
-                            Order currentOrder = currentShipment.order;
-                            InternalStorageHandler.getInstance(context).writeShipmentToFile(currentShipment);
-                            Log.i(TAG, "Sync: a shipment written to file");
-                            InternalStorageHandler.getInstance(context).writeOrderToFile(currentOrder);
-                            Log.i(TAG, "Sync: a order written to file");
-                            countDownLatch.countDown();
-                            //please find a better way to do this. this only works because this for loop of reqs PROBABLY ends after the req before it.
-                            if (countDownLatch.getCount() == 0) {
-                                Log.i(TAG, "Sync: did callback");
-                                callback.onSuccess();
-                            }
-                        }
-                        @Override
-                        public void onFailure(VolleyError error) {
-                            countDownLatch.countDown();
-                        }
-                    });
-                }
+
             }
             @Override
             public void onFailure(VolleyError error) {
-
             }
         });
     }
