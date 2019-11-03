@@ -64,7 +64,7 @@ public class InternalStorageHandler {
 
     public void writePodOrderableToFile(Orderable podOrderable) {
         Gson gson = new Gson();
-        if (this.readFile("podOrderableMap") == "File Not Read") {
+        if (readFile("podOrderableMap") == "File Not Read") {
             HashMap<String, Object> podOrderableMap = new HashMap<String, Object>();
             podOrderableMap.put(podOrderable.id, podOrderable);
             String podOrderableMapString = gson.toJson(podOrderableMap);
@@ -81,7 +81,7 @@ public class InternalStorageHandler {
 
     public void writeOrderToFile(Order order) {
         Gson gson = new Gson();
-        if (this.readFile("orderMap") == "File Not Read") {
+        if (readFile("orderMap") == "File Not Read") {
             HashMap<String, Object> orderMap = new HashMap<String, Object>();
             orderMap.put(order.id, order);
             String orderMapString = gson.toJson(orderMap);
@@ -93,6 +93,57 @@ public class InternalStorageHandler {
             orderMap.put(order.id, order);
             String newOrderMapString = gson.toJson(orderMap);
             writeToFile(newOrderMapString, "orderMap");
+        }
+    }
+
+    public void writeShipmentLineItemToFile(LineItem lineItem) {
+        Gson gson = new Gson();
+        if (readFile("shipmentLineItemMap") == "File Not Read") {
+            HashMap<String, Object> shipmentLineItemMap = new HashMap<String, Object>();
+            shipmentLineItemMap.put(lineItem.id, lineItem);
+            String shipmentLineItemMapString = gson.toJson(shipmentLineItemMap);
+            writeToFile(shipmentLineItemMapString, "shipmentLineItemMap");
+        } else {
+            Type type = new TypeToken<HashMap<String, Object>>(){}.getType();
+            String shipmentLineItemMapString = readFile("shipmentLineItemMap");
+            HashMap<String, Object> shipmentLineItemMap = gson.fromJson(shipmentLineItemMapString, type);
+            shipmentLineItemMap.put(lineItem.id, lineItem);
+            String newShipmentLineItemMapString = gson.toJson(shipmentLineItemMap);
+            writeToFile(newShipmentLineItemMapString, "shipmentLineItemMap");
+        }
+    }
+
+    public void writePodLineItemToFile(LineItem lineItem) {
+        Gson gson = new Gson();
+        if (readFile("podLineItemMap") == "File Not Read") {
+            HashMap<String, Object> podLineItemMap = new HashMap<String, Object>();
+            podLineItemMap.put(lineItem.id, lineItem);
+            String podLineItemMapString = gson.toJson(podLineItemMap);
+            writeToFile(podLineItemMapString, "podLineItemMap");
+        } else {
+            Type type = new TypeToken<HashMap<String, Object>>(){}.getType();
+            String podLineItemMapString = readFile("podLineItemMap");
+            HashMap<String, Object> podLineItemMap = gson.fromJson(podLineItemMapString, type);
+            podLineItemMap.put(lineItem.id, lineItem);
+            String newPodLineItemMapString = gson.toJson(podLineItemMap);
+            writeToFile(newPodLineItemMapString, "podLineItemMap");
+        }
+    }
+
+    public void writeShipmentToFile(Shipment shipment) {
+        Gson gson = new Gson();
+        if (readFile("shipmentMap") == "File Not Read") {
+            HashMap<String, Object> shipmentMap = new HashMap<String, Object>();
+            shipmentMap.put(shipment.id, shipment);
+            String shipmentMapString = gson.toJson(shipmentMap);
+            writeToFile(shipmentMapString, "shipmentMap");
+        } else {
+            Type type = new TypeToken<HashMap<String, Object>>(){}.getType();
+            String shipmentMapString = readFile("shipmentMap");
+            HashMap<String, Object> shipmentMap = gson.fromJson(shipmentMapString, type);
+            shipmentMap.put(shipment.id, shipment);
+            String newShipmentMapString = gson.toJson(shipmentMap);
+            writeToFile(newShipmentMapString, "shipmentMap");
         }
     }
     public void writeToFile(String dataToBeStored, String filename) {

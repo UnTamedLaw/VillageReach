@@ -20,25 +20,29 @@ public class Sync {
         NetworkingTest.dataFromServerString(token, podArrayUrl, context, new StringCallback() {
             @Override
             public void onSuccess(String result) {
-                Log.i(TAG, "syncing");
+                Log.i(TAG, "Sync: syncing begins");
+                //make a map from all the pods gotten from inside the result (in content)
                 ProofsOfDeliveryContent allPods = gson.fromJson(result, ProofsOfDeliveryContent.class);
                 ProofOfDelivery[] allPodsArray = allPods.content;
                 HashMap<String, Object> podMap = new HashMap<>();
-                HashMap<String, Object> orderableMap = new HashMap<>();
-                final HashMap<String, Object> podOrderableMap = new HashMap<>();
-                //put all the proofOfDelivery items into storage by their ID
+                //for each pod
                 for (int podIndex = 0; podIndex < allPodsArray.length; podIndex++) {
                     ProofOfDelivery currentPod = allPodsArray[podIndex];
+                    //add this pod to podMap
                     podMap.put(currentPod.id, currentPod);
+                    //for each lineitem in the pod
                     for (int lineItemIndex = 0; lineItemIndex < currentPod.lineItems.length; lineItemIndex++) {
                         LineItem currentLineItem = currentPod.lineItems[lineItemIndex];
                         String currentLineItemUrl = currentLineItem.orderable.href;
+                        InternalStorageHandler.getInstance(context).writePodLineItemToFile(currentLineItem);
+                        //do a req for that pod lineitems orderable
                         NetworkingTest.dataFromServerString(token, currentLineItemUrl, context, new StringCallback() {
                             @Override
                             public void onSuccess(String result) {
                                 Orderable orderable = gson.fromJson(result, Orderable.class);
                                 //send orderable off to the storage
                                 InternalStorageHandler.getInstance(context).writePodOrderableToFile(orderable);
+                                Log.i(TAG, "Sync: wrote a orderable to file");
                             }
 
                             @Override
@@ -47,55 +51,65 @@ public class Sync {
                             }
                         });
                     }
+
                     String shipmentUrl = allPodsArray[podIndex].shipment.href;
-//                    NetworkingTest.dataFromServerString(token, shipmentUrl, context, new StringCallback() {
-//                        @Override
-//                        public void onSuccess(String result) {
-//                            Shipment shipment = gson.fromJson(result, Shipment.class);
-//                            //send shipment to storage
-//                            String orderUrl = shipment.order.href;
-//
-//                            NetworkingTest.dataFromServerString(token, orderUrl, context, new StringCallback() {
-//                                @Override
-//                                public void onSuccess(String result) {
-//                                    Order order = gson.fromJson(result, Order.class);
-//                                    //send order to storage
-//
-//                                }
-//                                @Override
-//                                public void onFailure(VolleyError error) {
-//
-//                                }
-//                            });
-//                        }
-//                        @Override
-//                        public void onFailure(VolleyError error) {
-//
-//                        }
-//                    });
-                    String orderUrl = "https://demo-v3.openlmis.org/api/orders";
-                    NetworkingTest.dataFromServerString(token, orderUrl, context, new StringCallback() {
+                    NetworkingTest.dataFromServerString(token, shipmentUrl, context, new StringCallback() {
                         @Override
                         public void onSuccess(String result) {
-                            Log.i(TAG, result);
-                            OrdersContent ordersContent = gson.fromJson(result, OrdersContent.class);
-                            for (int orderIndex = 0; orderIndex < ordersContent.content.length; orderIndex++) {
-                                Order order = ordersContent.content[orderIndex];
-                                InternalStorageHandler.getInstance(context).writeOrderToFile(order);
+                            Log.i(TAG, "Sync: handling a shipment");
+                            Shipment shipment = gson.fromJson(result, Shipment.class);
+                            InternalStorageHandler.getInstance(context).writeShipmentToFile(shipment);
+                            Log.i(TAG, "Sync: wrote a shipment to file");
+                            //get order associated with this shipment
+                            String orderUrl = shipment.order.href;
+                            NetworkingTest.dataFromServerString(token, orderUrl, context, new StringCallback() {
+                                @Override
+                                public void onSuccess(String result) {
+                                    Log.i(TAG,"Sync: handling order associated with this shipment");
+                                    Order order = gson.fromJson(result, Order.class);
+                                    InternalStorageHandler.getInstance(context).writeOrderToFile(order);
+                                    Log.i(TAG,"Sync: wrote order to file");
+                                }
+                                @Override
+                                public void onFailure(VolleyError error) {
+                                }
+                            });
+                            //write the shipment line items to files
+                            for (int shipmentIndex = 0; shipmentIndex < shipment.lineItems.length; shipmentIndex++) {
+                                LineItem shipmentLineItem = shipment.lineItems[shipmentIndex];
+                                InternalStorageHandler.getInstance(context).writeShipmentLineItemToFile(shipmentLineItem);
                             }
+                            Log.i(TAG,"Sync: wrote a batch of shipmentlineitems to file");
+                            Log.i(TAG, "Sync: completed handling a shipment");
                         }
-
                         @Override
                         public void onFailure(VolleyError error) {
 
                         }
                     });
+                    //get all orders
+//                    String orderUrl = "https://demo-v3.openlmis.org/api/orders/" + currentPod.shipment.;
+//                    NetworkingTest.dataFromServerString(token, orderUrl, context, new StringCallback() {
+//                        @Override
+//                        public void onSuccess(String result) {
+//                            Log.i(TAG, "Sync: handling a order");
+//                            OrdersContent ordersContent = gson.fromJson(result, OrdersContent.class);
+//                            for (int orderIndex = 0; orderIndex < ordersContent.content.length; orderIndex++) {
+//                                Order order = ordersContent.content[orderIndex];
+//                                InternalStorageHandler.getInstance(context).writeOrderToFile(order);
+//                            }
+//                            Log.i(TAG, "Sync: completed handling a order");
+//                        }
+//
+//                        @Override
+//                        public void onFailure(VolleyError error) {
+//
+//                        }
+//                    });
                 }
                 InternalStorageHandler.getInstance(context).writeToFile(gson.toJson(podMap), "podMap");
-//                String podmapstring = InternalStorageHandler.getInstance(context).readFile("podMap");
-//                Type type = new TypeToken<HashMap<String, Object>>(){}.getType();
-//                HashMap<String, Object> podmapread = gson.fromJson(podmapstring, type);
-                Log.i(TAG, "done");
+                Log.i(TAG, "Sync: wrote all pods to file");
+                Log.i(TAG, "Sync: syncing ends");
             }
             @Override
             public void onFailure(VolleyError error) {
