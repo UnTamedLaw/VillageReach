@@ -2,7 +2,7 @@ package com.lawk.villagereach;
 
 import com.google.gson.annotations.SerializedName;
 
-public class OrdersContent {
+public class OrderableContent {
     @SerializedName("content")
-    public Order[] content;
+    Orderable[] content;
 }
