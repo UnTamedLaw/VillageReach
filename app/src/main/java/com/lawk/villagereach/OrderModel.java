@@ -924,7 +924,7 @@ public class OrderModel {
                 JSONObject processingP = contents.getJSONObject("processingPeriod");
                 String periodName = processingP.getString("name");
 
-                orderArrayList.add(new Order(id, orderCode, status, requestingFacility, supplyingFacility, programName, periodName, createdDate, emergency ));
+                //orderArrayList.add(new Order(id, orderCode, status, requestingFacility, supplyingFacility, programName, periodName, createdDate, emergency ));
                 //  Log.i(TAG, " id: " + id + " Order Code: " + orderCode + " status " + status + " Requesting Facility " +
                 //          requestingFacility + " SupplyingFacility " + supplyingFacility + " Program Name " + programName +
                 //          " Period " + periodName + " date: " + createdDate + " Emergency: " + emergency);
