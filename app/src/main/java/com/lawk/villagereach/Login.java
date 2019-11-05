@@ -20,7 +20,7 @@ public class Login {
                 public void onSuccess() {
                     Sync.sync(context, new SyncCallback() {
                         @Override
-                        public void onSuccess(Order[] result) {
+                        public void onSuccess() {
                             Log.i(TAG,"Login: authorization & syncing completed.");
                             callback.onSuccess();
                         }
