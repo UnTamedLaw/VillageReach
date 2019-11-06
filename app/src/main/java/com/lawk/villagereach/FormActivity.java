@@ -1,6 +1,8 @@
 package com.lawk.villagereach;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -13,58 +15,78 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import static com.lawk.villagereach.R.id.static_spinner_for_rejection_reason;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.util.HashMap;
+
+//import static com.lawk.villagereach.R.id.static_spinner_for_rejection_reason;
 
 public class FormActivity extends AppCompatActivity {
     public static final String EXTRA_MESSAGE = "message";
     public static final String KEY = FormActivity.class.toString();
+    private static String RESULT = "DeliveryResponse";
+    private RecyclerView recyclerView;
+    private ProofOfDeliveryRecyclerAdaptor podRecyclerAdapter;
 
     private static final String TAG = "Second Activity Button";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_form);
+        recyclerView = findViewById(R.id.pod_recyclerview);
+        recyclerView.setHasFixedSize(true);
+        LinearLayoutManager manager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(manager);
+
+        String podHashMapString = InternalStorageHandler.getInstance(this).readFile("podMap");
+        Gson gson = new Gson();
+        Type type = new TypeToken<HashMap<String, ProofOfDelivery>>(){}.getType();
+        HashMap<String, ProofOfDelivery> podHashMap = gson.fromJson(podHashMapString, type);
+
+        podRecyclerAdapter = new ProofOfDeliveryRecyclerAdaptor(FormActivity.this, podHashMap);
+        recyclerView.setAdapter(podRecyclerAdapter);
+
+//    //adding spinner for the dropdown for rejection reason
+//        //two are needed, static and dynamic
+//
+//        Spinner staticSpinner = (Spinner) findViewById(static_spinner_for_rejection_reason);
+//        // ArrayAdapter for the reasons---do we really need?
+//        ArrayAdapter<CharSequence> staticAdapter = ArrayAdapter
+//                .createFromResource(this, R.array.rejection_reason,
+//                        android.R.layout.simple_spinner_item);
+//
+//        // list of "items to view, simple_spinner_dropdown_item?
+//        staticAdapter
+//                .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//
+//        //connecting adapter with our dropdown items
+//        staticSpinner.setAdapter(staticAdapter);
+//
+//        Spinner dynamicSpinner = (Spinner) findViewById(R.id.dynamic_spinner_for_rejection_reason);
+//
+//        String[] items = new String[] { "Missing", "Mising2", "missing3" };
+//
+//        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
+//                android.R.layout.simple_spinner_item, items);
+//
+//        dynamicSpinner.setAdapter(adapter);
+//
+//        dynamicSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view,
+//                                       int position, long id) {
+//                Log.v("item", (String) parent.getItemAtPosition(position));
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//                // empty
+//            }
+//        });
 
 
-
-
-    //adding spinner for the dropdown for rejection reason
-        //two are needed, static and dynamic
-
-        Spinner staticSpinner = (Spinner) findViewById(static_spinner_for_rejection_reason);
-        // ArrayAdapter for the reasons---do we really need?
-        ArrayAdapter<CharSequence> staticAdapter = ArrayAdapter
-                .createFromResource(this, R.array.rejection_reason,
-                        android.R.layout.simple_spinner_item);
-
-        // list of "items to view, simple_spinner_dropdown_item?
-        staticAdapter
-                .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        //connecting adapter with our dropdown items
-        staticSpinner.setAdapter(staticAdapter);
-
-        Spinner dynamicSpinner = (Spinner) findViewById(R.id.dynamic_spinner_for_rejection_reason);
-
-        String[] items = new String[] { "Missing", "Mising2", "missing3" };
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_spinner_item, items);
-
-        dynamicSpinner.setAdapter(adapter);
-
-        dynamicSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view,
-                                       int position, long id) {
-                Log.v("item", (String) parent.getItemAtPosition(position));
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                // empty
-            }
-        });
     }
     public void onClickRespond(View view){
 

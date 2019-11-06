@@ -16,33 +16,36 @@
     <string name="orderDate">Order Date:</string>
     <string name="emergency">Emergency:</string>
     <string name="orderCode">Order no:</string>
-    <string name="notes">Notes</string>
+    <string name="notes_label">Notes</string>
 
-    <string name="quantity_accepted">Qty Accepted</string>
-    <string name="quantity_shipped">Qty Shipped</string>
-    <string name="quantity_ordered">Qty Ordered</string>
-    <string name="product_unit">Product Unit</string>
-    <string name="rejection_season">Rejection Reason</string>
-    <string name="quantity_returned">Qty Returned</string>
-    <string name="id">Product Name</string>
+    <string name="quantity_accepted_label">Quantity Accepted</string>
+    <string name="quantity_shipped_label">Quantity Shipped</string>
+    <string name="quantity_ordered_label">Quantity Ordered</string>
+    <string name="product_unit_label">Product Unit</string>
+    <string name="rejection_reason_label">Rejection Reason</string>
+    <string name="quantity_returned_label">Quantity Returned</string>
+    <string name="id_label">Product Name</string>
     <string name="proof_of_delivery">Proof Of Delivery</string>
-<!--    adding an array for the rejection reason of the proof of delivery form
- I cant find the reasons.-->
-
+    <!--    array for the rejection reason of the proof of delivery  -->
     <string-array name="rejection_reason">
-        <item>Item One</item>
-        <item>Item Two</item>
-        <item>Item Three</item>
-        <item>Item Four</item>
-        <item>Item Five</item>
+        <item>N/A</item>
+        <item>Transfer Out</item>
+        <item>Damage</item>
+        <item>Expired</item>
+        <item>Stolen</item>
+        <item>Lost</item>
+        <item>Passed open-vial time limit</item>
+        <item>Cold chain failure</item>
     </string-array>
 
-    <string name="delivered_by">Delivered BY</string>
-    <string name="received_by">Received By</string>
+    <string name="delivered_by_label">Delivered by</string>
+    <string name="received_by_label">Received by</string>
     <string name="sign">Sign   </string>
     <string name="ViewForm">View Form</string>
     <string name="status_label">Order status:</string>
     <string name="program">Program:</string>
+    <string name="lot_code">Lot Code</string>
+    <string name="quantity_rejected_label">Quantity rejected</string>
     <string name="Status">Status</string>
 
 
