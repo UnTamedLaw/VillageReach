@@ -27,7 +27,6 @@ public class DeliveryActivity extends AppCompatActivity {
     private static String RESULT = "DeliveryResponse";
     private RecyclerView recyclerView;
     private OrderRecyclerAdapter orderRecyclerAdapter;
-    //private ArrayList<Order> orderModelArrayList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,14 +38,11 @@ public class DeliveryActivity extends AppCompatActivity {
         LinearLayoutManager manager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(manager);
 
-        //OrderModel model = new OrderModel();
-        //orderModelArrayList = model.grabJson();
-
-
         String orderHashMapString = InternalStorageHandler.getInstance(this).readFile("orderMap");
         Gson gson = new Gson();
         Type type = new TypeToken<HashMap<String, Order>>(){}.getType();
         HashMap<String, Order> orderHashMap = gson.fromJson(orderHashMapString, type);
+
         orderRecyclerAdapter = new OrderRecyclerAdapter(DeliveryActivity.this, orderHashMap);
         recyclerView.setAdapter(orderRecyclerAdapter);
         Button getDeliveries = findViewById(R.id.delivery);

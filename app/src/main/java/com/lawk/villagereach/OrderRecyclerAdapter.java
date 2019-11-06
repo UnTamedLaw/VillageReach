@@ -73,11 +73,13 @@ public class OrderRecyclerAdapter extends RecyclerView.Adapter<OrderRecyclerAdap
         orderStatus.setText(currentOrder.status);
         requestingFacility.setText(currentOrder.requestingFacility.name);
         supplyingDepot.setText(currentOrder.supplyingFacility.name);
-
-        //YO - I had to comment these out cuz they're missing from the schema. I'll add them back later.
-        //program.setText(currentOrder.getProgram());
-        //period.setText(currentOrder.getProcessingPeriod());
-        //orderDate.setText(currentOrder.getCreatedDate());
+        if (currentOrder.program != null) {
+            program.setText(currentOrder.program.name);
+        }
+        if (currentOrder.processingPeriod != null) {
+            period.setText(currentOrder.processingPeriod.name);
+        }
+        orderDate.setText(currentOrder.createdDate);
         emergency.setText(currentOrder.emergency.toString());
 
         cardView.setOnClickListener(new View.OnClickListener() {
