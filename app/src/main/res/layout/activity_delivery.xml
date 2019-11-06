@@ -3,51 +3,52 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-<LinearLayout
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/layout_root"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
 
     <LinearLayout
+        android:id="@+id/layout_root"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <Button style="@style/Widget.AppCompat.Button.Colored"
-            android:id="@+id/delivery"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/Delivery"
-            android:onClick="showDelivery"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <Button style="@style/Widget.AppCompat.Button.Colored"
-            android:id="@+id/sync"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/Sync"
-            android:onClick="showSync"/>
-    </LinearLayout>
+            <Button style="@style/Widget.AppCompat.Button.Colored"
+                android:id="@+id/delivery"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/Delivery"
+                android:onClick="showDelivery"/>
+
+            <Button style="@style/Widget.AppCompat.Button.Colored"
+                android:id="@+id/sync"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/Sync"
+                android:onClick="showSync"/>
+        </LinearLayout>
 
 
-    <RelativeLayout
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".MainActivity">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerview"
+        <RelativeLayout
+            xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@android:color/darker_gray"/>
+            tools:context=".MainActivity">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/darker_gray"/>
 
 
-    </RelativeLayout>
+        </RelativeLayout>
 
 
 
-</LinearLayout>
+    </LinearLayout>
 </ScrollView>
