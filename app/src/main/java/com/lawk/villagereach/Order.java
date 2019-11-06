@@ -1,6 +1,8 @@
 package com.lawk.villagereach;
 
 import com.google.gson.annotations.SerializedName;
+import java.util.Date;
+
 
 public class Order {
     @SerializedName("externalId")
@@ -17,6 +19,15 @@ public class Order {
     public String orderCode;
     @SerializedName("status")
     public String status;
+    @SerializedName("id")
     public String id;
+    @SerializedName("program")
+    public Program program;
+    @SerializedName("processingPeriod")
+    public ProcessingPeriod processingPeriod;
+    @SerializedName("createdDate")
+    public String createdDate;
+
+
 }
 

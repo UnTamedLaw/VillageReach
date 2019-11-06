@@ -7,4 +7,6 @@ public class Stub {
     public String href;
     @SerializedName("id")
     public String id;
+    @SerializedName("versionNumber")
+    public int versionNumber;
 }

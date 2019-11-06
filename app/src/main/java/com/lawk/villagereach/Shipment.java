@@ -13,4 +13,5 @@ public class Shipment {
     public LineItem[] lineItems;
     @SerializedName("id")
     public String id;
+
 }
