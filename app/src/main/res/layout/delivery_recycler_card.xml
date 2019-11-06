@@ -27,16 +27,19 @@
             android:layout_height="match_parent" />
 
         <TextView
-            android:id="@+id/status_label"
-            android:layout_width="wrap_content"
+            android:id="@+id/status"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:textStyle="bold"
             android:text="@string/status_label"/>
 
         <TextView
-            android:id="@+id/status"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:id="@+id/status_label"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/Status"/>
+
+
 
         <TextView
             android:id="@+id/requesting_facility_label"

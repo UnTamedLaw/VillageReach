@@ -25,6 +25,9 @@ public class FormActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_form);
 
+
+
+
     //adding spinner for the dropdown for rejection reason
         //two are needed, static and dynamic
 
@@ -64,6 +67,10 @@ public class FormActivity extends AppCompatActivity {
         });
     }
     public void onClickRespond(View view){
+
+        //clicking submit on a completed POD will move this particular POD to a completed folder
+        //in the internal storage where it will wait for sync. and available internet connection.
+
         startActivity(new Intent(FormActivity.this, DeliveryActivity.class ));
 
     }

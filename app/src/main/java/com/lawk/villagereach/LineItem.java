@@ -13,5 +13,9 @@ public class LineItem {
     public int quantityAccepted;
     @SerializedName("quantityRejected")
     public int quantityRejected;
+    @SerializedName("rejectionReasonId")
+    public String rejectionReasonId;
+    @SerializedName("notes")
+    public String notes;
 
 }

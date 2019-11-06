@@ -43,6 +43,7 @@
     <string name="ViewForm">View Form</string>
     <string name="status_label">Order status:</string>
     <string name="program">Program:</string>
+    <string name="Status">Status</string>
 
 
 </resources>

@@ -16,4 +16,7 @@ public class ProofOfDelivery {
     public String deliveredBy;
     @SerializedName("id")
     public String id;
+    @SerializedName("receivedDate")
+    public String receivedDate;
+
 }
