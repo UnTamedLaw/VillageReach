@@ -2,6 +2,7 @@ package com.lawk.villagereach;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +21,7 @@ import com.google.gson.reflect.TypeToken;
 
 
 public class OrderRecyclerAdapter extends RecyclerView.Adapter<OrderRecyclerAdapter.ViewHolder> {
-
+    private static final String TAG = "Anu";
     private Context context;
     private ArrayList<Order> orderArrayList;
     private ArrayList<ProofOfDelivery> podArrayList;
@@ -36,6 +37,8 @@ public class OrderRecyclerAdapter extends RecyclerView.Adapter<OrderRecyclerAdap
     interface Listener {
         void onClick(String id);
     }
+
+
 
     public OrderRecyclerAdapter(Context context) {
         this.context = context;
@@ -117,14 +120,11 @@ public class OrderRecyclerAdapter extends RecyclerView.Adapter<OrderRecyclerAdap
         formClick.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (listener != null) {
-                    listener.onClick(currentOrder.id);
-                    Intent intent = new Intent(context, FormActivity.class);
-                    intent.putExtra("podId", currentPod.id);
-                    context.startActivity(intent);
-                    }
-
-                }
+                Log.i(TAG, "if listener is not null");
+                Intent intent = new Intent(context, FormActivity.class);
+                intent.putExtra("podId", currentPod.id);
+                context.startActivity(intent);
+            }
         });
 
     }
