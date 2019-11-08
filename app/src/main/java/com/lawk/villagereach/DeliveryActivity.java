@@ -38,12 +38,12 @@ public class DeliveryActivity extends AppCompatActivity {
         LinearLayoutManager manager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(manager);
 
-        String orderHashMapString = InternalStorageHandler.getInstance(this).readFile("orderMap");
+        String podHashMapString = InternalStorageHandler.getInstance(this).readFile("podMap");
         Gson gson = new Gson();
-        Type type = new TypeToken<HashMap<String, Order>>(){}.getType();
-        HashMap<String, Order> orderHashMap = gson.fromJson(orderHashMapString, type);
+        Type type = new TypeToken<HashMap<String, ProofOfDelivery>>(){}.getType();
+        HashMap<String, ProofOfDelivery> podHashMap = gson.fromJson(podHashMapString, type);
 
-        orderRecyclerAdapter = new OrderRecyclerAdapter(DeliveryActivity.this, orderHashMap);
+        orderRecyclerAdapter = new OrderRecyclerAdapter(DeliveryActivity.this);
         recyclerView.setAdapter(orderRecyclerAdapter);
         Button getDeliveries = findViewById(R.id.delivery);
         Button getSync = findViewById(R.id.sync);

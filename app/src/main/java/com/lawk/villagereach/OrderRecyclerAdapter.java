@@ -1,23 +1,32 @@
 package com.lawk.villagereach;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 
 public class OrderRecyclerAdapter extends RecyclerView.Adapter<OrderRecyclerAdapter.ViewHolder> {
 
     private Context context;
     private ArrayList<Order> orderArrayList;
+    private ArrayList<ProofOfDelivery> podArrayList;
     private HashMap<String, Order> orderHashMap;
+    private HashMap<String, ProofOfDelivery> podHashMap;
+    private HashMap<String, Shipment> shipmentHashMap;
     private Listener listener;
 
     public void setListener(Listener listener) {
@@ -25,14 +34,33 @@ public class OrderRecyclerAdapter extends RecyclerView.Adapter<OrderRecyclerAdap
     }
 
     interface Listener {
-        void onClick(int id);
+        void onClick(String id);
     }
 
-    public OrderRecyclerAdapter(Context context, HashMap<String, Order> orderHashMap) {
+    public OrderRecyclerAdapter(Context context) {
         this.context = context;
-        this.orderArrayList = new ArrayList<Order>(orderHashMap.values());
+
+
+        String orderHashMapString = InternalStorageHandler.getInstance(context).readFile("orderMap");
+        Gson gson = new Gson();
+        Type type = new TypeToken<HashMap<String, Order>>(){}.getType();
+        orderHashMap = gson.fromJson(orderHashMapString, type);
+
+        String podHashMapString = InternalStorageHandler.getInstance(context).readFile("podMap");
+        Type podType = new TypeToken<HashMap<String, ProofOfDelivery>>(){}.getType();
+        podHashMap = gson.fromJson(podHashMapString, podType);
+
+        String shipmentHashMapString = InternalStorageHandler.getInstance(context).readFile("shipmentMap");
+        Type shipmentType = new TypeToken<HashMap<String, Shipment>>(){}.getType();
+        shipmentHashMap = gson.fromJson(shipmentHashMapString, shipmentType);
+
         this.orderHashMap = orderHashMap;
+        this.orderArrayList = new ArrayList<Order>(orderHashMap.values());
+        this.podHashMap = podHashMap;
+        this.podArrayList = new ArrayList<ProofOfDelivery>(podHashMap.values());
+        this.shipmentHashMap = shipmentHashMap;
     }
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private CardView layout;
 
@@ -66,8 +94,12 @@ public class OrderRecyclerAdapter extends RecyclerView.Adapter<OrderRecyclerAdap
         TextView period = cardView.findViewById(R.id.period);
         TextView orderDate = cardView.findViewById(R.id.order_date);
         TextView emergency = cardView.findViewById(R.id.emergency);
+        Button formClick = cardView.findViewById(R.id.formClick);
 
-        Order currentOrder = orderArrayList.get(id);
+        final ProofOfDelivery currentPod = podArrayList.get(id);
+        final Shipment currentShipment = shipmentHashMap.get(currentPod.shipment.id);
+
+        final Order currentOrder = currentShipment.order;
 
         orderNumber.setText(currentOrder.orderCode);
         orderStatus.setText(currentOrder.status);
@@ -82,13 +114,18 @@ public class OrderRecyclerAdapter extends RecyclerView.Adapter<OrderRecyclerAdap
         orderDate.setText(currentOrder.createdDate);
         emergency.setText(currentOrder.emergency.toString());
 
-        cardView.setOnClickListener(new View.OnClickListener() {
+        formClick.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (listener != null) {
-                    listener.onClick(id);
+                    listener.onClick(currentOrder.id);
+                    Intent intent = new Intent(context, FormActivity.class);
+                    intent.putExtra("podId", currentPod.id);
+                    context.startActivity(intent);
+                    }
+
                 }
-            }
         });
+
     }
 }
