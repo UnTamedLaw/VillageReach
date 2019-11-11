@@ -1,6 +1,6 @@
 package com.lawk.villagereach;
 
 public interface SyncCallback {
-    void onSuccess(Order[] result);
+    void onSuccess();
     void onFailure(Exception error);
 }

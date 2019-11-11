@@ -41,14 +41,19 @@ public class MainActivity extends AppCompatActivity {
         String mymessage = myUserName + myPassword;
 
         InternalStorageHandler.getInstance(this);
+
+        final Intent intent = new Intent(this, DeliveryActivity.class);
+        intent.putExtra(MESSAGE_ID, mymessage);
         //test code this will log in a user as administrator and password and ignore the fields for
         //testing convinience. change this to login(myUserName,myPassword, this) later!
+
         Log.i(TAG,"MainActivity: BEGIN LOGIN PROCEDURE");
         Login.login("administrator", "password", this, new AuthCallback() {
             String test = "Test";
             @Override
             public void onSuccess() {
                 Log.i(TAG,"MainActivity: END LOGIN PROCEDURE: successfully logged in and maybe synced");
+                startActivityForResult(intent, RESULT_ID);
             }
             @Override
             public void onFailure(Exception error) {
@@ -58,9 +63,8 @@ public class MainActivity extends AppCompatActivity {
         });
         //test code
 
-        Intent intent = new Intent(this, DeliveryActivity.class);
-        intent.putExtra(MESSAGE_ID, mymessage);
-        startActivityForResult(intent, RESULT_ID);
+
+
 
     }
 
