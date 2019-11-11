@@ -1,6 +1,7 @@
 package com.lawk.villagereach;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -9,14 +10,20 @@ import android.widget.TextView;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 
 public class ProofOfDeliveryRecyclerAdaptor extends RecyclerView.Adapter<ProofOfDeliveryRecyclerAdaptor.ViewHolder>{
+    private static final String TAG = "myTracker";
 
     private Context context;
-    private ArrayList<ProofOfDelivery> podArrayList;
-    private HashMap<String, ProofOfDelivery> podHashMap;
+    private ProofOfDelivery currentPod;
+    private Shipment currentShipment;
+    private Order currentOrder;
+    private HashMap<String, Orderable> orderableHashMap;
     private Listener listener;
+    private ArrayList<LineItem> podLineItemArrayList;
 
     public void setListener(Listener listener) {
         this.listener = listener;
@@ -26,10 +33,14 @@ public class ProofOfDeliveryRecyclerAdaptor extends RecyclerView.Adapter<ProofOf
         void onClick(int id);
     }
 
-    public ProofOfDeliveryRecyclerAdaptor(Context context, HashMap<String, ProofOfDelivery> podHashMap) {
+    public ProofOfDeliveryRecyclerAdaptor(Context context, ProofOfDelivery currentPod, Shipment currentShipment, Order currentOrder, HashMap<String, Orderable> orderableHashMap) {
         this.context = context;
-        this.podArrayList = new ArrayList<ProofOfDelivery>(podHashMap.values());
-        this.podHashMap = podHashMap;
+        this.currentPod = currentPod;
+        this.currentShipment = currentShipment;
+        this.currentOrder = currentOrder;
+        this.orderableHashMap = orderableHashMap;
+        this.podLineItemArrayList = new ArrayList<LineItem>();
+        Collections.addAll(this.podLineItemArrayList, currentPod.lineItems);
     }
 
 
@@ -44,7 +55,7 @@ public class ProofOfDeliveryRecyclerAdaptor extends RecyclerView.Adapter<ProofOf
 
     @Override
     public int getItemCount() {
-        return podArrayList.size();
+        return podLineItemArrayList.size();
     }
 
     @Override
@@ -69,16 +80,30 @@ public class ProofOfDeliveryRecyclerAdaptor extends RecyclerView.Adapter<ProofOf
         //Spinner rejectionReason = cardView.findViewById(R.id.dynamic_spinner_for_rejection_reason);
         EditText notes = cardView.findViewById(R.id.notes);
 
-        ProofOfDelivery pod = podArrayList.get(id);
+        //get line item for this card from the arrayList (arbitrary order)
+        LineItem currentPodLineItem = podLineItemArrayList.get(id);
+        //get an array of lineitems from the current shipment;
+        LineItem[] shipmentLineItemArray = currentShipment.lineItems;
+        Orderable currentOrderable = orderableHashMap.get(currentPodLineItem.orderable.id);
+        LineItem currentShipmentLineItem;
+        //the purpose of this for loop is to search for a line item inside shipmentlineitems that
+        //uses the same orderable id as the current podlineitem that this cards based off of.
+        for (LineItem currentLineItem : shipmentLineItemArray) {
+            if (currentLineItem.orderable.id.equals(currentOrderable.id)) {
+                currentShipmentLineItem = currentLineItem;
+                quantityShipped.setText(Integer.toString(currentShipmentLineItem.quantityShipped));
+            }
+        }
 
-        productName.setText("t");
-        productUnit.setText("t");
-        quantityOrdered.setText("t");
-        quantityShipped.setText("5");
-        lotCode.setText("5");
-        quantityAccepted.setText("4");
-        quantityReturned.setText("3");
-        notes.setText("g");
+        productName.setText(currentOrderable.fullProductName);
+        productUnit.setText("unit");
+        //quantity ordered comes from order line items 
+        quantityOrdered.setText("q ordered");
+
+        lotCode.setText("this is left blank intentionally");
+        quantityAccepted.setText(Integer.toString(currentPodLineItem.quantityAccepted));
+        quantityReturned.setText(Integer.toString(currentPodLineItem.quantityRejected));
+        notes.setText(currentPodLineItem.notes);
 
     }
 }
