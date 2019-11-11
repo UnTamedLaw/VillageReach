@@ -109,7 +109,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
 
                 try {
 
-                    if (Networking.isConnected(getBaseContext())) {
+                    if (NetworkingTest.isConnected(getBaseContext())) {
                         //Auth.authenticate(creds, getBaseContext());
 
                     }
