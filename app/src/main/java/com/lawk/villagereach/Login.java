@@ -34,10 +34,11 @@ public class Login {
                 @Override
                 public void onFailure(Exception error) {
                     Log.i(TAG, "Login: an unspecified error occurred");
-                    if (error instanceof AuthFailureError) {
-                        //rejected by server so passing an authfailure thru callback
-                        callback.onFailure(new AuthFailureError());
-                    }
+                    callback.onFailure(error);
+//                    if (error instanceof AuthFailureError) {
+//                            //rejected by server so passing an authfailure thru callback
+//                            callback.onFailure(new AuthFailureError());
+//                    }
                 }
             });
         } else {

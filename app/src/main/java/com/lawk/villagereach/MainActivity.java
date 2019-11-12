@@ -12,6 +12,8 @@ import java.util.ArrayList;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.android.volley.ClientError;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -48,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         //testing convinience. change this to login(myUserName,myPassword, this) later!
 
         Log.i(TAG,"MainActivity: BEGIN LOGIN PROCEDURE");
-        Login.login("administrator", "password", this, new AuthCallback() {
+        Login.login("administrator", "password1", this, new AuthCallback() {
             @Override
             public void onSuccess() {
                 Log.i(TAG,"MainActivity: END LOGIN PROCEDURE: successfully logged in and maybe synced");
@@ -57,6 +59,19 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFailure(Exception error) {
                 Log.i(TAG, "MainActivity: END LOGIN PROCEDURE: something went wrong");
+                if(error instanceof ClientError){
+                    Log.i(TAG,"Client Error");
+                    ClientError newError = (ClientError)error;
+                    int responseCode = newError.networkResponse.statusCode;
+                    Log.i(TAG,"Status Code:" + Integer.toString(responseCode));
+                    if (responseCode == 400) {
+                        Log.i(TAG,"Wrong Credentials");
+                        Toast wrongCredentialsToast = Toast.makeText(getApplicationContext(),"Wrong credentials", Toast.LENGTH_SHORT);
+                        wrongCredentialsToast.show();
+                    }
+
+
+                }
                 //code like if (error instanceof ExceptionType) should go here to make the UI react to any errors
             }
         });
