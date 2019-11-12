@@ -26,17 +26,17 @@
             android:layout_height="wrap_content"
             android:text="product name here" />
 
-        <TextView
-            android:id="@+id/product_unit_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/product_unit_label"
-            android:textStyle="bold" />
-        <TextView
-            android:id="@+id/product_unit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="product unit" />
+<!--        <TextView-->
+<!--            android:id="@+id/product_unit_label"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/product_unit_label"-->
+<!--            android:textStyle="bold" />-->
+<!--        <TextView-->
+<!--            android:id="@+id/product_unit"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="product unit" />-->
 
         <TextView
             android:id="@+id/quantity_ordered_label"
@@ -62,17 +62,17 @@
             android:layout_height="wrap_content"
             android:text="quantity shipped" />
 
-        <TextView
-            android:id="@+id/lot_code_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:text="@string/lot_code" />
-        <TextView
-            android:id="@+id/lot_code"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="lot code" />
+<!--        <TextView-->
+<!--            android:id="@+id/lot_code_label"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:textStyle="bold"-->
+<!--            android:text="@string/lot_code" />-->
+<!--        <TextView-->
+<!--            android:id="@+id/lot_code"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="lot code" />-->
 
         <TextView
             android:id="@+id/quantity_accepted_label"
@@ -110,11 +110,11 @@
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:text="@string/rejection_reason_label" />
-<!--        <Spinner-->
-<!--            android:id="@+id/dynamic_spinner_for_rejection_reason"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:textStyle="bold" />-->
+        <Spinner
+            android:id="@+id/rejection_reason"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/notes_label"

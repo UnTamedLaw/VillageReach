@@ -68,6 +68,7 @@ public class FormActivity extends AppCompatActivity {
         podRecyclerAdapter = new ProofOfDeliveryRecyclerAdaptor(FormActivity.this, currentPod, currentShipment, currentOrder, orderableHashMap);
         recyclerView.setAdapter(podRecyclerAdapter);
 
+
 //    //adding spinner for the dropdown for rejection reason
 //        //two are needed, static and dynamic
 //
