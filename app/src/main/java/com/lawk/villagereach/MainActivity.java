@@ -7,13 +7,10 @@ import android.view.View;
 import android.widget.EditText;
 import android.util.Log;
 import android.widget.Toast;
-
-import java.net.ConnectException;
 import java.util.ArrayList;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.android.volley.ClientError;
+import com.android.volley.NoConnectionError;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -70,11 +67,15 @@ public class MainActivity extends AppCompatActivity {
                         Toast wrongCredentialsToast = Toast.makeText(getApplicationContext(),"Invalid Login Credentials", Toast.LENGTH_SHORT);
                         wrongCredentialsToast.show();
                     }
+                }else if(error instanceof NoConnectionError) {
+                    Log.i(TAG, "Connection to server failed");
+                    Toast noConnectionErrorToast = Toast.makeText(getApplicationContext(),"Connection to server failed", Toast.LENGTH_SHORT);
+                    noConnectionErrorToast.show();
                 }
                 if (error.getMessage().equals("offLineLoginFail")){
                     Log.i(TAG, "offLineLoginFail");
-                    Toast offLineLoginFail = Toast.makeText(getApplicationContext(),"Offline Login Failed", Toast.LENGTH_SHORT);
-                    offLineLoginFail.show();
+                    Toast offLineLoginFailToast = Toast.makeText(getApplicationContext(),"Offline Login Failed", Toast.LENGTH_SHORT);
+                    offLineLoginFailToast.show();
                 }
             }
         });
