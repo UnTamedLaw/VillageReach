@@ -8,9 +8,12 @@ import android.widget.EditText;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.net.ConnectException;
 import java.util.ArrayList;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.android.volley.ClientError;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -57,7 +60,22 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFailure(Exception error) {
                 Log.i(TAG, "MainActivity: END LOGIN PROCEDURE: something went wrong");
-                //code like if (error instanceof ExceptionType) should go here to make the UI react to any errors
+                if(error instanceof ClientError){
+                    Log.i(TAG,"Client Error");
+                    ClientError newError = (ClientError)error;
+                    int responseCode = newError.networkResponse.statusCode;
+                    Log.i(TAG,"Status Code:" + Integer.toString(responseCode));
+                    if (responseCode == 400) {
+                        Log.i(TAG,"Wrong Credentials");
+                        Toast wrongCredentialsToast = Toast.makeText(getApplicationContext(),"Invalid Login Credentials", Toast.LENGTH_SHORT);
+                        wrongCredentialsToast.show();
+                    }
+                }
+                if (error.getMessage().equals("offLineLoginFail")){
+                    Log.i(TAG, "offLineLoginFail");
+                    Toast offLineLoginFail = Toast.makeText(getApplicationContext(),"Offline Login Failed", Toast.LENGTH_SHORT);
+                    offLineLoginFail.show();
+                }
             }
         });
         //test code
