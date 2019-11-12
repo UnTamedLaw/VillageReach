@@ -69,6 +69,7 @@
                 android:id="@+id/delivered_by_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:padding="6dp"
                 android:text="@string/delivered_by_label"
                 android:textStyle="bold" />
 
@@ -78,7 +79,7 @@
                 android:layout_height="40dp"
                 android:padding="6dp"
                 android:background="@drawable/shape"
-                android:hint="@string/sign"
+                android:hint= "@string/sign"
                 android:inputType="text"
                 android:textStyle="bold" />
 
@@ -86,6 +87,7 @@
                 android:id="@+id/received_by_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:padding="6dp"
                 android:text="@string/received_by_label"
                 android:textStyle="bold" />
 

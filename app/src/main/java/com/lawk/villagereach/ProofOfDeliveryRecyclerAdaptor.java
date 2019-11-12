@@ -13,7 +13,6 @@ import android.widget.TextView;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 
@@ -83,12 +82,23 @@ public class ProofOfDeliveryRecyclerAdaptor extends RecyclerView.Adapter<ProofOf
 //        TextView lotCode = cardView.findViewById(R.id.lot_code);
         EditText quantityAccepted = cardView.findViewById(R.id.quantity_accepted);
         TextView quantityReturned = cardView.findViewById(R.id.quantity_rejected);
-        //Spinner rejectionReason = cardView.findViewById(R.id.dynamic_spinner_for_rejection_reason);
-//        Spinner spinner = cardView.findViewById(R.id.rejection_reason);
-//        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(context, R.array.rejection_reason, android.R.layout.simple_spinner_item);
-//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//        spinner.setAdapter(adapter);
-//        spinner.setOnItemSelectedListener(this);
+        final Spinner reasonRejected = cardView.findViewById(R.id.rejection_reason);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(context, R.array.rejection_reason, android.R.layout.simple_spinner_item);
+        reasonRejected.setAdapter(adapter);
+        reasonRejected.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view,
+                                       int position, long id) {
+                Log.v("item", (String) parent.getItemAtPosition(position));
+                String item = parent.getItemAtPosition(position).toString();
+                rejectionReason = item;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // empty
+            }
+        });
         EditText notes = cardView.findViewById(R.id.notes);
 
         //get line item for this card from the arrayList (arbitrary order)
@@ -107,9 +117,10 @@ public class ProofOfDeliveryRecyclerAdaptor extends RecyclerView.Adapter<ProofOf
         }
 
         productName.setText(currentOrderable.fullProductName);
-//        productUnit.setText("unit");
-        //quantity ordered comes from order line items 
-        quantityOrdered.setText("q ordered");
+//        productUnit.setText("this is left blank intentionally")
+
+//        quantity ordered comes from order line items
+//        quantityOrdered.setText("");
 
 //        lotCode.setText("this is left blank intentionally");
         quantityAccepted.setText(Integer.toString(currentPodLineItem.quantityAccepted));
@@ -118,16 +129,4 @@ public class ProofOfDeliveryRecyclerAdaptor extends RecyclerView.Adapter<ProofOf
 
 
     }
-//    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//        // On selecting a spinner item
-//        String item = parent.getItemAtPosition(position).toString();
-//
-//        rejectionReason = item;
-//
-//    }
-//
-//    public void onNothingSelected(AdapterView<?> parent) {
-//        Log.i(TAG, "Nothing selected in spinner ...");
-//    }
-
 }
