@@ -8,6 +8,7 @@ import android.widget.EditText;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.net.ConnectException;
 import java.util.ArrayList;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -50,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         //testing convinience. change this to login(myUserName,myPassword, this) later!
 
         Log.i(TAG,"MainActivity: BEGIN LOGIN PROCEDURE");
-        Login.login("administrator", "password1", this, new AuthCallback() {
+        Login.login("administrator", "password", this, new AuthCallback() {
             @Override
             public void onSuccess() {
                 Log.i(TAG,"MainActivity: END LOGIN PROCEDURE: successfully logged in and maybe synced");
@@ -66,13 +67,15 @@ public class MainActivity extends AppCompatActivity {
                     Log.i(TAG,"Status Code:" + Integer.toString(responseCode));
                     if (responseCode == 400) {
                         Log.i(TAG,"Wrong Credentials");
-                        Toast wrongCredentialsToast = Toast.makeText(getApplicationContext(),"Wrong credentials", Toast.LENGTH_SHORT);
+                        Toast wrongCredentialsToast = Toast.makeText(getApplicationContext(),"Invalid Login Credentials", Toast.LENGTH_SHORT);
                         wrongCredentialsToast.show();
                     }
-
-
                 }
-                //code like if (error instanceof ExceptionType) should go here to make the UI react to any errors
+                if (error.getMessage().equals("offLineLoginFail")){
+                    Log.i(TAG, "offLineLoginFail");
+                    Toast offLineLoginFail = Toast.makeText(getApplicationContext(),"Offline Login Failed", Toast.LENGTH_SHORT);
+                    offLineLoginFail.show();
+                }
             }
         });
         //test code

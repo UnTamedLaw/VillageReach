@@ -8,6 +8,8 @@ import com.android.volley.VolleyError;
 
 import org.json.JSONObject;
 
+import java.net.ConnectException;
+
 public class Login {
 
     private static final String TAG = "myTracker";
@@ -48,7 +50,7 @@ public class Login {
                 callback.onSuccess();
             } else {
                 //doesn't match so passing an authfailure thru callback
-                callback.onFailure(new AuthFailureError());
+                callback.onFailure(new Exception("offLineLoginFail"));
             }
         }
     }
@@ -57,6 +59,6 @@ public class Login {
         //get correct creds from storage
         //compare
         //return true if same
-        return true;
+        return false;
     }
 }
