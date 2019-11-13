@@ -106,4 +106,34 @@ public class NetworkingTest {
         };
         NetworkingTest.getInstance(context).addToRequestQueue(dataRequest);
     }
+    public static void putRequest(final String token, String url, Context context, final StringCallback callback) {
+        JSONObject json = new JSONObject();
+
+        StringRequest dataRequest = new StringRequest(Request.Method.PUT, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                callback.onSuccess(response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<String, String>();
+                headers.put("Authorization", token);
+                headers.put("content-type", "application/json; charset=utf-8");
+                return headers;
+            }
+            @Override
+            public String getBodyContentType() {
+                return "application/json; charset=utf-8";
+            }
+
+        };
+        NetworkingTest.getInstance(context).addToRequestQueue(dataRequest);
+    }
 }
