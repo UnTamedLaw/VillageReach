@@ -52,4 +52,28 @@ public class Auth {
         });
 
     }
+
+    public static void authenticateAM(Credentials creds,final Context context, final AuthCallbackAM callback) {
+        NetworkingTest.tokenFromServer(creds, context, new VolleyCallback() {
+            @Override
+            public void onSuccess(JSONObject result) {
+                try {
+                    String access_token = result.getString("access_token");
+                    String token = "bearer " + access_token;
+                    Log.i(TAG,"Auth: now pushing this token to storage:" + token);
+                    InternalStorageHandler.getInstance(context).writeToFile(token, "token");
+                    callback.onSuccess(token);
+                } catch(JSONException e) {
+                    Log.e(TAG,"Auth: I can't parse this Json");
+                    //if this fails, there's something wrong with the server.
+                }
+            }
+            @Override
+            public void onFailure(VolleyError error) {
+                Log.i(TAG, "Auth: response code: " + Integer.toString(error.networkResponse.statusCode));
+                callback.onFailure(error);
+            }
+        });
+
+    }
 }

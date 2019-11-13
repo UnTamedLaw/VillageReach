@@ -41,13 +41,14 @@ public class VillageReachAuthenticator extends AbstractAccountAuthenticator {
     }
 
     @Override
-    public Bundle getAuthToken(AccountAuthenticatorResponse response, Account account, String authTokenType, Bundle options) throws NetworkErrorException {
+    public Bundle getAuthToken(final AccountAuthenticatorResponse response, final Account account, String authTokenType, Bundle options) throws NetworkErrorException {
 
         Log.i(TAG," > Get Auth Token ");
 
+        final Bundle result = new Bundle();
+
         //check to make sure auth token type matches the type in AccountUtil.
         if (!authTokenType.equals(AccountUtil.AUTH_TOKEN_TYPE)){
-            final Bundle result = new Bundle();
             result.putString(AccountManager.KEY_ERROR_MESSAGE, "invalid authTokenType");
             return result;
         }
@@ -66,13 +67,25 @@ public class VillageReachAuthenticator extends AbstractAccountAuthenticator {
             if (password != null) {
                 try {
                     Log.i(TAG, "> re-auth with the existing password");
-                    //authToken = "TestToken";
                     // here is where we will call our actual Auth Service
                     Credentials credentials = new Credentials(account.name, password, account.type);
-                    //Auth.authenticate(credentials, context, new AuthCallback() {
-                        //@Override
-                        //onSuccess();
-                    //});
+                    Auth.authenticateAM(credentials, context, new AuthCallbackAM() {
+                        @Override
+                        public void onSuccess(String token) {
+                            String authToken = token;
+                            result.putString(AccountManager.KEY_ACCOUNT_NAME, account.name);
+                            result.putString(AccountManager.KEY_ACCOUNT_TYPE, account.type);
+                            result.putString(AccountManager.KEY_AUTHTOKEN, authToken);
+                            response.onResult(result);
+                        }
+                        @Override
+                        public  void onFailure(Exception e) {
+                            Log.i(TAG, e.getLocalizedMessage());
+                            result.putInt(AccountManager.KEY_ERROR_CODE, e.hashCode());
+                            result.putString(AccountManager.KEY_ERROR_MESSAGE, e.getMessage());
+                            response.onError(e.hashCode(), e.getMessage());
+                        }
+                    });
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -90,7 +103,6 @@ public class VillageReachAuthenticator extends AbstractAccountAuthenticator {
         *
         */
         if (!TextUtils.isEmpty(authToken)) {
-            final Bundle result = new Bundle();
             result.putString(AccountManager.KEY_ACCOUNT_NAME, account.name);
             result.putString(AccountManager.KEY_ACCOUNT_TYPE, account.type);
             result.putString(AccountManager.KEY_AUTHTOKEN, authToken);
