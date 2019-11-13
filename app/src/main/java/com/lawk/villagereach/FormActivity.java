@@ -5,7 +5,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
@@ -56,6 +59,13 @@ public class FormActivity extends AppCompatActivity {
 
         podRecyclerAdapter = new ProofOfDeliveryRecyclerAdaptor(FormActivity.this, currentPod, currentShipment, currentOrder, orderableHashMap);
         recyclerView.setAdapter(podRecyclerAdapter);
+
+        Button submitButton = findViewById(R.id.submit);
+        Button saveFormButton = findViewById(R.id.saveForm);
+        if (currentPod.status.equals("CONFIRMED")) {
+            submitButton.setEnabled(false);
+            saveFormButton.setEnabled(false);
+        }
     }
 
 
