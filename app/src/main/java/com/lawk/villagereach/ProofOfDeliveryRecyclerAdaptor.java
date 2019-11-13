@@ -107,6 +107,7 @@ public class ProofOfDeliveryRecyclerAdaptor extends RecyclerView.Adapter<ProofOf
         LineItem[] shipmentLineItemArray = currentShipment.lineItems;
         Orderable currentOrderable = orderableHashMap.get(currentPodLineItem.orderable.id);
         LineItem currentShipmentLineItem;
+        LineItem currentOrderLineItem;
         //the purpose of this for loop is to search for a line item inside shipmentlineitems that
         //uses the same orderable id as the current podlineitem that this cards based off of.
         for (LineItem currentLineItem : shipmentLineItemArray) {
@@ -114,6 +115,15 @@ public class ProofOfDeliveryRecyclerAdaptor extends RecyclerView.Adapter<ProofOf
                 currentShipmentLineItem = currentLineItem;
                 quantityShipped.setText(Integer.toString(currentShipmentLineItem.quantityShipped));
             }
+        }
+
+        LineItem[] orderLineItemArray = currentOrder.orderLineItems;
+        for (LineItem currentLineItem : orderLineItemArray) {
+            if (currentLineItem.orderable.id.equals(currentOrderable.id)) {
+                currentOrderLineItem = currentLineItem;
+                quantityOrdered.setText(Integer.toString(currentOrderLineItem.orderedQuantity));
+            }
+
         }
 
         productName.setText(currentOrderable.fullProductName);
