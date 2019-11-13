@@ -136,26 +136,29 @@ public class Sync {
     }
 
     public static void sendDrafts(Context context, String token, final StringCallback callback) {
-        //check to see if requestMap exists if it does then do this
-        String url = "https://test.openlmis.org/api/proofsOfDelivery/";
-        NetworkingTest.putRequest(token, url, context, new StringCallback() {
-                    @Override
-                    public void onSuccess(String result) {
-                        Log.i(TAG, "draft sent");
-                        callback.onSuccess("done");
-                    }
+        String requestMapString;
+        if(InternalStorageHandler.getInstance(context).readFile("requestMap")  != null) {
+            requestMapString = InternalStorageHandler.getInstance(context).readFile("requestMap");
+            String url = "https://test.openlmis.org/api/proofsOfDelivery/";
+            NetworkingTest.putRequest(token, url, requestMapString, context, new StringCallback() {
+                @Override
+                public void onSuccess(String result) {
+                    Log.i(TAG, "draft sent");
+                    callback.onSuccess("done");
+                }
 
-                    @Override
-                    public void onFailure(VolleyError error) {
-                        Log.i(TAG, "bad request");
-                        callback.onFailure(error);
-                    }
-                });
-        //network request with callback
-        //on success
-        //callback.onSuccess()
+                @Override
+                public void onFailure(VolleyError error) {
+                    Log.i(TAG, "bad request");
+                    callback.onFailure(error);
+                }
+            });
 
-        //else ( callback.onSuccess("done");
+
+        } else {
+            callback.onSuccess("done");
+        }
+
 
 
     }
