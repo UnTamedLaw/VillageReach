@@ -140,6 +140,7 @@ public class Sync {
         if(InternalStorageHandler.getInstance(context).readFile("requestMap")  != null) {
             requestMapString = InternalStorageHandler.getInstance(context).readFile("requestMap");
             String url = "https://test.openlmis.org/api/proofsOfDelivery/";
+
             NetworkingTest.putRequest(token, url, requestMapString, context, new StringCallback() {
                 @Override
                 public void onSuccess(String result) {
