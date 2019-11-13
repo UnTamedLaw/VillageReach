@@ -2,6 +2,7 @@ package com.lawk.villagereach;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -127,5 +128,8 @@ public class OrderRecyclerAdapter extends RecyclerView.Adapter<OrderRecyclerAdap
             }
         });
 
+        if (currentPod.status.equals("CONFIRMED")) {
+            cardView.setCardBackgroundColor(Color.GRAY);
+        }
     }
 }
