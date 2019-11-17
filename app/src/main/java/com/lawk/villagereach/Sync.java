@@ -8,7 +8,11 @@ import android.util.Log;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -41,6 +45,7 @@ public class Sync {
                         Log.i(TAG, "Sync: syncing begins");
                         //make a map from all the pods gotten from inside the result (in content)
                         final ProofsOfDeliveryContent allPods = gson.fromJson(result, ProofsOfDeliveryContent.class);
+
                         HashMap<String, ProofOfDelivery> podMap = new HashMap<>();
                         Set<String> orderableIdSet = new HashSet<>();
                         for (ProofOfDelivery currentPod : allPods.content) {
@@ -136,24 +141,38 @@ public class Sync {
     }
 
     public static void sendDrafts(Context context, String token, final StringCallback callback) {
+        final Gson gson = new Gson();
         String requestMapString;
-        if(InternalStorageHandler.getInstance(context).readFile("requestMap")  != null) {
+        File f = new File("/data/data/com.lawk.villagereach/files/requestMap");
+
+        if( f.exists()) {
             requestMapString = InternalStorageHandler.getInstance(context).readFile("requestMap");
-            String url = "https://test.openlmis.org/api/proofsOfDelivery/";
+            Type requestMapType = new TypeToken<HashMap<String, Request>>(){}.getType();
+            HashMap<String, Request> requestHashMap = gson.fromJson(requestMapString, requestMapType);
+            int numberOfRequestsToMake = requestHashMap.size();
+            final CountDownLatch countDownLatch2 = new CountDownLatch(numberOfRequestsToMake);
 
-            NetworkingTest.putRequest(token, url, requestMapString, context, new StringCallback() {
-                @Override
-                public void onSuccess(String result) {
-                    Log.i(TAG, "draft sent");
-                    callback.onSuccess("done");
-                }
+            for (String currentRequestID : requestHashMap.keySet()){
+                String url = "https://test.openlmis.org/api/proofsOfDelivery/" + currentRequestID;
+                NetworkingTest.putRequest(token,url, requestMapString, context, new StringCallback() {
+                    @Override
+                    public void onSuccess(String result) {
+                        Log.i(TAG, "draft sent");
+                        callback.onSuccess("done");
+                        countDownLatch2.countDown();
+                    }
 
-                @Override
-                public void onFailure(VolleyError error) {
-                    Log.i(TAG, "bad request");
-                    callback.onFailure(error);
-                }
-            });
+                    @Override
+                    public void onFailure(VolleyError error) {
+                        Log.i(TAG, "bad request");
+                        callback.onFailure(error);
+                        countDownLatch2.countDown();
+                    }
+                });
+
+            }
+
+
 
 
         } else {

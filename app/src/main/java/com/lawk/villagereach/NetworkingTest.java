@@ -106,7 +106,7 @@ public class NetworkingTest {
         };
         NetworkingTest.getInstance(context).addToRequestQueue(dataRequest);
     }
-    public static void putRequest(final String token, String url, Context context, final StringCallback callback) {
+    public static void putRequest(final String token, String url, String requestMap, Context context, final StringCallback callback) {
         JSONObject json = new JSONObject();
 
         StringRequest dataRequest = new StringRequest(Request.Method.PUT, url, new Response.Listener<String>() {
