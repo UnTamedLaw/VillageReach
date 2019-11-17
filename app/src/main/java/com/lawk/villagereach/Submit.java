@@ -9,8 +9,8 @@ import com.google.gson.Gson;
 public class Submit {
     private static final String TAG= "myTracker";
 
-    public static void submit(){
- //write changes to  internal storage handler
+    public void submit( Context context, Request request){
+        InternalStorageHandler.getInstance(context).writeRequestToFile(request);
 
     }
 }
