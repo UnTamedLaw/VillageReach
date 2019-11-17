@@ -12,6 +12,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
 
 import org.json.JSONObject;
 
@@ -106,8 +107,9 @@ public class NetworkingTest {
         };
         NetworkingTest.getInstance(context).addToRequestQueue(dataRequest);
     }
-    public static void putRequest(final String token, String url, final com.lawk.villagereach.Request value, Context context, final StringCallback callback) {
-
+    public static void putRequest(final String token, String url, com.lawk.villagereach.Request value, Context context, final StringCallback callback) {
+        Gson gson = new Gson();
+        final String json = gson.toJson(value);
         StringRequest dataRequest = new StringRequest(Request.Method.PUT, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -135,7 +137,7 @@ public class NetworkingTest {
             @Override
             public byte[] getBody() throws AuthFailureError {
 
-                return value.toString().getBytes();
+                return json.getBytes();
 
             }
 
