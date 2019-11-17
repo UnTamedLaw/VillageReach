@@ -106,8 +106,7 @@ public class NetworkingTest {
         };
         NetworkingTest.getInstance(context).addToRequestQueue(dataRequest);
     }
-    public static void putRequest(final String token, String url, final String requestMap, Context context, final StringCallback callback) {
-        JSONObject json = new JSONObject();
+    public static void putRequest(final String token, String url, final com.lawk.villagereach.Request value, Context context, final StringCallback callback) {
 
         StringRequest dataRequest = new StringRequest(Request.Method.PUT, url, new Response.Listener<String>() {
             @Override
@@ -136,7 +135,7 @@ public class NetworkingTest {
             @Override
             public byte[] getBody() throws AuthFailureError {
 
-                return requestMap.toString().getBytes();
+                return value.toString().getBytes();
 
             }
 
