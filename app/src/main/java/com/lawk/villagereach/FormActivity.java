@@ -8,11 +8,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.HashMap;
+import java.util.Set;
 
 public class FormActivity extends AppCompatActivity {
     public static final String EXTRA_MESSAGE = "message";
@@ -20,12 +20,13 @@ public class FormActivity extends AppCompatActivity {
     private static String RESULT = "DeliveryResponse";
     private RecyclerView recyclerView;
     private ProofOfDeliveryRecyclerAdaptor podRecyclerAdapter;
-    private static final String TAG = "Second Activity Button";
+    private static final String TAG = "SubmitTracker";
 
     private ProofOfDelivery currentPod;
     private Shipment currentShipment;
     private Order currentOrder;
     private HashMap<String, Orderable> orderableHashMap;
+    private HashMap<String, FormActivityLineItemEditable> formData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +58,7 @@ public class FormActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(manager);
 
 
-        podRecyclerAdapter = new ProofOfDeliveryRecyclerAdaptor(FormActivity.this, currentPod, currentShipment, currentOrder, orderableHashMap);
+        podRecyclerAdapter = new ProofOfDeliveryRecyclerAdaptor(FormActivity.this, currentPod, currentShipment, currentOrder, orderableHashMap, formData);
         recyclerView.setAdapter(podRecyclerAdapter);
 
         Button submitButton = findViewById(R.id.submit);
@@ -74,7 +75,12 @@ public class FormActivity extends AppCompatActivity {
         //clicking submit on a completed POD will move this particular POD to a completed folder
         //in the internal storage where it will wait for sync. and available internet connection.
 
+        HashMap<String, FormActivityLineItemEditable> formData = podRecyclerAdapter.formData;
+        //Set keys = formData.keySet();
+
+        Log.i(TAG, "quantityAccepted" + ": " + formData.get("quantityAccepted"));
         startActivity(new Intent(FormActivity.this, DeliveryActivity.class ));
+
 
     }
 }
