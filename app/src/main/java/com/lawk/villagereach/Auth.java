@@ -46,7 +46,7 @@ public class Auth {
             }
             @Override
             public void onFailure(VolleyError error) {
-                Log.i(TAG, "Auth: response code: " + Integer.toString(error.networkResponse.statusCode));
+//                Log.i(TAG, "Auth: response code: " + Integer.toString(error.networkResponse.statusCode));
                 callback.onFailure(error);
             }
         });

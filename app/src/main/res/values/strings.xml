@@ -39,9 +39,9 @@
         <item>Cold chain failure</item>
     </string-array>
 
-    <string name="delivered_by_label">Delivered by</string>
-    <string name="received_by_label">Received by</string>
-    <string name="sign">Sign   </string>
+    <string name="delivered_by_label">Delivered by:</string>
+    <string name="received_by_label">Received by:</string>
+    <string name="sign">Sign here</string>
     <string name="ViewForm">View Form</string>
     <string name="status_label">Order status:</string>
     <string name="program">Program:</string>
