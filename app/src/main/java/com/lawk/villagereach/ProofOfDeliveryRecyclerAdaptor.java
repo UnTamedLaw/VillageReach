@@ -29,7 +29,7 @@ public class ProofOfDeliveryRecyclerAdaptor extends RecyclerView.Adapter<ProofOf
     private Listener listener;
     private ArrayList<LineItem> podLineItemArrayList;
     private String rejectionReason;
-    public HashMap<String, FormActivityLineItemEditable> formData;
+    public HashMap<String, String> formData;
 
     public void setListener(Listener listener) {
         this.listener = listener;
@@ -39,7 +39,7 @@ public class ProofOfDeliveryRecyclerAdaptor extends RecyclerView.Adapter<ProofOf
         void onClick(int id);
     }
 
-    public ProofOfDeliveryRecyclerAdaptor(Context context, ProofOfDelivery currentPod, Shipment currentShipment, Order currentOrder, HashMap<String, Orderable> orderableHashMap, HashMap<String, FormActivityLineItemEditable> formData) {
+    public ProofOfDeliveryRecyclerAdaptor(Context context, ProofOfDelivery currentPod, Shipment currentShipment, Order currentOrder, HashMap<String, Orderable> orderableHashMap, HashMap<String, String> formData) {
         this.context = context;
         this.currentPod = currentPod;
         this.currentShipment = currentShipment;
@@ -93,7 +93,7 @@ public class ProofOfDeliveryRecyclerAdaptor extends RecyclerView.Adapter<ProofOf
             @Override
             public void onItemSelected(AdapterView<?> parent, View view,
                                        int position, long id) {
-                Log.v(TAG, (String) parent.getItemAtPosition(position));
+                Log.i(TAG, (String) parent.getItemAtPosition(position));
                 String item = parent.getItemAtPosition(position).toString();
                 rejectionReason = item;
             }
@@ -138,14 +138,20 @@ public class ProofOfDeliveryRecyclerAdaptor extends RecyclerView.Adapter<ProofOf
 //        lotCode.setText("this is left blank intentionally");
         quantityAccepted.setText(Integer.toString(currentPodLineItem.quantityAccepted));
         quantityReturned.setText(Integer.toString(currentPodLineItem.quantityRejected));
-        notes.setText(currentPodLineItem.notes);
+
+        //notes.setText(currentPodLineItem.notes);
 
 
         FormActivityLineItemEditable fields = new FormActivityLineItemEditable(currentPodLineItem.quantityAccepted, currentPodLineItem.quantityRejected, currentPodLineItem.rejectionReasonId, currentPodLineItem.notes);
+        fields.setRejectionReason(rejectionReason);
         //formData.put(currentPodLineItem.id, fields); //not sure if this is right
         quantityAccepted.addTextChangedListener(new LineItemEditTextListener(fields, "quantityAccepted"));
         quantityReturned.addTextChangedListener(new LineItemEditTextListener(fields, "quantityRejected"));
         notes.addTextChangedListener(new LineItemEditTextListener(fields, "notes"));
+
+        //formData.put("quantityAccepted", rejectionReason);
+        //Log.i(TAG, "formdata" + formData.keySet());
+
 
     }
 
@@ -157,6 +163,7 @@ public class ProofOfDeliveryRecyclerAdaptor extends RecyclerView.Adapter<ProofOf
             this.currentLineItem = currentLineItem;
             this.field = field;
         }
+
         @Override
         public void beforeTextChanged(CharSequence charSequence, int start, int count, int after) {
 
@@ -168,7 +175,7 @@ public class ProofOfDeliveryRecyclerAdaptor extends RecyclerView.Adapter<ProofOf
             if (charSequence.length() > 0 && charSequence.length() < MAX_DIGITS) {
                 //needs more validation. should check if quantityaccepted is greater than quantityreceived
                 if (field.equals("quantityAccepted")) {
-                    Log.i(TAG, charSequence.toString());
+                    Log.i(TAG, "qa " + charSequence.toString());
                     currentLineItem.setQuantityAccepted(Integer.parseInt(charSequence.toString()));
                 } else if (field.equals("quantityRejected")) {
                     currentLineItem.setQuantityRejected(Integer.parseInt(charSequence.toString()));
