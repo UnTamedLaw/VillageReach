@@ -11,6 +11,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.text.TextUtils;
 
+import com.android.volley.VolleyError;
+
 
 public class VillageReachAuthenticator extends AbstractAccountAuthenticator {
 
@@ -77,12 +79,14 @@ public class VillageReachAuthenticator extends AbstractAccountAuthenticator {
                             result.putString(AccountManager.KEY_ACCOUNT_TYPE, account.type);
                             result.putString(AccountManager.KEY_AUTHTOKEN, authToken);
                             response.onResult(result);
+                            Log.i(TAG, authToken);
                         }
                         @Override
-                        public  void onFailure(Exception e) {
+                        public void onFailure(VolleyError e) {
                             Log.i(TAG, e.getLocalizedMessage());
                             result.putInt(AccountManager.KEY_ERROR_CODE, e.hashCode());
                             result.putString(AccountManager.KEY_ERROR_MESSAGE, e.getMessage());
+                            Log.i(TAG, e.getMessage());
                             response.onError(e.hashCode(), e.getMessage());
                         }
                     });

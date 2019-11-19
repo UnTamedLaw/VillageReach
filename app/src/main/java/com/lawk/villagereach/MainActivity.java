@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         final Intent intent = new Intent(this, DeliveryActivity.class);
         intent.putExtra(MESSAGE_ID, mymessage);
         //test code this will log in a user as administrator and password and ignore the fields for
-        //testing convinience. change this to login(myUserName,myPassword, this) later!
+        //testing convenience. change this to login(myUserName,myPassword, this) later!
 
         Log.i(TAG,"MainActivity: BEGIN LOGIN PROCEDURE");
         Login.login("administrator", "password", this, new AuthCallback() {

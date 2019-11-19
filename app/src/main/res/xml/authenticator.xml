@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <account-authenticator xmlns:android="http://schemas.android.com/apk/res/android"
-    android:accountType="com.lawk.villageReach"
+    android:accountType="com.lawk.villagereach"
     android:icon="@drawable/common_google_signin_btn_icon_dark"
     android:smallIcon="@drawable/common_google_signin_btn_icon_dark"
     android:label="@string/app_name" />
