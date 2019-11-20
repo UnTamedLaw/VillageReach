@@ -96,7 +96,7 @@ public class InternalStorageHandler {
     }
     public void writeRequestToFile(Request request) {
         Gson gson = new Gson();
-        if (readFile("requestMap") == "File Not read") {
+        if (readFile("requestMap") == "File Not Read") {
             HashMap<String, Object> requestMap = new HashMap<String, Object>();
             requestMap.put(request.id, request);
             String requestMapString = gson.toJson(requestMap);

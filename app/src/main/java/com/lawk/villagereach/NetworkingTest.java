@@ -119,7 +119,7 @@ public class NetworkingTest {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                callback.onFailure(error);
             }
         }) {
             @Override

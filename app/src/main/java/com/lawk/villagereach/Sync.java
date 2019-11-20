@@ -155,11 +155,14 @@ public class Sync {
             for (String currentRequestID : requestHashMap.keySet()){
                 String url = "https://test.openlmis.org/api/proofsOfDelivery/" + currentRequestID;
                 Request value = requestHashMap.get(currentRequestID);
+                Log.i(TAG, "sending draft...");
                 NetworkingTest.putRequest(token, url, value, context, new StringCallback() {
                     @Override
                     public void onSuccess(String result) {
                         Log.i(TAG, "draft sent");
-                        callback.onSuccess("done");
+                        if (countDownLatch2.getCount() == 0) {
+                            callback.onSuccess("done");
+                        }
                         countDownLatch2.countDown();
                     }
 
