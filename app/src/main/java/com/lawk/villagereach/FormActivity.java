@@ -113,23 +113,16 @@ public class FormActivity extends AppCompatActivity {
             for (LineItem currentOldLineItem: currentPod.lineItems) {
                 if (currentOldLineItem.id.equals(currentEditable.id)) {
                     oldLineItem = currentOldLineItem;
-//                    JSONObject currentJsonLineItem = new JSONObject();
-//                    currentJsonLineItem.put("id", oldLineItem.id);
-//                    JSONObject jsonOrderable = new JSONObject();
-//                    jsonOrderable.put("id", oldLineItem.orderable.id);
-//                    jsonOrderable.put("href", oldLineItem.orderable.href);
-//                    jsonOrderable.put("versionNumber", oldLineItem.orderable.versionNumber);
-//                    currentJsonLineItem.put("orderable", jsonOrderable);
-//                    currentJsonLineItem.put("quantityAccepted", currentEditable.quantityAccepted);
-//                    currentJsonLineItem.put("quantityRejected", currentEditable.quantityRejected);
-//                    currentJsonLineItem.put("quantityShipped", oldLineItem.quantityShipped);
-//                    currentJsonLineItem.put("notes", currentEditable.notes);
+                    for (LineItem shipmentLineItem : currentShipment.lineItems) {
+                        if (shipmentLineItem.id.equals(currentEditable.id)) {
+                            currentOldLineItem.quantityShipped = shipmentLineItem.quantityShipped;
+                        }
+                    }
                     LineItem currentLineItem = new LineItem();
                     currentLineItem.id = oldLineItem.id;
                     currentLineItem.orderable = oldLineItem.orderable;
                     currentLineItem.quantityAccepted = currentEditable.quantityAccepted;
                     currentLineItem.quantityRejected = currentEditable.quantityRejected;
-                    currentLineItem.quantityShipped = oldLineItem.quantityShipped;
                     currentLineItem.notes = currentEditable.notes;
                     lineItemArrayList.add(currentLineItem);
                 }
@@ -143,7 +136,7 @@ public class FormActivity extends AppCompatActivity {
         shipmentStub.href = "https://demo-v3.openlmis.org/api/shipments/".concat(currentShipment.id);
         shipmentStub.versionNumber = 0; //dummy
         request.shipment = shipmentStub;
-        String currentDate = new SimpleDateFormat("yyyy-dd-MM", Locale.getDefault()).format(new Date());
+        String currentDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
         request.receivedDate = currentDate;
         InternalStorageHandler.getInstance(this).writeRequestToFile(request);
         this.finish();
