@@ -29,7 +29,7 @@ public class ProofOfDeliveryRecyclerAdaptor extends RecyclerView.Adapter<ProofOf
     private Listener listener;
     private ArrayList<LineItem> podLineItemArrayList;
     private String rejectionReason;
-    public HashMap<String, String> formData;
+    public HashMap<String, FormActivityLineItemEditable> formData;
 
     public void setListener(Listener listener) {
         this.listener = listener;
@@ -39,14 +39,14 @@ public class ProofOfDeliveryRecyclerAdaptor extends RecyclerView.Adapter<ProofOf
         void onClick(int id);
     }
 
-    public ProofOfDeliveryRecyclerAdaptor(Context context, ProofOfDelivery currentPod, Shipment currentShipment, Order currentOrder, HashMap<String, Orderable> orderableHashMap, HashMap<String, String> formData) {
+    public ProofOfDeliveryRecyclerAdaptor(Context context, ProofOfDelivery currentPod, Shipment currentShipment, Order currentOrder, HashMap<String, Orderable> orderableHashMap) {
         this.context = context;
         this.currentPod = currentPod;
         this.currentShipment = currentShipment;
         this.currentOrder = currentOrder;
         this.orderableHashMap = orderableHashMap;
         this.podLineItemArrayList = new ArrayList<LineItem>();
-        this.formData = formData;
+        formData = new HashMap<String, FormActivityLineItemEditable>();
         Collections.addAll(this.podLineItemArrayList, currentPod.lineItems);
     }
 
@@ -142,14 +142,13 @@ public class ProofOfDeliveryRecyclerAdaptor extends RecyclerView.Adapter<ProofOf
         //notes.setText(currentPodLineItem.notes);
 
 
-        FormActivityLineItemEditable fields = new FormActivityLineItemEditable(currentPodLineItem.quantityAccepted, currentPodLineItem.quantityRejected, currentPodLineItem.rejectionReasonId, currentPodLineItem.notes);
+        FormActivityLineItemEditable fields = new FormActivityLineItemEditable(currentPodLineItem.id, currentPodLineItem.quantityAccepted, currentPodLineItem.quantityRejected, currentPodLineItem.rejectionReasonId, currentPodLineItem.notes);
         fields.setRejectionReason(rejectionReason);
-        //formData.put(currentPodLineItem.id, fields); //not sure if this is right
+        formData.put(currentPodLineItem.id, fields); //not sure if this is right
         quantityAccepted.addTextChangedListener(new LineItemEditTextListener(fields, "quantityAccepted"));
         quantityReturned.addTextChangedListener(new LineItemEditTextListener(fields, "quantityRejected"));
         notes.addTextChangedListener(new LineItemEditTextListener(fields, "notes"));
 
-        //formData.put("quantityAccepted", rejectionReason);
         //Log.i(TAG, "formdata" + formData.keySet());
 
 

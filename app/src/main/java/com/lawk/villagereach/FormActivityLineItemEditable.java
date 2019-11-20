@@ -1,12 +1,14 @@
 package com.lawk.villagereach;
 
 public class FormActivityLineItemEditable {
+    public String id;
     public int quantityAccepted;
     public int quantityRejected;
     public String rejectionReason;
     public String notes;
 
-    public FormActivityLineItemEditable(int quantityAccepted, int quantityRejected, String rejectionReason, String notes) {
+    public FormActivityLineItemEditable(String id, int quantityAccepted, int quantityRejected, String rejectionReason, String notes) {
+        this.id = id;
         this.quantityAccepted = quantityAccepted;
         this.quantityRejected = quantityRejected;
         this.rejectionReason = rejectionReason;

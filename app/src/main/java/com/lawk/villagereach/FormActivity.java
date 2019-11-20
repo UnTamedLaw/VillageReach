@@ -34,7 +34,6 @@ public class FormActivity extends AppCompatActivity {
     private String Jsonstring;
     private String quantityAccepted;
     private String rejectionReason;
-    private HashMap<String, String> formData;
     public String myData;
 
     @Override
@@ -67,7 +66,7 @@ public class FormActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(manager);
 
 
-        podRecyclerAdapter = new ProofOfDeliveryRecyclerAdaptor(FormActivity.this, currentPod, currentShipment, currentOrder, orderableHashMap, formData);
+        podRecyclerAdapter = new ProofOfDeliveryRecyclerAdaptor(FormActivity.this, currentPod, currentShipment, currentOrder, orderableHashMap);
         recyclerView.setAdapter(podRecyclerAdapter);
 
         Button submitButton = findViewById(R.id.submit);
@@ -91,7 +90,7 @@ public class FormActivity extends AppCompatActivity {
         String receivedBy = receiver.getText().toString();
         //Log.i(TAG, deliveredBy +" "+ receivedBy);
 
-        formData = podRecyclerAdapter.formData;
+        HashMap<String, FormActivityLineItemEditable> formData = podRecyclerAdapter.formData;
         //Log.i(TAG, "foo " + podRecyclerAdapter.formData.get(rejectionReason));
         //Log.i(TAG, "formdata" + ": " + podRecyclerAdapter.formData.keySet());
 
@@ -101,50 +100,94 @@ public class FormActivity extends AppCompatActivity {
         myData = "";
         Log.i(TAG, "1" + myData);
 
-        JSONObject json = new JSONObject();
+        JSONObject draft = new JSONObject();
         try {
-            json.put("deliveredBy", deliveredBy);
-            json.put("id", currentOrder.id);
-
-            JSONArray lineItems = new JSONArray();
-            for (int i = 0; i<size; i++ ){
-                JSONObject item = new JSONObject();
-                item.put("id", "test");
-
-                JSONObject orderable = new JSONObject();
-                orderable.put("href", "https://demo-v3.openlmis.org/api/orderables/23819693-0670-4c4b-b400-28e009b86b51");
-//                String s = quantityAccepted;
-//                Log.i(TAG, s);
-
-                orderable.put("id", 1 );
-                orderable.put("versionNumber", 1);
-                item.put("orderable", orderable);
-
-                item.put("quantityAccepted", 0);
-                item.put("quantityRejected",0);
-                item.put("quantityShipped",0);
-
-                lineItems.put(item);
-                json.put("lineItems", lineItems);
-            }
-
-            json.put("receivedBy", receivedBy);
+            draft.put("deliveredBy", deliveredBy);
+            draft.put("id", currentOrder.id);
+            draft.put("receivedBy", receivedBy);
             String currentDate = new SimpleDateFormat("yyyy-dd-MM", Locale.getDefault()).format(new Date());
-            json.put("receivedDate", currentDate);
-
-            JSONObject shipment = new JSONObject();
-            shipment.put("href", "https://demo-v3.openlmis.org/api/shipments/".concat(currentShipment.id));
-            shipment.put("id", currentShipment.id);
-            shipment.put("versionNumber", 0);
-            json.put("shipment", shipment);
-
-            json.put("status", "CONFIRMED");
-            myData = json.toString();
+            draft.put("receivedDate", currentDate);
+            JSONObject jsonShipment = new JSONObject();
+            jsonShipment.put("href", "https://demo-v3.openlmis.org/api/shipments/".concat(currentShipment.id));
+            jsonShipment.put("id", currentShipment.id);
+            jsonShipment.put("versionNumber", 0); //dummy
+            draft.put("shipment", jsonShipment);
+            draft.put("status", "CONFIRMED");
+            JSONArray jsonLineItems = new JSONArray();
+            for (FormActivityLineItemEditable currentEditable : formData.values()) {
+                LineItem oldLineItem;
+                for (LineItem currentOldLineItem: currentPod.lineItems) {
+                    if (currentOldLineItem.id.equals(currentEditable.id)) {
+                        oldLineItem = currentOldLineItem;
+                        JSONObject currentJsonLineItem = new JSONObject();
+                        currentJsonLineItem.put("id", oldLineItem.id);
+                        JSONObject jsonOrderable = new JSONObject();
+                        jsonOrderable.put("id", oldLineItem.orderable.id);
+                        jsonOrderable.put("href", oldLineItem.orderable.href);
+                        jsonOrderable.put("versionNumber", oldLineItem.orderable.versionNumber);
+                        currentJsonLineItem.put("orderable", jsonOrderable);
+                        currentJsonLineItem.put("quantityAccepted", currentEditable.quantityAccepted);
+                        currentJsonLineItem.put("quantityRejected", currentEditable.quantityRejected);
+                        currentJsonLineItem.put("quantityShipped", oldLineItem.quantityShipped);
+                        currentJsonLineItem.put("notes", currentEditable.notes);
+                        jsonLineItems.put(currentJsonLineItem);
+                    }
+                }
+            }
+            draft.put("lineItems", jsonLineItems);
+            Log.i(TAG, draft.toString());
+        } catch (JSONException e) {
+            Log.e(TAG, "JSON error when parsing form");
         }
-        catch (JSONException e) {
-            Log.i(TAG, "JSON error");
-        }
-        Log.i(TAG, myData);
-        startActivity(new Intent(FormActivity.this, DeliveryActivity.class ));
+
+
+
+
+
+
+//        try {
+//            json.put("deliveredBy", deliveredBy);
+//            json.put("id", currentOrder.id);
+//
+//            JSONArray lineItems = new JSONArray();
+//            for (int i = 0; i<size; i++ ){
+//                JSONObject item = new JSONObject();
+//                item.put("id", "test");
+//
+//                JSONObject orderable = new JSONObject();
+//                orderable.put("href", "https://demo-v3.openlmis.org/api/orderables/23819693-0670-4c4b-b400-28e009b86b51");
+////                String s = quantityAccepted;
+////                Log.i(TAG, s);
+//
+//                orderable.put("id", 1 );
+//                orderable.put("versionNumber", 1);
+//                item.put("orderable", orderable);
+//
+//                item.put("quantityAccepted", 0);
+//                item.put("quantityRejected",0);
+//                item.put("quantityShipped",0);
+//
+//                lineItems.put(item);
+//                json.put("lineItems", lineItems);
+//            }
+//
+//            json.put("receivedBy", receivedBy);
+//            String currentDate = new SimpleDateFormat("yyyy-dd-MM", Locale.getDefault()).format(new Date());
+//            json.put("receivedDate", currentDate);
+//
+//            JSONObject shipment = new JSONObject();
+//            shipment.put("href", "https://demo-v3.openlmis.org/api/shipments/".concat(currentShipment.id));
+//            shipment.put("id", currentShipment.id);
+//            shipment.put("versionNumber", 0);
+//            json.put("shipment", shipment);
+//
+//            json.put("status", "CONFIRMED");
+//            myData = json.toString();
+//        }
+//        catch (JSONException e) {
+//            Log.i(TAG, "JSON error");
+//        }
+//        Log.i(TAG, myData);
+//        startActivity(new Intent(FormActivity.this, DeliveryActivity.class ));
     }
 }
