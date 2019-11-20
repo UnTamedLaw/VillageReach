@@ -77,7 +77,6 @@ public class FormActivity extends AppCompatActivity {
         }
 
 
-    }
 
 
     public void onClickRespond(View view){

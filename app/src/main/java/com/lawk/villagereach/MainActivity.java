@@ -67,7 +67,8 @@ public class MainActivity extends AppCompatActivity {
                         Toast wrongCredentialsToast = Toast.makeText(getApplicationContext(),"Invalid Login Credentials", Toast.LENGTH_SHORT);
                         wrongCredentialsToast.show();
                     }
-                }else if(error instanceof NoConnectionError) {
+                }
+                else if(error instanceof NoConnectionError) {
                     Log.i(TAG, "Connection to server failed");
                     Toast noConnectionErrorToast = Toast.makeText(getApplicationContext(),"Connection to server failed", Toast.LENGTH_SHORT);
                     noConnectionErrorToast.show();

@@ -12,6 +12,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
 
 import org.json.JSONObject;
 
@@ -104,6 +105,44 @@ public class NetworkingTest {
                 return headers;
             }
         };
+        NetworkingTest.getInstance(context).addToRequestQueue(dataRequest);
+    }
+    public static void putRequest(final String token, String url, com.lawk.villagereach.Request value, Context context, final StringCallback callback) {
+        Gson gson = new Gson();
+        final String json = gson.toJson(value);
+        StringRequest dataRequest = new StringRequest(Request.Method.PUT, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                callback.onSuccess(response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<String, String>();
+                headers.put("Authorization", token);
+                headers.put("content-type", "application/json; charset=utf-8");
+                return headers;
+            }
+            @Override
+            public String getBodyContentType() {
+                return "application/json; charset=utf-8";
+            }
+
+            @Override
+            public byte[] getBody() throws AuthFailureError {
+
+                return json.getBytes();
+
+            }
+
+        };
+
         NetworkingTest.getInstance(context).addToRequestQueue(dataRequest);
     }
 }
