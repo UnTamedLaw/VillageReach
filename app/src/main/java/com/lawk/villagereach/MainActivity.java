@@ -4,12 +4,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.util.Log;
+import android.widget.ProgressBar;
 import android.widget.Toast;
-
 import java.util.ArrayList;
-
 import androidx.appcompat.app.AppCompatActivity;
 
 
@@ -19,19 +19,21 @@ public class MainActivity extends AppCompatActivity {
     private static final int RESULT_ID = 1;
     public static final String MESSAGE_ID = "loginInfo";
     private ArrayList<Login> loginArrayList;
+    Button b1;
+    private ProgressBar spinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         loginArrayList = new ArrayList<>();
-        //test code
-
+        b1=(Button)findViewById(R.id.loginButton);
+        this.spinner = (ProgressBar)findViewById(R.id.progressBar);
+        spinner.setVisibility(View.GONE);
     }
-
-
     public void onClick(View button) {
         Log.i(TAG, "Main activity button " + button.getId() + " clicked");
+        lockScreenForLoading();
         EditText username = findViewById(R.id.username);
         String myUserName = username.getText().toString();
         //username.getText().clear();
@@ -48,9 +50,13 @@ public class MainActivity extends AppCompatActivity {
         //testing convinience. change this to login(myUserName,myPassword, this) later!
 
         Log.i(TAG,"MainActivity: BEGIN LOGIN PROCEDURE");
+        //lockscreenForLoading()
+        //visible
         Login.login("administrator", "password", this, new AuthCallback() {
             @Override
             public void onSuccess() {
+                //unlocksscreenforloading()
+                //invisible
                 Log.i(TAG,"MainActivity: END LOGIN PROCEDURE: successfully logged in and maybe synced");
                 startActivityForResult(intent, RESULT_ID);
             }
@@ -61,10 +67,17 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         //test code
+    }
 
-
-
-
+    public void lockScreenForLoading(){
+        spinner.setVisibility(View.VISIBLE);
+        //make the spinner
+        //disable the buttons
+    }
+    public void unlockScreenForLoading(){
+        spinner.setVisibility(View.GONE);
+        //remove the spinner
+        //enable the buttons
     }
 
 
