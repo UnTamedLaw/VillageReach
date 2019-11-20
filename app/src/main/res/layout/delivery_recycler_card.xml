@@ -14,7 +14,6 @@
         android:layout_height="match_parent"
         android:padding="6dp" >
 
-
         <TextView
             android:id="@+id/order_code_label"
             android:layout_width="match_parent"
@@ -32,15 +31,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:textStyle="bold"
-            android:text="@string/status_label"/>
+            android:text="@string/status_label" />
 
         <TextView
             android:id="@+id/status_label"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="@string/Status"/>
-
-
+            android:text="@string/Status" />
 
         <TextView
             android:id="@+id/requesting_facility_label"
@@ -78,7 +75,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-
         <TextView
             android:id="@+id/period_label"
             android:layout_width="match_parent"
@@ -115,15 +111,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-
-
         <Button style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/formClick"
             android:onClick="onClick"
-            android:text="@string/ViewForm"
-            />
+            android:text="@string/ViewForm" />
 
     </LinearLayout>
 

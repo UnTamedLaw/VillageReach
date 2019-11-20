@@ -1,6 +1,8 @@
 package com.lawk.villagereach;
 
 import android.content.Context;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,7 +29,7 @@ public class ProofOfDeliveryRecyclerAdaptor extends RecyclerView.Adapter<ProofOf
     private Listener listener;
     private ArrayList<LineItem> podLineItemArrayList;
     private String rejectionReason;
-
+    public HashMap<String, FormActivityLineItemEditable> formData;
 
     public void setListener(Listener listener) {
         this.listener = listener;
@@ -44,10 +46,9 @@ public class ProofOfDeliveryRecyclerAdaptor extends RecyclerView.Adapter<ProofOf
         this.currentOrder = currentOrder;
         this.orderableHashMap = orderableHashMap;
         this.podLineItemArrayList = new ArrayList<LineItem>();
-        this.rejectionReason = rejectionReason;
+        formData = new HashMap<String, FormActivityLineItemEditable>();
         Collections.addAll(this.podLineItemArrayList, currentPod.lineItems);
     }
-
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private CardView layout;
@@ -60,6 +61,7 @@ public class ProofOfDeliveryRecyclerAdaptor extends RecyclerView.Adapter<ProofOf
 
     @Override
     public int getItemCount() {
+
         return podLineItemArrayList.size();
     }
 
@@ -73,6 +75,7 @@ public class ProofOfDeliveryRecyclerAdaptor extends RecyclerView.Adapter<ProofOf
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final  int id) {
+
         CardView cardView = holder.layout;
 
         TextView productName = cardView.findViewById(R.id.product_name);
@@ -82,6 +85,7 @@ public class ProofOfDeliveryRecyclerAdaptor extends RecyclerView.Adapter<ProofOf
 //        TextView lotCode = cardView.findViewById(R.id.lot_code);
         EditText quantityAccepted = cardView.findViewById(R.id.quantity_accepted);
         TextView quantityReturned = cardView.findViewById(R.id.quantity_rejected);
+
         final Spinner reasonRejected = cardView.findViewById(R.id.rejection_reason);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(context, R.array.rejection_reason, android.R.layout.simple_spinner_item);
         reasonRejected.setAdapter(adapter);
@@ -89,14 +93,13 @@ public class ProofOfDeliveryRecyclerAdaptor extends RecyclerView.Adapter<ProofOf
             @Override
             public void onItemSelected(AdapterView<?> parent, View view,
                                        int position, long id) {
-                Log.v("item", (String) parent.getItemAtPosition(position));
+                Log.i(TAG, (String) parent.getItemAtPosition(position));
                 String item = parent.getItemAtPosition(position).toString();
                 rejectionReason = item;
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                // empty
+                rejectionReason = "0";
             }
         });
         EditText notes = cardView.findViewById(R.id.notes);
@@ -107,6 +110,7 @@ public class ProofOfDeliveryRecyclerAdaptor extends RecyclerView.Adapter<ProofOf
         LineItem[] shipmentLineItemArray = currentShipment.lineItems;
         Orderable currentOrderable = orderableHashMap.get(currentPodLineItem.orderable.id);
         LineItem currentShipmentLineItem;
+        LineItem currentOrderLineItem;
         //the purpose of this for loop is to search for a line item inside shipmentlineitems that
         //uses the same orderable id as the current podlineitem that this cards based off of.
         for (LineItem currentLineItem : shipmentLineItemArray) {
@@ -114,6 +118,15 @@ public class ProofOfDeliveryRecyclerAdaptor extends RecyclerView.Adapter<ProofOf
                 currentShipmentLineItem = currentLineItem;
                 quantityShipped.setText(Integer.toString(currentShipmentLineItem.quantityShipped));
             }
+        }
+
+        LineItem[] orderLineItemArray = currentOrder.orderLineItems;
+        for (LineItem currentLineItem : orderLineItemArray) {
+            if (currentLineItem.orderable.id.equals(currentOrderable.id)) {
+                currentOrderLineItem = currentLineItem;
+                quantityOrdered.setText(Integer.toString(currentOrderLineItem.orderedQuantity));
+            }
+
         }
 
         productName.setText(currentOrderable.fullProductName);
@@ -125,8 +138,55 @@ public class ProofOfDeliveryRecyclerAdaptor extends RecyclerView.Adapter<ProofOf
 //        lotCode.setText("this is left blank intentionally");
         quantityAccepted.setText(Integer.toString(currentPodLineItem.quantityAccepted));
         quantityReturned.setText(Integer.toString(currentPodLineItem.quantityRejected));
-        notes.setText(currentPodLineItem.notes);
+
+        //notes.setText(currentPodLineItem.notes);
 
 
+        FormActivityLineItemEditable fields = new FormActivityLineItemEditable(currentPodLineItem.id, currentPodLineItem.quantityAccepted, currentPodLineItem.quantityRejected, currentPodLineItem.rejectionReasonId, currentPodLineItem.notes);
+        fields.setRejectionReason(rejectionReason);
+        formData.put(currentPodLineItem.id, fields); //not sure if this is right
+        quantityAccepted.addTextChangedListener(new LineItemEditTextListener(fields, "quantityAccepted"));
+        quantityReturned.addTextChangedListener(new LineItemEditTextListener(fields, "quantityRejected"));
+        notes.addTextChangedListener(new LineItemEditTextListener(fields, "notes"));
+
+        //Log.i(TAG, "formdata" + formData.keySet());
+
+
+    }
+
+    private class LineItemEditTextListener implements TextWatcher {
+        private FormActivityLineItemEditable currentLineItem;
+        private String field;
+
+        public LineItemEditTextListener(FormActivityLineItemEditable currentLineItem, String field) {
+            this.currentLineItem = currentLineItem;
+            this.field = field;
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
+            int MAX_DIGITS = 7;
+            if (charSequence.length() > 0 && charSequence.length() < MAX_DIGITS) {
+                //needs more validation. should check if quantityaccepted is greater than quantityreceived
+                if (field.equals("quantityAccepted")) {
+                    Log.i(TAG, "qa " + charSequence.toString());
+                    currentLineItem.setQuantityAccepted(Integer.parseInt(charSequence.toString()));
+                } else if (field.equals("quantityRejected")) {
+                    currentLineItem.setQuantityRejected(Integer.parseInt(charSequence.toString()));
+                }
+            }
+            if (field.equals("notes")) {
+                currentLineItem.setNotes(charSequence.toString());
+            }
+        }
+        @Override
+        public void afterTextChanged(Editable editable) {
+
+        }
     }
 }
