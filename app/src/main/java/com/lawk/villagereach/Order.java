@@ -27,7 +27,8 @@ public class Order {
     public ProcessingPeriod processingPeriod;
     @SerializedName("createdDate")
     public String createdDate;
-
+    @SerializedName("orderLineItems")
+    public LineItem[] orderLineItems;
 
 }
 

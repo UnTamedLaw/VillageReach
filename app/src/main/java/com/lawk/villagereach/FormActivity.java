@@ -3,25 +3,23 @@ package com.lawk.villagereach;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
-import android.widget.TextView;
-
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import java.lang.reflect.Type;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
-
-//import static com.lawk.villagereach.R.id.static_spinner_for_rejection_reason;
+import java.util.Locale;
 
 public class FormActivity extends AppCompatActivity {
     public static final String EXTRA_MESSAGE = "message";
@@ -29,12 +27,16 @@ public class FormActivity extends AppCompatActivity {
     private static String RESULT = "DeliveryResponse";
     private RecyclerView recyclerView;
     private ProofOfDeliveryRecyclerAdaptor podRecyclerAdapter;
-    private static final String TAG = "Second Activity Button";
-
+    private static final String TAG = "myTracker";
     private ProofOfDelivery currentPod;
     private Shipment currentShipment;
     private Order currentOrder;
     private HashMap<String, Orderable> orderableHashMap;
+    private String Jsonstring;
+    private String quantityAccepted;
+    private String rejectionReason;
+    public String myData;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,19 +45,22 @@ public class FormActivity extends AppCompatActivity {
 
         Gson gson = new Gson();
         String podHashMapString = InternalStorageHandler.getInstance(this).readFile("podMap");
-        Type podType = new TypeToken<HashMap<String, ProofOfDelivery>>(){}.getType();
+        Type podType = new TypeToken<HashMap<String, ProofOfDelivery>>() {
+        }.getType();
         HashMap<String, ProofOfDelivery> podHashMap = gson.fromJson(podHashMapString, podType);
         currentPod = podHashMap.get(podId);
 
         String shipmentHashmapString = InternalStorageHandler.getInstance(this).readFile("shipmentMap");
-        Type shipmentType = new TypeToken<HashMap<String, Shipment>>(){}.getType();
+        Type shipmentType = new TypeToken<HashMap<String, Shipment>>() {
+        }.getType();
         HashMap<String, Shipment> shipmentHashMap = gson.fromJson(shipmentHashmapString, shipmentType);
         currentShipment = shipmentHashMap.get(currentPod.shipment.id);
 
         currentOrder = currentShipment.order;
 
         String orderableHashMapString = InternalStorageHandler.getInstance(this).readFile("orderableMap");
-        Type orderableType = new TypeToken<HashMap<String, Orderable>>(){}.getType();
+        Type orderableType = new TypeToken<HashMap<String, Orderable>>() {
+        }.getType();
         orderableHashMap = gson.fromJson(orderableHashMapString, orderableType);
 
         setContentView(R.layout.activity_form);
@@ -68,61 +73,73 @@ public class FormActivity extends AppCompatActivity {
         podRecyclerAdapter = new ProofOfDeliveryRecyclerAdaptor(FormActivity.this, currentPod, currentShipment, currentOrder, orderableHashMap);
         recyclerView.setAdapter(podRecyclerAdapter);
 
-//    //adding spinner for the dropdown for rejection reason
-//        //two are needed, static and dynamic
-//
-//        Spinner staticSpinner = (Spinner) findViewById(static_spinner_for_rejection_reason);
-//        // ArrayAdapter for the reasons---do we really need?
-//        ArrayAdapter<CharSequence> staticAdapter = ArrayAdapter
-//                .createFromResource(this, R.array.rejection_reason,
-//                        android.R.layout.simple_spinner_item);
-//
-//        // list of "items to view, simple_spinner_dropdown_item?
-//        staticAdapter
-//                .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//
-//        //connecting adapter with our dropdown items
-//        staticSpinner.setAdapter(staticAdapter);
-//
-//        Spinner dynamicSpinner = (Spinner) findViewById(R.id.dynamic_spinner_for_rejection_reason);
-//
-//        String[] items = new String[] { "Missing", "Mising2", "missing3" };
-//
-//        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
-//                android.R.layout.simple_spinner_item, items);
-//
-//        dynamicSpinner.setAdapter(adapter);
-//
-//        dynamicSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view,
-//                                       int position, long id) {
-//                Log.v("item", (String) parent.getItemAtPosition(position));
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parent) {
-//                // empty
-//            }
-//        });
-
+        Button submitButton = findViewById(R.id.submit);
+        Button saveFormButton = findViewById(R.id.saveForm);
+        if (currentPod.status.equals("CONFIRMED")) {
+            submitButton.setEnabled(false);
+            saveFormButton.setEnabled(false);
+        }
 
     }
+
     public void onClickRespond(View view){
 
-        //clicking submit on a completed POD will move this particular POD to a completed folder
-        //in the internal storage where it will wait for sync. and available internet connection.
+//      clicking submit on a completed POD will move this particular POD to a completed folder
+//      in the internal storage where it will wait for sync. and available internet connection.
+        EditText deliverer = findViewById(R.id.delivery_signature);
+        EditText receiver = findViewById(R.id.receive_signature);
+        String deliveredBy = deliverer.getText().toString();
+        String receivedBy = receiver.getText().toString();
+        //Log.i(TAG, deliveredBy +" "+ receivedBy);
 
-        startActivity(new Intent(FormActivity.this, DeliveryActivity.class ));
+        HashMap<String, FormActivityLineItemEditable> formData = podRecyclerAdapter.formData;
+        //Log.i(TAG, "foo " + podRecyclerAdapter.formData.get(rejectionReason));
+        //Log.i(TAG, "formdata" + ": " + podRecyclerAdapter.formData.keySet());
+
+        int size = podRecyclerAdapter.getItemCount();
+        Log.i(TAG, "size " + String.valueOf(size));
+
+        myData = "";
+        Log.i(TAG, "1" + myData);
+
+        Request request = new Request();
+        request.id = currentPod.id;
+        request.deliveredBy = deliveredBy;
+        request.receivedBy = receivedBy;
+        ArrayList<LineItem> lineItemArrayList = new ArrayList<LineItem>();
+
+        for (FormActivityLineItemEditable currentEditable : formData.values()) {
+            LineItem oldLineItem;
+            for (LineItem currentOldLineItem: currentPod.lineItems) {
+                if (currentOldLineItem.id.equals(currentEditable.id)) {
+                    oldLineItem = currentOldLineItem;
+                    for (LineItem shipmentLineItem : currentShipment.lineItems) {
+                        if (shipmentLineItem.id.equals(currentEditable.id)) {
+                            currentOldLineItem.quantityShipped = shipmentLineItem.quantityShipped;
+                        }
+                    }
+                    LineItem currentLineItem = new LineItem();
+                    currentLineItem.id = oldLineItem.id;
+                    currentLineItem.orderable = oldLineItem.orderable;
+                    currentLineItem.quantityAccepted = currentEditable.quantityAccepted;
+                    currentLineItem.quantityRejected = currentEditable.quantityRejected;
+                    currentLineItem.notes = currentEditable.notes;
+                    lineItemArrayList.add(currentLineItem);
+                }
+            }
+        }
+        LineItem[] lineItemArray = lineItemArrayList.toArray(new LineItem[lineItemArrayList.size()]);
+        request.lineItems = lineItemArray;
+        request.status = "CONFIRMED";
+        Stub shipmentStub = new Stub();
+        shipmentStub.id = currentShipment.id;
+        shipmentStub.href = "https://demo-v3.openlmis.org/api/shipments/".concat(currentShipment.id);
+        shipmentStub.versionNumber = 0; //dummy
+        request.shipment = shipmentStub;
+        String currentDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+        request.receivedDate = currentDate;
+        InternalStorageHandler.getInstance(this).writeRequestToFile(request);
+        this.finish();
 
     }
-    //Adding First Iteration of JSON Parser for proof of delivery.
-    //From demo file "api stuff," we are first capturing
-    // {shipment:
-    //  {order:
-    //      {externalId: "17542db8-7912-4b9f-a922-0b111e1565c8", emergency: false,…},…},…}
-    //deliveredBy: null
-    // after we will be parsing id, lineItems
-    // orderable
-
 }

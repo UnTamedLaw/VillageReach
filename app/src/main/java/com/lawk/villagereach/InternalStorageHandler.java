@@ -94,6 +94,22 @@ public class InternalStorageHandler {
             writeToFile(newShipmentMapString, "shipmentMap");
         }
     }
+    public void writeRequestToFile(Request request) {
+        Gson gson = new Gson();
+        if (readFile("requestMap") == "File Not Read") {
+            HashMap<String, Object> requestMap = new HashMap<String, Object>();
+            requestMap.put(request.id, request);
+            String requestMapString = gson.toJson(requestMap);
+            writeToFile(requestMapString, "requestMap");
+        } else {
+            Type type = new TypeToken<HashMap<String, Object>>(){}.getType();
+            String requestMapString = readFile("requestMap");
+            HashMap<String, Object> requestMap = gson.fromJson(requestMapString, type);
+            requestMap.put(request.id, request);
+            String newRequestMapString = gson.toJson(requestMap);
+            writeToFile(newRequestMapString, "requestMap");
+        }
+    }
 
     public void writeToFile(String dataToBeStored, String filename) {
         try {
