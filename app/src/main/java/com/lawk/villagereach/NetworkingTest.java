@@ -113,19 +113,18 @@ public class NetworkingTest {
         StringRequest dataRequest = new StringRequest(Request.Method.PUT, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-
                 callback.onSuccess(response);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                callback.onFailure(error);
             }
         }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> headers = new HashMap<String, String>();
-                headers.put("Authorization", token);
+                headers.put("Authorization", "Basic dXNlci1jbGllbnQ6Y2hhbmdlbWU=");
                 headers.put("content-type", "application/json; charset=utf-8");
                 return headers;
             }

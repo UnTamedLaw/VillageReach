@@ -153,21 +153,31 @@ public class Sync {
             final CountDownLatch countDownLatch2 = new CountDownLatch(numberOfRequestsToMake);
 
             for (String currentRequestID : requestHashMap.keySet()){
-                String url = "https://test.openlmis.org/api/proofsOfDelivery/" + currentRequestID;
+                String bareToken = token.substring(7);
+                Log.i(TAG, bareToken);
+                String url = "https://demo-v3.openlmis.org/api/proofsOfDelivery/" + currentRequestID + "?access_token=" + bareToken;
                 Request value = requestHashMap.get(currentRequestID);
+                Log.i(TAG, "sending draft...");
                 NetworkingTest.putRequest(token, url, value, context, new StringCallback() {
                     @Override
                     public void onSuccess(String result) {
                         Log.i(TAG, "draft sent");
-                        callback.onSuccess("done");
                         countDownLatch2.countDown();
+                        if (countDownLatch2.getCount() == 0) {
+                            callback.onSuccess("done");
+                        }
+
                     }
 
                     @Override
                     public void onFailure(VolleyError error) {
-                        Log.i(TAG, "bad request");
                         callback.onFailure(error);
                         countDownLatch2.countDown();
+                        if (error.networkResponse.statusCode == 400) {
+                            Log.i(TAG, "ignoring bad request");
+                            callback.onSuccess("done");
+                        }
+                        Log.i(TAG, "bad request");
                     }
                 });
 
