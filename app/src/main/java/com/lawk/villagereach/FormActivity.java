@@ -130,7 +130,7 @@ public class FormActivity extends AppCompatActivity {
         }
         LineItem[] lineItemArray = lineItemArrayList.toArray(new LineItem[lineItemArrayList.size()]);
         request.lineItems = lineItemArray;
-        request.status = "CONFIRMED";
+        request.status = "IN_ROUTE";
         Stub shipmentStub = new Stub();
         shipmentStub.id = currentShipment.id;
         shipmentStub.href = "https://demo-v3.openlmis.org/api/shipments/".concat(currentShipment.id);
