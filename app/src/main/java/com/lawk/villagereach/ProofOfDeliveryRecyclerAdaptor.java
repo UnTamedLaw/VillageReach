@@ -111,12 +111,14 @@ public class ProofOfDeliveryRecyclerAdaptor extends RecyclerView.Adapter<ProofOf
         Orderable currentOrderable = orderableHashMap.get(currentPodLineItem.orderable.id);
         LineItem currentShipmentLineItem;
         LineItem currentOrderLineItem;
+        int quantityShippedInt = -1;
         //the purpose of this for loop is to search for a line item inside shipmentlineitems that
         //uses the same orderable id as the current podlineitem that this cards based off of.
         for (LineItem currentLineItem : shipmentLineItemArray) {
             if (currentLineItem.orderable.id.equals(currentOrderable.id)) {
                 currentShipmentLineItem = currentLineItem;
                 quantityShipped.setText(Integer.toString(currentShipmentLineItem.quantityShipped));
+                quantityShippedInt = currentShipmentLineItem.quantityShipped;
             }
         }
 
@@ -131,27 +133,15 @@ public class ProofOfDeliveryRecyclerAdaptor extends RecyclerView.Adapter<ProofOf
 
         productName.setText(currentOrderable.fullProductName);
 //        productUnit.setText("this is left blank intentionally")
-
-//        quantity ordered comes from order line items
-//        quantityOrdered.setText("");
-
 //        lotCode.setText("this is left blank intentionally");
-        quantityAccepted.setText(Integer.toString(currentPodLineItem.quantityAccepted));
-        quantityReturned.setText(Integer.toString(currentPodLineItem.quantityRejected));
-
-        //notes.setText(currentPodLineItem.notes);
-
 
         FormActivityLineItemEditable fields = new FormActivityLineItemEditable(currentPodLineItem.id, currentPodLineItem.quantityAccepted, currentPodLineItem.quantityRejected, currentPodLineItem.rejectionReasonId, currentPodLineItem.notes);
+        fields.quantityShipped = quantityShippedInt;
         fields.setRejectionReason(rejectionReason);
         formData.put(currentPodLineItem.id, fields); //not sure if this is right
         quantityAccepted.addTextChangedListener(new LineItemEditTextListener(fields, "quantityAccepted"));
         quantityReturned.addTextChangedListener(new LineItemEditTextListener(fields, "quantityRejected"));
         notes.addTextChangedListener(new LineItemEditTextListener(fields, "notes"));
-
-        //Log.i(TAG, "formdata" + formData.keySet());
-
-
     }
 
     private class LineItemEditTextListener implements TextWatcher {
@@ -165,7 +155,6 @@ public class ProofOfDeliveryRecyclerAdaptor extends RecyclerView.Adapter<ProofOf
 
         @Override
         public void beforeTextChanged(CharSequence charSequence, int start, int count, int after) {
-
         }
 
         @Override
@@ -174,7 +163,7 @@ public class ProofOfDeliveryRecyclerAdaptor extends RecyclerView.Adapter<ProofOf
             if (charSequence.length() > 0 && charSequence.length() < MAX_DIGITS) {
                 //needs more validation. should check if quantityaccepted is greater than quantityreceived
                 if (field.equals("quantityAccepted")) {
-                    Log.i(TAG, "qa " + charSequence.toString());
+//                    Log.i(TAG, "qa " + charSequence.toString());
                     currentLineItem.setQuantityAccepted(Integer.parseInt(charSequence.toString()));
                 } else if (field.equals("quantityRejected")) {
                     currentLineItem.setQuantityRejected(Integer.parseInt(charSequence.toString()));

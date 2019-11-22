@@ -3,17 +3,26 @@ package com.lawk.villagereach;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -35,6 +44,7 @@ public class FormActivity extends AppCompatActivity {
     private String Jsonstring;
     private String quantityAccepted;
     private String rejectionReason;
+
     public String myData;
 
     @Override
@@ -74,72 +84,100 @@ public class FormActivity extends AppCompatActivity {
         recyclerView.setAdapter(podRecyclerAdapter);
 
         Button submitButton = findViewById(R.id.submit);
-        Button saveFormButton = findViewById(R.id.saveForm);
+//        Button saveFormButton = findViewById(R.id.saveForm);
         if (currentPod.status.equals("CONFIRMED")) {
             submitButton.setEnabled(false);
-            saveFormButton.setEnabled(false);
+//            saveFormButton.setEnabled(false);
         }
 
     }
 
-    public void onClickRespond(View view){
+    public void onClickRespond(View view) {
 
 //      clicking submit on a completed POD will move this particular POD to a completed folder
 //      in the internal storage where it will wait for sync. and available internet connection.
         EditText deliverer = findViewById(R.id.delivery_signature);
         EditText receiver = findViewById(R.id.receive_signature);
+
         String deliveredBy = deliverer.getText().toString();
         String receivedBy = receiver.getText().toString();
-        //Log.i(TAG, deliveredBy +" "+ receivedBy);
 
-        HashMap<String, FormActivityLineItemEditable> formData = podRecyclerAdapter.formData;
-        //Log.i(TAG, "foo " + podRecyclerAdapter.formData.get(rejectionReason));
-        //Log.i(TAG, "formdata" + ": " + podRecyclerAdapter.formData.keySet());
+        if (deliveredBy.equals("") || receivedBy.equals("")) {
+            LayoutInflater inflater = getLayoutInflater();
+            View layout = inflater.inflate(R.layout.custom_toast,
+                    (ViewGroup) findViewById(R.id.custom_toast_container));
 
-        int size = podRecyclerAdapter.getItemCount();
-        Log.i(TAG, "size " + String.valueOf(size));
+            TextView text = layout.findViewById(R.id.text);
+            text.setText("You need both signatures to submit the form");
+            Toast sync = new Toast(getApplicationContext());
+            sync.setGravity(Gravity.CENTER_HORIZONTAL, 0, 0);
+            sync.setDuration(Toast.LENGTH_LONG);
+            sync.setView(layout);
+            sync.show();
+        } else {
+            HashMap<String, FormActivityLineItemEditable> formData = podRecyclerAdapter.formData;
+            boolean isOK = true;
+            for (FormActivityLineItemEditable currentRequestLineItem : formData.values()) {
+                if (currentRequestLineItem.quantityAccepted + currentRequestLineItem.quantityRejected != currentRequestLineItem.quantityShipped) {
+                    isOK = false;
+                    Log.i(TAG, "valid qty");
+                    if (isOK == true) {
+                        int size = podRecyclerAdapter.getItemCount();
 
-        myData = "";
-        Log.i(TAG, "1" + myData);
+                        myData = "";
+                        Request request = new Request();
+                        request.id = currentPod.id;
+                        request.deliveredBy = deliveredBy;
+                        request.receivedBy = receivedBy;
+                        ArrayList<LineItem> lineItemArrayList = new ArrayList<LineItem>();
 
-        Request request = new Request();
-        request.id = currentPod.id;
-        request.deliveredBy = deliveredBy;
-        request.receivedBy = receivedBy;
-        ArrayList<LineItem> lineItemArrayList = new ArrayList<LineItem>();
-
-        for (FormActivityLineItemEditable currentEditable : formData.values()) {
-            LineItem oldLineItem;
-            for (LineItem currentOldLineItem: currentPod.lineItems) {
-                if (currentOldLineItem.id.equals(currentEditable.id)) {
-                    oldLineItem = currentOldLineItem;
-                    for (LineItem shipmentLineItem : currentShipment.lineItems) {
-                        if (shipmentLineItem.id.equals(currentEditable.id)) {
-                            currentOldLineItem.quantityShipped = shipmentLineItem.quantityShipped;
+                        for (FormActivityLineItemEditable currentEditable : formData.values()) {
+                            LineItem oldLineItem;
+                            for (LineItem currentOldLineItem : currentPod.lineItems) {
+                                if (currentOldLineItem.id.equals(currentEditable.id)) {
+                                    oldLineItem = currentOldLineItem;
+                                    for (LineItem shipmentLineItem : currentShipment.lineItems) {
+                                        if (shipmentLineItem.id.equals(currentEditable.id)) {
+                                            currentOldLineItem.quantityShipped = shipmentLineItem.quantityShipped;
+                                        }
+                                    }
+                                    LineItem currentLineItem = new LineItem();
+                                    currentLineItem.id = oldLineItem.id;
+                                    currentLineItem.orderable = oldLineItem.orderable;
+                                    currentLineItem.quantityAccepted = currentEditable.quantityAccepted;
+                                    currentLineItem.quantityRejected = currentEditable.quantityRejected;
+                                    currentLineItem.notes = currentEditable.notes;
+                                    lineItemArrayList.add(currentLineItem);
+                                }
+                            }
                         }
+                        LineItem[] lineItemArray = lineItemArrayList.toArray(new LineItem[lineItemArrayList.size()]);
+                        request.lineItems = lineItemArray;
+                        request.status = "IN_ROUTE";
+                        Stub shipmentStub = new Stub();
+                        shipmentStub.id = currentShipment.id;
+                        shipmentStub.href = "https://demo-v3.openlmis.org/api/shipments/".concat(currentShipment.id);
+                        shipmentStub.versionNumber = 0; //dummy
+                        request.shipment = shipmentStub;
+                        String currentDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+                        request.receivedDate = currentDate;
+                        InternalStorageHandler.getInstance(this).writeRequestToFile(request);
+                        this.finish();
+                    } else {
+                        LayoutInflater inflater = getLayoutInflater();
+                        View layout = inflater.inflate(R.layout.custom_toast,
+                                (ViewGroup) findViewById(R.id.custom_toast_container));
+
+                        TextView text = layout.findViewById(R.id.text);
+                        text.setText("Check your quantities!");
+                        Toast sync = new Toast(getApplicationContext());
+                        sync.setGravity(Gravity.CENTER_HORIZONTAL, 0, 0);
+                        sync.setDuration(Toast.LENGTH_SHORT);
+                        sync.setView(layout);
+                        sync.show();
                     }
-                    LineItem currentLineItem = new LineItem();
-                    currentLineItem.id = oldLineItem.id;
-                    currentLineItem.orderable = oldLineItem.orderable;
-                    currentLineItem.quantityAccepted = currentEditable.quantityAccepted;
-                    currentLineItem.quantityRejected = currentEditable.quantityRejected;
-                    currentLineItem.notes = currentEditable.notes;
-                    lineItemArrayList.add(currentLineItem);
                 }
             }
         }
-        LineItem[] lineItemArray = lineItemArrayList.toArray(new LineItem[lineItemArrayList.size()]);
-        request.lineItems = lineItemArray;
-        request.status = "CONFIRMED";
-        Stub shipmentStub = new Stub();
-        shipmentStub.id = currentShipment.id;
-        shipmentStub.href = "https://demo-v3.openlmis.org/api/shipments/".concat(currentShipment.id);
-        shipmentStub.versionNumber = 0; //dummy
-        request.shipment = shipmentStub;
-        String currentDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
-        request.receivedDate = currentDate;
-        InternalStorageHandler.getInstance(this).writeRequestToFile(request);
-        this.finish();
-
     }
 }

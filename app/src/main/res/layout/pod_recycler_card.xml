@@ -23,8 +23,7 @@
         <TextView
             android:id="@+id/product_name"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="product name here" />
+            android:layout_height="wrap_content" />
 
 <!--        <TextView-->
 <!--            android:id="@+id/product_unit_label"-->
@@ -47,8 +46,7 @@
         <TextView
             android:id="@+id/quantity_ordered"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="quantity ordered" />
+            android:layout_height="wrap_content" />
 
         <TextView
             android:id="@+id/quantity_shipped_label"
@@ -59,8 +57,7 @@
         <TextView
             android:id="@+id/quantity_shipped"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="quantity shipped" />
+            android:layout_height="wrap_content" />
 
 <!--        <TextView-->
 <!--            android:id="@+id/lot_code_label"-->

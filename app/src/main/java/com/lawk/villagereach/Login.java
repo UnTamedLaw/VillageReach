@@ -3,12 +3,6 @@ package com.lawk.villagereach;
 import android.content.Context;
 import android.util.Log;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.VolleyError;
-
-import org.json.JSONObject;
-
-import java.net.ConnectException;
 
 public class Login {
 

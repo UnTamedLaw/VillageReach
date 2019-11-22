@@ -4,6 +4,7 @@ public class FormActivityLineItemEditable {
     public String id;
     public int quantityAccepted;
     public int quantityRejected;
+    public int quantityShipped;
     public String rejectionReason;
     public String notes;
 
