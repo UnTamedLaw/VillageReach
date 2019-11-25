@@ -44,7 +44,7 @@
     <string name="ViewForm">View Form</string>
     <string name="status_label">Order status:</string>
     <string name="program">Program:</string>
-    <string name="lot_code">Lot Code</string>
+<!--    <string name="lot_code">Lot Code</string>-->
     <string name="quantity_rejected_label">Quantity rejected</string>
     <string name="Status">Status</string>
 
