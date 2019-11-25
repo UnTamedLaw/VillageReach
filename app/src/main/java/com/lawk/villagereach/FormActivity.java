@@ -68,6 +68,7 @@ public class FormActivity extends AppCompatActivity {
             submitButton.setEnabled(false);
         }
     }
+
     private Request generateRequest() {
         String deliveredBy = ((EditText) findViewById(R.id.delivery_signature)).getText().toString();
         String receivedBy = ((EditText) findViewById(R.id.receive_signature)).getText().toString();
@@ -126,6 +127,7 @@ public class FormActivity extends AppCompatActivity {
         }
         return isValid;
     }
+
     private boolean validateFormActivityLineItemEditable(FormActivityLineItemEditable editable) {
         if (editable.quantityAccepted + editable.quantityRejected == editable.quantityShipped) {
             return true;
