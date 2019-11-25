@@ -103,7 +103,8 @@ public class FormActivity extends AppCompatActivity {
 
     public void onClickRespond(View view) {
         if (validateAllFormData()) {
-            generateRequest();
+            Request request = generateRequest();
+            InternalStorageHandler.getInstance(this).writeRequestToFile(request);
             showCustomToast("This delivery has been saved and is ready to sync. Because it is signed, it can no longer be edited.");
             this.finish();
         }

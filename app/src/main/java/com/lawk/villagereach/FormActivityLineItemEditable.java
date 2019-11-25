@@ -8,8 +8,9 @@ public class FormActivityLineItemEditable {
     public String rejectionReason;
     public String notes;
 
-    public FormActivityLineItemEditable(String id, int quantityAccepted, int quantityRejected, String rejectionReason, String notes) {
+    public FormActivityLineItemEditable(String id, int quantityShipped, int quantityAccepted, int quantityRejected, String rejectionReason, String notes) {
         this.id = id;
+        this.quantityShipped = quantityShipped;
         this.quantityAccepted = quantityAccepted;
         this.quantityRejected = quantityRejected;
         this.rejectionReason = rejectionReason;
