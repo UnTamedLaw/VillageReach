@@ -48,12 +48,13 @@ public class ProofOfDeliveryRecyclerAdaptor extends RecyclerView.Adapter<ProofOf
         public EditText quantityAccepted;
         public EditText quantityRejected;
         public Spinner reasonRejected;
+        public ReasonRejectedSpinnerListener reasonRejectedSpinnerListener;
         public EditText notes;
         public LineItemEditTextListener quantityAcceptedListener;
         public LineItemEditTextListener quantityRejectedListener;
         public LineItemEditTextListener notesListener;
 
-        public ViewHolder(CardView cardView) {
+        public ViewHolder(CardView cardView, Context context) {
             super(cardView);
             this.layout = cardView;
             this.productName = layout.findViewById(R.id.product_name);
@@ -63,21 +64,25 @@ public class ProofOfDeliveryRecyclerAdaptor extends RecyclerView.Adapter<ProofOf
             this.quantityRejected = layout.findViewById(R.id.quantity_rejected);
             this.reasonRejected = layout.findViewById(R.id.rejection_reason);
             this.notes = layout.findViewById(R.id.notes);
+            this.reasonRejected.setAdapter(ArrayAdapter.createFromResource(context, R.array.rejection_reason, android.R.layout.simple_spinner_item));
         }
 
-        public void setListeners(LineItemEditTextListener quantityAcceptedListener, LineItemEditTextListener quantityRejectedListener, LineItemEditTextListener notesListener) {
+        public void setListeners(LineItemEditTextListener quantityAcceptedListener, LineItemEditTextListener quantityRejectedListener, LineItemEditTextListener notesListener, ReasonRejectedSpinnerListener reasonRejectedSpinnerListener) {
             this.quantityAcceptedListener = quantityAcceptedListener;
             quantityAccepted.addTextChangedListener(quantityAcceptedListener);
             this.quantityRejectedListener = quantityRejectedListener;
             quantityRejected.addTextChangedListener(quantityRejectedListener);
             this.notesListener = notesListener;
             notes.addTextChangedListener(notesListener);
+            this.reasonRejectedSpinnerListener = reasonRejectedSpinnerListener;
+            reasonRejected.setOnItemSelectedListener(reasonRejectedSpinnerListener);
         }
 
         public void setListenersData(FormActivityLineItemEditable data) {
             this.quantityAcceptedListener.setData(data);
             this.quantityRejectedListener.setData(data);
             this.notesListener.setData(data);
+            this.reasonRejectedSpinnerListener.setData(data);
         }
     }
 
@@ -119,6 +124,25 @@ public class ProofOfDeliveryRecyclerAdaptor extends RecyclerView.Adapter<ProofOf
         }
     }
 
+    private class ReasonRejectedSpinnerListener implements AdapterView.OnItemSelectedListener {
+        private FormActivityLineItemEditable data;
+
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            Log.i(TAG, (String) parent.getItemAtPosition(position));
+            String item = parent.getItemAtPosition(position).toString();
+            rejectionReason = item;
+            data.rejectionReason = item;
+        }
+        @Override
+        public void onNothingSelected(AdapterView<?> parent) {
+            rejectionReason = "0";
+        }
+        public void setData(FormActivityLineItemEditable data) {
+            this.data = data;
+        }
+    }
+
     @Override
     public int getItemCount() {
         return podLineItemArrayList.size();
@@ -128,23 +152,23 @@ public class ProofOfDeliveryRecyclerAdaptor extends RecyclerView.Adapter<ProofOf
     public ProofOfDeliveryRecyclerAdaptor.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         //set everything in the cardView that doesn't change
         CardView cardView = (CardView) LayoutInflater.from(parent.getContext()).inflate(R.layout.pod_recycler_card, parent, false);
-        ViewHolder viewHolder = new ViewHolder(cardView);
+        ViewHolder viewHolder = new ViewHolder(cardView, context);
         //this line of code looks dumb but every EditText needs it's own TextWatcher and this seems to be the cleanest way to do it.
-        viewHolder.setListeners(new LineItemEditTextListener(viewHolder.quantityAccepted), new LineItemEditTextListener(viewHolder.quantityRejected), new LineItemEditTextListener(viewHolder.notes));
-        viewHolder.reasonRejected.setAdapter(ArrayAdapter.createFromResource(context, R.array.rejection_reason, android.R.layout.simple_spinner_item));
-        viewHolder.reasonRejected.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view,
-                                       int position, long id) {
-                Log.i(TAG, (String) parent.getItemAtPosition(position));
-                String item = parent.getItemAtPosition(position).toString();
-                rejectionReason = item;
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                rejectionReason = "0";
-            }
-        });
+        viewHolder.setListeners(new LineItemEditTextListener(viewHolder.quantityAccepted), new LineItemEditTextListener(viewHolder.quantityRejected), new LineItemEditTextListener(viewHolder.notes), new ReasonRejectedSpinnerListener());
+//        viewHolder.reasonRejected.setAdapter(ArrayAdapter.createFromResource(context, R.array.rejection_reason, android.R.layout.simple_spinner_item));
+//        viewHolder.reasonRejected.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view,
+//                                       int position, long id) {
+//                Log.i(TAG, (String) parent.getItemAtPosition(position));
+//                String item = parent.getItemAtPosition(position).toString();
+//                rejectionReason = item;
+//            }
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//                rejectionReason = "0";
+//            }
+//        });
         return viewHolder;
     }
 
@@ -176,6 +200,7 @@ public class ProofOfDeliveryRecyclerAdaptor extends RecyclerView.Adapter<ProofOf
         }
         return null;
     }
+
     private LineItem findShipmentLineItemByMatchingOrderable(String orderableId) {
         for  (LineItem currentShipmentLineItem : currentShipment.lineItems) {
             if (currentShipmentLineItem.orderable.id.equals(orderableId)) {
