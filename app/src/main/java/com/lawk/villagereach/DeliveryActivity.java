@@ -15,7 +15,7 @@ import java.util.HashMap;
 
 public class DeliveryActivity extends AppCompatActivity {
 
-    private static final String TAG = "Anu";
+    private static final String TAG = "MyTracker";
     private static String RESULT = "DeliveryResponse";
     private RecyclerView recyclerView;
     private OrderRecyclerAdapter orderRecyclerAdapter;
