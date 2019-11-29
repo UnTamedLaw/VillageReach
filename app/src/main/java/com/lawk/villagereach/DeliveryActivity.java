@@ -9,9 +9,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import java.lang.reflect.Type;
-import java.util.HashMap;
 
 public class DeliveryActivity extends AppCompatActivity {
 
@@ -30,7 +27,6 @@ public class DeliveryActivity extends AppCompatActivity {
         LinearLayoutManager manager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(manager);
 
-        String podHashMapString = InternalStorageHandler.getInstance(this).readFile("podMap");
         orderRecyclerAdapter = new OrderRecyclerAdapter(DeliveryActivity.this);
         recyclerView.setAdapter(orderRecyclerAdapter);
         Button getDeliveries = findViewById(R.id.delivery);
@@ -52,6 +48,8 @@ public class DeliveryActivity extends AppCompatActivity {
             public void onSuccess() {
                 Toast success = Toast.makeText(getApplicationContext(), "successfully synced", Toast.LENGTH_SHORT);
                 success.show();
+                finish();
+                startActivity(getIntent());
             }
 
             @Override

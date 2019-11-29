@@ -113,16 +113,13 @@ public class Sync {
             }
             @Override
             public void onFailure(VolleyError error) {
-
             }
         });
-
-
     }
 
 
 
-    public static String constructUrlWithSetIds(String url, String param, Set<String> idSet) {
+    private static String constructUrlWithSetIds(String url, String param, Set<String> idSet) {
         String newUrl = url;
         Boolean first = true;
         for (String id : idSet) {
@@ -137,7 +134,7 @@ public class Sync {
         return newUrl;
     }
 
-    public static void sendDrafts(Context context, String token, final StringCallback callback) {
+    private static void sendDrafts(Context context, String token, final StringCallback callback) {
         final Gson gson = new Gson();
         String requestMapString;
         File f = new File("/data/data/com.lawk.villagereach/files/requestMap");

@@ -145,9 +145,5 @@ public class OrderRecyclerAdapter extends RecyclerView.Adapter<OrderRecyclerAdap
         if (currentPod.status.equals("CONFIRMED")) {
             holder.layout.setCardBackgroundColor(Color.DKGRAY);
         }
-
-        if (requestHashMap.containsKey(currentPod.id)) {
-            holder.layout.setCardBackgroundColor(Color.GRAY);
-        }
     }
 }

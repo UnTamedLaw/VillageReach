@@ -101,6 +101,7 @@ public class InternalStorageHandler {
             writeToFile(newShipmentMapString, "shipmentMap");
         }
     }
+
     public void writeRequestToFile(Request request) {
         if (readFile("requestMap") == "File Not Read") {
             HashMap<String, Object> requestMap = new HashMap<String, Object>();
