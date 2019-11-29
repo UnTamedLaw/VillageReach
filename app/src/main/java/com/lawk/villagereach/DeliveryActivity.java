@@ -49,12 +49,22 @@ public class DeliveryActivity extends AppCompatActivity {
     }
 
     public void showSync(View view) {
-        Toast sync = Toast.makeText(getApplicationContext(), "No Network Connection! Sync Can't Be Completed!",
-                Toast.LENGTH_SHORT);
-        sync.show();
+        Gson gson = new Gson();
+        Credentials creds = gson.fromJson(InternalStorageHandler.getInstance(null).readFile("loginCredentials"), Credentials.class);
+        Login.login(creds.username, creds.password, this, new AuthCallback() {
+            @Override
+            public void onSuccess() {
+                Toast success = Toast.makeText(getApplicationContext(), "successfully synced", Toast.LENGTH_SHORT);
+                success.show();
+            }
 
+            @Override
+            public void onFailure(Exception error) {
+                Toast fail = Toast.makeText(getApplicationContext(), "sync failed", Toast.LENGTH_SHORT);
+                fail.show();
+            }
+        });
     }
-
     public void formActivity(View view) {
         Intent intent = new Intent(DeliveryActivity.this, FormActivity.class);
         startActivity(intent);

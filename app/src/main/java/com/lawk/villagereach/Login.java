@@ -3,6 +3,8 @@ package com.lawk.villagereach;
 import android.content.Context;
 import android.util.Log;
 
+import com.google.gson.Gson;
+
 
 public class Login {
 
@@ -22,7 +24,6 @@ public class Login {
                         }
                         @Override
                         public void onFailure(Exception error) {
-                            //passing some unspecified error thru callback
                             callback.onFailure(error);
                         }
                     });
@@ -31,28 +32,28 @@ public class Login {
                 public void onFailure(Exception error) {
                     Log.i(TAG, "Login: an unspecified error occurred");
                     callback.onFailure(error);
-//                    if (error instanceof AuthFailureError) {
-//                            //rejected by server so passing an authfailure thru callback
-//                            callback.onFailure(new AuthFailureError());
-//                    }
                 }
             });
         } else {
             Log.i(TAG,"Login: using offlineLogin because no internet");
             if (offlineLogin(creds)) {
-                //pretend user logged in
+                Log.i(TAG, "Login: credentials are valid");
                 callback.onSuccess();
+
             } else {
-                //doesn't match so passing an authfailure thru callback
+                Log.i(TAG, "Login: credentials are invalid");
                 callback.onFailure(new Exception("offLineLoginFail"));
             }
         }
     }
 
     public static boolean offlineLogin(Credentials creds) {
-        //get correct creds from storage
-        //compare
-        //return true if same
+        String credsString = InternalStorageHandler.getInstance(null).readFile("loginCredentials");
+        Gson gson = new Gson();
+        Credentials oldCreds = gson.fromJson(credsString, Credentials.class);
+        if (creds.username.equals(oldCreds.username) && creds.password.equals(oldCreds.password)) {
+            return true;
+        }
         return false;
     }
 }
