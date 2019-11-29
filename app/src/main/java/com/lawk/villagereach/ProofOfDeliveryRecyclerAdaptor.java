@@ -103,7 +103,7 @@ public class ProofOfDeliveryRecyclerAdaptor extends RecyclerView.Adapter<ProofOf
         @Override
         public void afterTextChanged(Editable editable) {
             String value = editable.toString();
-            if (data != null) {
+            if (!value.equals("")) {
                 switch(view.getId()) {
                     case R.id.quantity_accepted:
                         data.quantityAccepted = Integer.parseInt(value);
@@ -115,6 +115,8 @@ public class ProofOfDeliveryRecyclerAdaptor extends RecyclerView.Adapter<ProofOf
                         data.notes = value;
                         break;
                 }
+            } else {
+                data.quantityAccepted = 0;
             }
         }
     }
