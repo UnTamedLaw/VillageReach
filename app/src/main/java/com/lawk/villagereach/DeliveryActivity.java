@@ -31,10 +31,6 @@ public class DeliveryActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(manager);
 
         String podHashMapString = InternalStorageHandler.getInstance(this).readFile("podMap");
-        Gson gson = new Gson();
-        Type type = new TypeToken<HashMap<String, ProofOfDelivery>>(){}.getType();
-        HashMap<String, ProofOfDelivery> podHashMap = gson.fromJson(podHashMapString, type);
-
         orderRecyclerAdapter = new OrderRecyclerAdapter(DeliveryActivity.this);
         recyclerView.setAdapter(orderRecyclerAdapter);
         Button getDeliveries = findViewById(R.id.delivery);

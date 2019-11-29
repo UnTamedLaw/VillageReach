@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.io.File;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,23 +30,27 @@ public class OrderRecyclerAdapter extends RecyclerView.Adapter<OrderRecyclerAdap
     private HashMap<String, Order> orderHashMap;
     private HashMap<String, ProofOfDelivery> podHashMap;
     private HashMap<String, Shipment> shipmentHashMap;
+    private HashMap<String, Request> requestHashMap;
 
     public OrderRecyclerAdapter(Context context) {
         this.context = context;
 
-
-        String orderHashMapString = InternalStorageHandler.getInstance(context).readFile("orderMap");
+        String orderHashMapString = InternalStorageHandler.getInstance(null).readFile("orderMap");
         Gson gson = new Gson();
         Type type = new TypeToken<HashMap<String, Order>>(){}.getType();
         orderHashMap = gson.fromJson(orderHashMapString, type);
 
-        String podHashMapString = InternalStorageHandler.getInstance(context).readFile("podMap");
+        String podHashMapString = InternalStorageHandler.getInstance(null).readFile("podMap");
         Type podType = new TypeToken<HashMap<String, ProofOfDelivery>>(){}.getType();
         podHashMap = gson.fromJson(podHashMapString, podType);
 
-        String shipmentHashMapString = InternalStorageHandler.getInstance(context).readFile("shipmentMap");
+        String shipmentHashMapString = InternalStorageHandler.getInstance(null).readFile("shipmentMap");
         Type shipmentType = new TypeToken<HashMap<String, Shipment>>(){}.getType();
         shipmentHashMap = gson.fromJson(shipmentHashMapString, shipmentType);
+
+        String requestHashMapString = InternalStorageHandler.getInstance(null).readFile("requestMap");
+        Type requestType = new TypeToken<HashMap<String, Request>>(){}.getType();
+        requestHashMap = gson.fromJson(requestHashMapString, requestType);
 
         this.orderHashMap = orderHashMap;
         this.orderArrayList = new ArrayList<Order>(orderHashMap.values());
@@ -138,6 +143,10 @@ public class OrderRecyclerAdapter extends RecyclerView.Adapter<OrderRecyclerAdap
         });
 
         if (currentPod.status.equals("CONFIRMED")) {
+            holder.layout.setCardBackgroundColor(Color.DKGRAY);
+        }
+
+        if (requestHashMap.containsKey(currentPod.id)) {
             holder.layout.setCardBackgroundColor(Color.GRAY);
         }
     }

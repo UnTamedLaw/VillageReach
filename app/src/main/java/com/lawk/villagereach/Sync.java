@@ -33,12 +33,9 @@ public class Sync {
         sendDrafts(context, token, new StringCallback() {
             @Override
             public void onSuccess(String result) {
+                InternalStorageHandler.getInstance(null).deleteRequestMap();
                 Log.i(TAG, "Sync is now using this token from storage" + token);
-
-
                 String podArrayUrl = "https://demo-v3.openlmis.org/api/proofsOfDelivery";
-
-
                 NetworkingTest.dataFromServerString(token, podArrayUrl, context, new StringCallback() {
                     @Override
                     public void onSuccess(String result) {
@@ -150,6 +147,10 @@ public class Sync {
             Type requestMapType = new TypeToken<HashMap<String, Request>>(){}.getType();
             HashMap<String, Request> requestHashMap = gson.fromJson(requestMapString, requestMapType);
             int numberOfRequestsToMake = requestHashMap.size();
+            if (numberOfRequestsToMake == 0) {
+                callback.onSuccess("done");
+                return;
+            }
             final CountDownLatch countDownLatch2 = new CountDownLatch(numberOfRequestsToMake);
 
             for (String currentRequestID : requestHashMap.keySet()){
