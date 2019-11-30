@@ -1,9 +1,8 @@
 package com.lawk.villagereach;
 
-
 import com.google.gson.annotations.SerializedName;
 
-public class ProofOfDelivery {
+public class Request {
     @SerializedName("status")
     public String status;
     @SerializedName("shipment")
@@ -18,5 +17,4 @@ public class ProofOfDelivery {
     public String id;
     @SerializedName("receivedDate")
     public String receivedDate;
-
 }

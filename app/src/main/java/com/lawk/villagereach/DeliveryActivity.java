@@ -1,67 +1,63 @@
 package com.lawk.villagereach;
 
 import androidx.appcompat.app.AppCompatActivity;
-
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
-
-import com.android.volley.Cache;
-import com.android.volley.Network;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.BasicNetwork;
-import com.android.volley.toolbox.DiskBasedCache;
-import com.android.volley.toolbox.HurlStack;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
-
-import org.json.JSONObject;
+import android.widget.Button;
+import android.widget.Toast;
+import com.google.gson.Gson;
 
 public class DeliveryActivity extends AppCompatActivity {
-    private static final String TAG= "Form Activity Button";
-    //to view results
-    TextView results;
-    //url to be parsed
-    String JsonURL = "https://raw.githubusercontent.com/ianbar20/JSON-Volley-Tutorial/master/Example-JSON-Files/Example-Object.JSON";
-    //define volley request
-    RequestQueue requestQueue;
+
+    private static final String TAG = "MyTracker";
+    private static String RESULT = "DeliveryResponse";
+    private RecyclerView recyclerView;
+    private OrderRecyclerAdapter orderRecyclerAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_delivery);
-        //create volley request queue
-        requestQueue = Volley.newRequestQueue(this);
-        //cast results to textview
-        results = (TextView)findViewById(R.id.tester);
-        //JsonObjectRequest class, GET fetches data from server from url providd
-        JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, JsonURL, null, new Response.Listener<JSONObject>() {
+
+        recyclerView = findViewById(R.id.recyclerview);
+        recyclerView.setHasFixedSize(true);
+        LinearLayoutManager manager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(manager);
+
+        orderRecyclerAdapter = new OrderRecyclerAdapter(DeliveryActivity.this);
+        recyclerView.setAdapter(orderRecyclerAdapter);
+        Button getDeliveries = findViewById(R.id.delivery);
+        Button getSync = findViewById(R.id.sync);
+
+    }
+
+    public void showDelivery(View view) {
+        Toast delivery = Toast.makeText(getApplicationContext(), "No Network Connection! Deliveries Can't Be Complete!",
+                Toast.LENGTH_SHORT);
+        delivery.show();
+    }
+
+    public void showSync(View view) {
+        Gson gson = new Gson();
+        Credentials creds = gson.fromJson(InternalStorageHandler.getInstance(null).readFile("loginCredentials"), Credentials.class);
+        Login.login(creds.username, creds.password, this, new AuthCallback() {
             @Override
-            public void onResponse(JSONObject response) {
-                //get 'colorName'
-                results.setText("Response" + response.toString());
+            public void onSuccess() {
+                Toast success = Toast.makeText(getApplicationContext(), "successfully synced", Toast.LENGTH_SHORT);
+                success.show();
+                finish();
+                startActivity(getIntent());
             }
-        }, new Response.ErrorListener() {
+
             @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.e("Volley", "Error");
+            public void onFailure(Exception error) {
+                Toast fail = Toast.makeText(getApplicationContext(), "sync failed", Toast.LENGTH_SHORT);
+                fail.show();
             }
         });
-        //add JSON object request to the request queue
-        RequestQueue requestQueue;
-        // Instantiate the cache
-        Cache cache = new DiskBasedCache(getCacheDir(), 1024 * 1024); // 1MB cap
-        // Set up the network to use HttpURLConnection as the HTTP client.
-        Network network = new BasicNetwork(new HurlStack());
-        // Instantiate the RequestQueue with the cache and network.
-        requestQueue = new RequestQueue(cache, network);
-        // Start the queue
-        requestQueue.start();
-        requestQueue.add(req);
     }
     public void formActivity(View view) {
         Intent intent = new Intent(DeliveryActivity.this, FormActivity.class);

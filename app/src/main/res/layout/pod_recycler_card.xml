@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView android:id="@+id/pod_card_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="top"
+    android:layout_margin="8dp"
+    card_view:cardCornerRadius="4dp"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="6dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/product_name_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/id_label"
+            android:textStyle="bold" />
+        <TextView
+            android:id="@+id/product_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+<!--        <TextView-->
+<!--            android:id="@+id/product_unit_label"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/product_unit_label"-->
+<!--            android:textStyle="bold" />-->
+<!--        <TextView-->
+<!--            android:id="@+id/product_unit"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="product unit" />-->
+
+        <TextView
+            android:id="@+id/quantity_ordered_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/quantity_ordered_label"
+            android:textStyle="bold" />
+        <TextView
+            android:id="@+id/quantity_ordered"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/quantity_shipped_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/quantity_shipped_label"
+            android:textStyle="bold" />
+        <TextView
+            android:id="@+id/quantity_shipped"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+<!--        <TextView-->
+<!--            android:id="@+id/lot_code_label"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:textStyle="bold"-->
+<!--            android:text="@string/lot_code" />-->
+<!--        <TextView-->
+<!--            android:id="@+id/lot_code"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="lot code" />-->
+
+        <TextView
+            android:id="@+id/quantity_accepted_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/quantity_accepted_label"
+            android:textStyle="bold" />
+        <EditText
+            android:id="@+id/quantity_accepted"
+            android:layout_width="match_parent"
+            android:background="@drawable/shape"
+            android:layout_height="wrap_content"
+            android:hint="0"
+            android:inputType="number"
+            android:padding="6dp"/>
+
+        <TextView
+            android:id="@+id/quantity_rejected_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/quantity_rejected_label"
+            android:textStyle="bold" />
+        <EditText
+            android:id="@+id/quantity_rejected"
+            android:layout_width="match_parent"
+            android:background="@drawable/shape"
+            android:layout_height="wrap_content"
+            android:hint="0"
+            android:inputType="number"
+            android:padding="6dp"/>
+
+        <TextView
+            android:id="@+id/rejection_reason_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:text="@string/rejection_reason_label" />
+        <Spinner
+            android:id="@+id/rejection_reason"
+            style="@style/Widget.AppCompat.Spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/notes_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/notes_label"
+            android:textStyle="bold" />
+        <EditText
+            android:id="@+id/notes"
+            android:layout_width="match_parent"
+            android:background="@drawable/shape"
+            android:layout_height="wrap_content"
+            android:padding="6dp"
+            android:inputType="text"
+            android:hint=""/>
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

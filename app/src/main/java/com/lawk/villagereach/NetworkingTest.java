@@ -10,7 +10,9 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
 
 import org.json.JSONObject;
 
@@ -28,7 +30,7 @@ public class NetworkingTest {
         requestQueue = getRequestQueue();
     }
 
-    public RequestQueue getRequestQueue() {
+    private RequestQueue getRequestQueue() {
         if (this.requestQueue == null) {
             this.requestQueue = Volley.newRequestQueue(this.context);
         }
@@ -42,7 +44,7 @@ public class NetworkingTest {
         return instance;
     }
 
-    public <T> void addToRequestQueue(Request<T> req) {
+    private <T> void addToRequestQueue(Request<T> req) {
         getRequestQueue().add(req);
     }
     public static boolean isConnected(Context context) {
@@ -81,17 +83,18 @@ public class NetworkingTest {
         NetworkingTest.getInstance(context).addToRequestQueue(tokenRequest);
     }
 
-    public static void dataFromServer(final String token, String url, Context context, final VolleyCallback callback) {
-        JsonObjectRequest dataRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+    public static void dataFromServerString(final String token, String url, Context context, final StringCallback callback) {
+        StringRequest dataRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
-            public void onResponse(JSONObject response) {
-                Log.i(TAG,"NetworkingTest: dataFromServer response: " + response.toString());
+            public void onResponse(String response) {
+                //stuff
+                //Log.i(TAG, "NetworkingTest: dataFromServerString response: " + response);
                 callback.onSuccess(response);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                //do nothing here. propagate error up stack
+
             }
         }) {
             @Override
@@ -100,6 +103,40 @@ public class NetworkingTest {
                 headers.put("Authorization", token);
                 headers.put("content-type", "application/json; charset=utf-8");
                 return headers;
+            }
+        };
+        NetworkingTest.getInstance(context).addToRequestQueue(dataRequest);
+    }
+    public static void putRequest(final String token, String url, com.lawk.villagereach.Request value, Context context, final StringCallback callback) {
+        Gson gson = new Gson();
+        final String json = gson.toJson(value);
+        StringRequest dataRequest = new StringRequest(Request.Method.PUT, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                callback.onSuccess(response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                callback.onFailure(error);
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<String, String>();
+                headers.put("Authorization", "Basic dXNlci1jbGllbnQ6Y2hhbmdlbWU=");
+                headers.put("content-type", "application/json; charset=utf-8");
+                return headers;
+            }
+
+            @Override
+            public String getBodyContentType() {
+                return "application/json; charset=utf-8";
+            }
+
+            @Override
+            public byte[] getBody() throws AuthFailureError {
+                return json.getBytes();
             }
         };
         NetworkingTest.getInstance(context).addToRequestQueue(dataRequest);
