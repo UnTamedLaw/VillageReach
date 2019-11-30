@@ -1,16 +1,13 @@
 package com.lawk.villagereach;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.util.Log;
 import android.widget.ProgressBar;
 import android.widget.Toast;
-import java.util.ArrayList;
 import androidx.appcompat.app.AppCompatActivity;
 import com.android.volley.ClientError;
 import com.android.volley.NoConnectionError;
@@ -21,9 +18,8 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "myTracker";
     private static final int RESULT_ID = 1;
     public static final String MESSAGE_ID = "loginInfo";
-    private ArrayList<Login> loginArrayList;
     Button b1;
-    EditText userName;
+    EditText username;
     EditText password;
     private ProgressBar spinner;
 
@@ -31,9 +27,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        loginArrayList = new ArrayList<>();
-        userName = (EditText) findViewById(R.id.username);
+        username = (EditText) findViewById(R.id.username);
         password = (EditText) findViewById(R.id.password);
         b1 = (Button) findViewById(R.id.loginButton);
         this.spinner = (ProgressBar) findViewById(R.id.progressBar);
@@ -49,12 +43,10 @@ public class MainActivity extends AppCompatActivity {
 
         EditText password = findViewById(R.id.password);
         String myPassword = password.getText().toString();
-        String mymessage = myUserName + myPassword;
 
         InternalStorageHandler.getInstance(this);
 
         final Intent intent = new Intent(this, DeliveryActivity.class);
-        intent.putExtra(MESSAGE_ID, mymessage);
         //test code this will log in a user as administrator and password and ignore the fields for
         //testing convinience. change this to login(myUserName,myPassword, this) later!
 
@@ -98,25 +90,25 @@ public class MainActivity extends AppCompatActivity {
         //test code
     }
 
-    public void lockScreenForLoading() {
+    private void lockScreenForLoading() {
         spinner.setVisibility(View.VISIBLE);
         //disable the buttons
         b1.setEnabled(false);
         //disable text field
         password.setEnabled(false);
-        userName.setEnabled(false);
+        username.setEnabled(false);
         //make the spinner
 
     }
 
-    public void unlockScreenForLoading() {
+    private void unlockScreenForLoading() {
         spinner.setVisibility(View.GONE);
         //remove the spinner
         //enable the buttons
         b1.setEnabled(true);
         //enable text field
         password.setEnabled(true);
-        userName.setEnabled(true);
+        username.setEnabled(true);
         
     }
 }

@@ -30,9 +30,11 @@ public class InternalStorageHandler {
     private Context context;
     private static InternalStorageHandler instance;
     private String fileName = "tokenFile.txt";
+    private Gson gson;
 
     public InternalStorageHandler(Context context) {
         this.context = context;
+        this.gson = new Gson();
     }
 
     public static synchronized InternalStorageHandler getInstance(Context context){
@@ -52,6 +54,7 @@ public class InternalStorageHandler {
             while ((line = bufferedReader.readLine()) != null) {
                 stringBuilder.append(line);
             }
+            fileInputStream.close();
             return stringBuilder.toString();
         } catch (FileNotFoundException e) {
             Log.e("Read File", "File Not Found" + e.toString());
@@ -61,8 +64,13 @@ public class InternalStorageHandler {
         return "File Not Read";
     }
 
+    public void deleteRequestMap() {
+        HashMap<String, Object> requestMap = new HashMap<String, Object>();
+        String requestMapString = gson.toJson(requestMap);
+        writeToFile(requestMapString, "requestMap");
+    }
+
     public void writeOrderToFile(Order order) {
-        Gson gson = new Gson();
         if (readFile("orderMap") == "File Not Read") {
             HashMap<String, Object> orderMap = new HashMap<String, Object>();
             orderMap.put(order.id, order);
@@ -79,7 +87,6 @@ public class InternalStorageHandler {
     }
 
     public void writeShipmentToFile(Shipment shipment) {
-        Gson gson = new Gson();
         if (readFile("shipmentMap") == "File Not Read") {
             HashMap<String, Object> shipmentMap = new HashMap<String, Object>();
             shipmentMap.put(shipment.id, shipment);
@@ -94,8 +101,8 @@ public class InternalStorageHandler {
             writeToFile(newShipmentMapString, "shipmentMap");
         }
     }
+
     public void writeRequestToFile(Request request) {
-        Gson gson = new Gson();
         if (readFile("requestMap") == "File Not Read") {
             HashMap<String, Object> requestMap = new HashMap<String, Object>();
             requestMap.put(request.id, request);
