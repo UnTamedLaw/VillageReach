@@ -132,15 +132,7 @@ public class OrderRecyclerAdapter extends RecyclerView.Adapter<OrderRecyclerAdap
         holder.orderDate.setText(currentOrder.createdDate);
         holder.emergency.setText(currentOrder.emergency.toString());
 
-        holder.formClick.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.i(TAG, "if listener is not null");
-                Intent intent = new Intent(context, FormActivity.class);
-                intent.putExtra("podId", currentPod.id);
-                context.startActivity(intent);
-            }
-        });
+
 
         if (currentPod.status.equals("CONFIRMED")) {
             holder.layout.setCardBackgroundColor(Color.DKGRAY);
