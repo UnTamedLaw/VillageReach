@@ -30,7 +30,7 @@ public class NetworkingTest {
         requestQueue = getRequestQueue();
     }
 
-    public RequestQueue getRequestQueue() {
+    private RequestQueue getRequestQueue() {
         if (this.requestQueue == null) {
             this.requestQueue = Volley.newRequestQueue(this.context);
         }
@@ -44,7 +44,7 @@ public class NetworkingTest {
         return instance;
     }
 
-    public <T> void addToRequestQueue(Request<T> req) {
+    private <T> void addToRequestQueue(Request<T> req) {
         getRequestQueue().add(req);
     }
     public static boolean isConnected(Context context) {
@@ -128,6 +128,7 @@ public class NetworkingTest {
                 headers.put("content-type", "application/json; charset=utf-8");
                 return headers;
             }
+
             @Override
             public String getBodyContentType() {
                 return "application/json; charset=utf-8";
@@ -135,13 +136,9 @@ public class NetworkingTest {
 
             @Override
             public byte[] getBody() throws AuthFailureError {
-
                 return json.getBytes();
-
             }
-
         };
-
         NetworkingTest.getInstance(context).addToRequestQueue(dataRequest);
     }
 }
