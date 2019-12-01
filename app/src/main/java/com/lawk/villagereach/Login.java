@@ -2,6 +2,7 @@ package com.lawk.villagereach;
 
 import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 
@@ -36,7 +37,7 @@ public class Login {
             });
         } else {
             Log.i(TAG,"Login: using offlineLogin because no internet");
-            if (offlineLogin(creds)) {
+            if (offlineLogin(creds, context)) {
                 Log.i(TAG, "Login: credentials are valid");
                 callback.onSuccess();
 
@@ -47,13 +48,16 @@ public class Login {
         }
     }
 
-    public static boolean offlineLogin(Credentials creds) {
+    public static boolean offlineLogin(Credentials creds, Context context) {
         String credsString = InternalStorageHandler.getInstance(null).readFile("loginCredentials");
         Gson gson = new Gson();
         Credentials oldCreds = gson.fromJson(credsString, Credentials.class);
         if (creds.username.equals(oldCreds.username) && creds.password.equals(oldCreds.password)) {
             return true;
         }
+        Log.i(TAG, "offLineLoginFail");
+        Toast offLineLoginFailToast = Toast.makeText(context.getApplicationContext(), "Offline Login Failed", Toast.LENGTH_SHORT);
+        offLineLoginFailToast.show();
         return false;
     }
 }
