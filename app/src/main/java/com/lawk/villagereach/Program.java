@@ -19,9 +19,5 @@ public class Program {
     public Boolean showNonFullSupplyTab;
     @SerializedName("supportLocallyFulfilled")
     public Boolean supportLocallyFulfilled;
-
-    public String getName(){
-        return this.name;
-    }
 }
 

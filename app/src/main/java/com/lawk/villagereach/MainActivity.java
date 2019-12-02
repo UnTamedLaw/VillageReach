@@ -53,10 +53,10 @@ public class MainActivity extends AppCompatActivity {
         Log.i(TAG, "MainActivity: BEGIN LOGIN PROCEDURE");
         //lockscreenForLoading()
         //visible
-        Login.login("administrator", "password", this, new AuthCallback() {
+        Login.login(myUserName, myPassword, this, new AuthCallback() {
             @Override
             public void onSuccess() {
-                //unlocksscreenforloading()
+                unlockScreenForLoading();
                 //invisible
                 Log.i(TAG, "MainActivity: END LOGIN PROCEDURE: successfully logged in and maybe synced");
                 startActivityForResult(intent, RESULT_ID);
@@ -64,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Exception error) {
+                unlockScreenForLoading();
                 Log.i(TAG, "MainActivity: END LOGIN PROCEDURE: something went wrong");
                 if (error instanceof ClientError) {
                     Log.i(TAG, "Client Error");
@@ -79,11 +80,6 @@ public class MainActivity extends AppCompatActivity {
                     Log.i(TAG, "Connection to server failed");
                     Toast noConnectionErrorToast = Toast.makeText(getApplicationContext(), "Connection to server failed", Toast.LENGTH_SHORT);
                     noConnectionErrorToast.show();
-                }
-                if (error.getMessage().equals("offLineLoginFail")) {
-                    Log.i(TAG, "offLineLoginFail");
-                    Toast offLineLoginFailToast = Toast.makeText(getApplicationContext(), "Offline Login Failed", Toast.LENGTH_SHORT);
-                    offLineLoginFailToast.show();
                 }
             }
         });
