@@ -173,11 +173,10 @@ Developers: Yamato Onuki, Kevin Law, Anu Slorah, Abby Abraha, Sean Gilliland, Pe
 		represents any data with just an Id and a Href
 ```
 ```ISSUES:
-	OrderRecyclerAdapter is spelled wrong
-	NetworkingTest is a dumb name for a class.
+	OrderRecyclerAdapter is spelled wrong.
+	NetworkingTest is an odd name for a class.
 	AuthCallback, StringCallback, SyncCallback and VolleyCallback can all be streamlined into a more generic callback type.
-	You can go back to the mainActivity login screen from the DeliveryActivity. This should be disabled.
-	There is no encryption for credentials or data. Password is stored in paintext for now. 
+	There is no encryption for credentials or data. Password is stored in plaintext for now. 
 	Syncing via sync button does not disable any inputs from user. 
 	Context is passed into a few functions that don't actually need it, like in NetworkingTest
 	Exception handling needs work in networking, sync and login functions.
@@ -186,5 +185,7 @@ Developers: Yamato Onuki, Kevin Law, Anu Slorah, Abby Abraha, Sean Gilliland, Pe
 	Input validation for all fields should be more thorough. 
 	InternalStorageHandler is very primitive and only deals with Strings. A lot of code could be moved there.
 	Gson gets instantiated in a bunch of different places instead of just being a singleton.
+	
+	This program submits PoDs where the status is INITIATED, not CONFIRMED for testing purposes.
 	```
 
