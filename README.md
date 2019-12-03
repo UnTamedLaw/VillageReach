@@ -1,20 +1,21 @@
 [![CircleCI](https://circleci.com/gh/UnTamedLaw/VillageReach.svg?style=svg)](https://circleci.com/gh/UnTamedLaw/VillageReach)
 [![codecov](https://codecov.io/gh/UnTamedLaw/VillageReach/branch/master/graph/badge.svg)](https://codecov.io/gh/UnTamedLaw/VillageReach)
 
-Village Reach Application Documentation v.02
----------------------------------------------------------------
-Description: A Proof of Delivery application to access and fill proof of delivery offline for OpenLMIS to be completed by a driver and a clinician as a proof of delivery for received medical shipments.
----------------------------------------------------------------
-Prerequisites: At minimum application targets Androids 5.1 with storage availability of 6GB.
----------------------------------------------------------------
-Dependencies:
+```Village Reach Application Documentation v.02```
+
+```Description: A Proof of Delivery application to access and fill proof of delivery offline for OpenLMIS to be completed by a driver and a clinician as a proof of delivery for received medical shipments.```
+
+```Prerequisites: At minimum application targets Androids 5.1 with storage availability of 6GB.```
+
+```Dependencies:
+
 Volley version 1.1.1. https://github.com/google/volley 
-Gson 2.8.6 https://github.com/google/gson/blob/master/UserGuide.md
----------------------------------------------------------------
-Developers: Yamato Onuki, Kevin Law, Anu Slorah, Abby Abraha, Sean Gilliland, Perla Reyes Herrera
+Gson 2.8.6 https://github.com/google/gson/blob/master/UserGuide.md```
+
+```Developers: Yamato Onuki, Kevin Law, Anu Slorah, Abby Abraha, Sean Gilliland, Perla Reyes Herrera```
  
----------------------------------------------------------------
-ACTIVITIES:
+
+```ACTIVITIES:
 	MainActivity
 		protected void onCreate()
 			Parameters:
@@ -49,8 +50,8 @@ ACTIVITIES:
 		public void onClickRespond(View view)
 			Purpose:
 				Called when submit button is clicked. calls validateAllFormData() to validate the input in the forms, writes the Request into the file and closes this activity.
-
-CLASSES:
+```
+```CLASSES:
 	Auth
 		public static void authenticate()
 			Parameters:
@@ -135,8 +136,8 @@ CLASSES:
 				SyncCallback callback
 			Purpose:
 				This function first does sendDrafts() to send out all the requests saved in the storage, and then requests all relevant data from the server. First it gets all the ProofOfDelivery as an array, and then all the Orderables as an array, and then a single request for each ProofOfDelivery for it's associated Order and Shipment objects. It uses a countDownLatch to wait until all these asynchronous requests have completed before executing the callback.
-	
-DATA OBJECTS:
+```	
+```DATA OBJECTS:
 	Credentials
 		Stores username and password.
 	Facility
@@ -165,8 +166,8 @@ DATA OBJECTS:
 		represents Shipment in data.
 	Stub
 		represents any data with just an Id and a Href
-
-ISSUES:
+```
+```ISSUES:
 	OrderRecyclerAdapter is spelled wrong
 	NetworkingTest is a dumb name for a class.
 	AuthCallback, StringCallback, SyncCallback and VolleyCallback can all be streamlined into a more generic callback type.
@@ -180,5 +181,5 @@ ISSUES:
 	Input validation for all fields should be more thorough. 
 	InternalStorageHandler is very primitive and only deals with Strings. A lot of code could be moved there.
 	Gson gets instantiated in a bunch of different places instead of just being a singleton.
-	
+	```
 
