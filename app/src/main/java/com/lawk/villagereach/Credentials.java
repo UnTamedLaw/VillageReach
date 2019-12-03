@@ -1,8 +1,9 @@
 package com.lawk.villagereach;
 
 public class Credentials {
-    String username;
-    String password;
+    public String username;
+    public String password;
+
     public Credentials(String username, String password) {
         this.username = username;
         this.password = password;
