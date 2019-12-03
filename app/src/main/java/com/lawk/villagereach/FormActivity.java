@@ -64,7 +64,15 @@ public class FormActivity extends AppCompatActivity {
         recyclerView.setAdapter(podRecyclerAdapter);
 
         Button submitButton = findViewById(R.id.submit);
+
         if (currentPod.status.equals("CONFIRMED")) {
+            submitButton.setEnabled(false);
+        }
+
+        String requestHashMapString = InternalStorageHandler.getInstance(this).readFile("requestMap");
+        Type requestType = new TypeToken<HashMap<String, Orderable>>() {}.getType();
+        HashMap<String, Request> requestHashMap = gson.fromJson(requestHashMapString, requestType);
+        if (requestHashMap.keySet().contains(currentPod.id)) {
             submitButton.setEnabled(false);
         }
     }
@@ -162,4 +170,5 @@ public class FormActivity extends AppCompatActivity {
         toast.setView(layout);
         toast.show();
     }
+
 }
