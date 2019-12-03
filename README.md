@@ -3,7 +3,6 @@
 
 Village Reach Application Documentation v.02
 
-
 Description: A Proof of Delivery application to access and fill proof of delivery offline for OpenLMIS to be completed by a driver and a clinician as a proof of delivery for received medical shipments.
 
 
@@ -195,4 +194,4 @@ ISSUES:
 	
 	This program submits PoDs where the status is INITIATED, not CONFIRMED for testing purposes.
 	
-
+```

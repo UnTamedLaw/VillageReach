@@ -103,18 +103,28 @@ public class ProofOfDeliveryRecyclerAdaptor extends RecyclerView.Adapter<ProofOf
         @Override
         public void afterTextChanged(Editable editable) {
             String value = editable.toString();
-            if (data != null) {
-                switch(view.getId()) {
-                    case R.id.quantity_accepted:
+            switch(view.getId()) {
+                case R.id.quantity_accepted:
+                    if (!value.equals("")) {
                         data.quantityAccepted = Integer.parseInt(value);
-                        break;
-                    case R.id.quantity_rejected:
+                    } else {
+                        data.quantityAccepted = 0;
+                    }
+                    break;
+                case R.id.quantity_rejected:
+                    if (!value.equals("")) {
                         data.quantityRejected = Integer.parseInt(value);
-                        break;
-                    case R.id.notes:
+                    } else {
+                        data.quantityRejected = 0;
+                    }
+                    break;
+                case R.id.notes:
+                    if (!value.equals("")) {
                         data.notes = value;
-                        break;
-                }
+                    } else {
+                        data.notes = "";
+                    }
+                    break;
             }
         }
     }
@@ -169,6 +179,9 @@ public class ProofOfDeliveryRecyclerAdaptor extends RecyclerView.Adapter<ProofOf
         holder.productName.setText(currentOrderable.fullProductName);
         holder.quantityOrdered.setText(Integer.toString(currentOrderLineItem.orderedQuantity));
         holder.quantityShipped.setText(Integer.toString(currentShipmentLineItem.quantityShipped));
+        if (currentPodLineItem.notes != null) {
+            holder.notes.setText(currentPodLineItem.notes);
+        }
     }
     //the next two functions are needed because the only way to tell which lineItems
     //are associated with what order is to go by their orderable's ID.
