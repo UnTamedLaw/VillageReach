@@ -142,17 +142,21 @@ public class ProofOfDeliveryRecyclerAdaptor extends RecyclerView.Adapter<ProofOf
         //this line of code looks dumb but every EditText needs it's own TextWatcher and this seems to be the cleanest way to do it.
         viewHolder.setListeners(new LineItemEditTextListener(viewHolder.quantityAccepted), new LineItemEditTextListener(viewHolder.quantityRejected), new LineItemEditTextListener(viewHolder.notes));
         viewHolder.reasonRejected.setAdapter(ArrayAdapter.createFromResource(context, R.array.rejection_reason, android.R.layout.simple_spinner_item));
+
         viewHolder.reasonRejected.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view,
                                        int position, long id) {
-                Log.i(TAG, (String) parent.getItemAtPosition(position));
+                //Log.i(TAG, (String) parent.getItemAtPosition(position));
+
                 String item = parent.getItemAtPosition(position).toString();
                 rejectionReason = item;
+                Log.i(TAG, rejectionReason + " " + orderableHashMap.get(id));
+
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                rejectionReason = "0";
+                rejectionReason = "N/A";
             }
         });
         return viewHolder;
@@ -163,10 +167,10 @@ public class ProofOfDeliveryRecyclerAdaptor extends RecyclerView.Adapter<ProofOf
     public void onBindViewHolder(ViewHolder holder, final  int id) {
         //get all the data associated with this lineItem
         LineItem currentPodLineItem = podLineItemArrayList.get(id);
+
         LineItem currentShipmentLineItem = findShipmentLineItemByMatchingOrderable(currentPodLineItem.orderable.id);
         LineItem currentOrderLineItem = findOrderLineItemByMatchingOrderable(currentPodLineItem.orderable.id);
         Orderable currentOrderable = orderableHashMap.get(currentPodLineItem.orderable.id);
-
         FormActivityLineItemEditable fields = new FormActivityLineItemEditable(currentPodLineItem.id, currentShipmentLineItem.quantityShipped, currentPodLineItem.quantityAccepted, currentPodLineItem.quantityRejected, currentPodLineItem.rejectionReasonId, currentPodLineItem.notes);
         //setListenersData will change all three TextWatchers in holder to mutate fields.
         holder.setListenersData(fields);
