@@ -18,10 +18,11 @@ Gson 2.8.6 https://github.com/google/gson/blob/master/UserGuide.md
 
 Developers: Yamato Onuki, Kevin Law, Anu Slorah, Abby Abraha, Sean Gilliland, Perla Reyes Herrera
 
-The app interacts with OpenLMIS test database
+The app interacts with OpenLMIS test database https://demo-v3.openlmis.org/ using test credentials.
  
 
-```ACTIVITIES:
+ACTIVITIES:
+```
 	MainActivity
 		protected void onCreate()
 			Parameters:
@@ -57,7 +58,8 @@ The app interacts with OpenLMIS test database
 			Purpose:
 				Called when submit button is clicked. calls validateAllFormData() to validate the input in the forms, writes the Request into the file and closes this activity.
 ```
-```CLASSES:
+CLASSES:
+```
 	Auth
 		public static void authenticate()
 			Parameters:
@@ -143,7 +145,9 @@ The app interacts with OpenLMIS test database
 			Purpose:
 				This function first does sendDrafts() to send out all the requests saved in the storage, and then requests all relevant data from the server. First it gets all the ProofOfDelivery as an array, and then all the Orderables as an array, and then a single request for each ProofOfDelivery for it's associated Order and Shipment objects. It uses a countDownLatch to wait until all these asynchronous requests have completed before executing the callback.
 ```	
-```DATA OBJECTS:
+DATA OBJECTS:
+
+```
 	Credentials
 		Stores username and password.
 	Facility
@@ -173,7 +177,8 @@ The app interacts with OpenLMIS test database
 	Stub
 		represents any data with just an Id and a Href
 ```
-``` ISSUES:
+ISSUES:
+```
 	OrderRecyclerAdapter is spelled wrong.
 	NetworkingTest is an odd name for a class.
 	AuthCallback, StringCallback, SyncCallback and VolleyCallback can all be streamlined into a more generic callback type.
@@ -186,6 +191,7 @@ The app interacts with OpenLMIS test database
 	Input validation for all fields should be more thorough. 
 	InternalStorageHandler is very primitive and only deals with Strings. A lot of code could be moved there.
 	Gson gets instantiated in a bunch of different places instead of just being a singleton.
+	The server url is hard coded to https://demo-v3.openlmis.org/
 	
 	This program submits PoDs where the status is INITIATED, not CONFIRMED for testing purposes.
 	```
