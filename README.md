@@ -15,7 +15,7 @@ Volley version 1.1.1. https://github.com/google/volley
 Gson 2.8.6 https://github.com/google/gson/blob/master/UserGuide.md
 
 
-Developers: Yamato Onuki, Kevin Law, Anu Slorah, Abby Abraha, Sean Gilliland, Perla Reyes Herrera
+Developers: Kevin Law, Anu Slorah, Abby Abraha, Sean Gilliland, Perla Reyes Herrera
 
 The app interacts with OpenLMIS test database https://demo-v3.openlmis.org/ using test credentials.
  
