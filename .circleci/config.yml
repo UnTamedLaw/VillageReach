@@ -228,7 +228,7 @@ jobs:
           no_output_timeout: 30m
       - run:
           name: Upload coverage report to CodeCov
-          command: bash <(curl -s https://codecov.io/bash)
+          command: bash <(curl -s https://codecov.io/bash)    
           no_output_timeout: 30m
       - store_artifacts:
           path: app/build/reports/
