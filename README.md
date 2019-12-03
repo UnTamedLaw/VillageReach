@@ -18,6 +18,7 @@ Gson 2.8.6 https://github.com/google/gson/blob/master/UserGuide.md
 
 Developers: Yamato Onuki, Kevin Law, Anu Slorah, Abby Abraha, Sean Gilliland, Perla Reyes Herrera
 
+The app interacts with OpenLMIS test database
  
 
 ```ACTIVITIES:
@@ -172,7 +173,7 @@ Developers: Yamato Onuki, Kevin Law, Anu Slorah, Abby Abraha, Sean Gilliland, Pe
 	Stub
 		represents any data with just an Id and a Href
 ```
-```ISSUES:
+``` ISSUES:
 	OrderRecyclerAdapter is spelled wrong.
 	NetworkingTest is an odd name for a class.
 	AuthCallback, StringCallback, SyncCallback and VolleyCallback can all be streamlined into a more generic callback type.
