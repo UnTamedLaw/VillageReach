@@ -37,16 +37,16 @@ public class DeliveryActivity extends AppCompatActivity {
 
         orderRecyclerAdapter = new OrderRecyclerAdapter(DeliveryActivity.this);
         recyclerView.setAdapter(orderRecyclerAdapter);
-        Button getDeliveries = findViewById(R.id.delivery);
+//        Button getDeliveries = findViewById(R.id.delivery);
         Button getSync = findViewById(R.id.sync);
 
     }
 
-    public void showDelivery(View view) {
-        Toast delivery = Toast.makeText(getApplicationContext(), "No Network Connection! Deliveries Can't Be Complete!",
-                Toast.LENGTH_SHORT);
-        delivery.show();
-    }
+//    public void showDelivery(View view) {
+//        Toast delivery = Toast.makeText(getApplicationContext(), "No Network Connection! Deliveries Can't Be Complete!",
+//                Toast.LENGTH_SHORT);
+//        delivery.show();
+//    }
 
     public void showSync(View view) {
         Toast sync = Toast.makeText(getApplicationContext(), "No Network Connection! Sync Can't Be Completed!",
