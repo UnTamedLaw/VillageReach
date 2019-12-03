@@ -1,18 +1,23 @@
 [![CircleCI](https://circleci.com/gh/UnTamedLaw/VillageReach.svg?style=svg)](https://circleci.com/gh/UnTamedLaw/VillageReach)
 [![codecov](https://codecov.io/gh/UnTamedLaw/VillageReach/branch/master/graph/badge.svg)](https://codecov.io/gh/UnTamedLaw/VillageReach)
 
-```Village Reach Application Documentation v.02```
+```Village Reach Application Documentation v.02
+```
 
-```Description: A Proof of Delivery application to access and fill proof of delivery offline for OpenLMIS to be completed by a driver and a clinician as a proof of delivery for received medical shipments.```
+```Description: A Proof of Delivery application to access and fill proof of delivery offline for OpenLMIS to be completed by a driver and a clinician as a proof of delivery for received medical shipments.
+```
 
-```Prerequisites: At minimum application targets Androids 5.1 with storage availability of 6GB.```
+```Prerequisites: At minimum application targets Androids 5.1 with storage availability of 6GB.
+```
 
 ```Dependencies:
 
 Volley version 1.1.1. https://github.com/google/volley 
-Gson 2.8.6 https://github.com/google/gson/blob/master/UserGuide.md```
+Gson 2.8.6 https://github.com/google/gson/blob/master/UserGuide.md
+```
 
-```Developers: Yamato Onuki, Kevin Law, Anu Slorah, Abby Abraha, Sean Gilliland, Perla Reyes Herrera```
+```Developers: Yamato Onuki, Kevin Law, Anu Slorah, Abby Abraha, Sean Gilliland, Perla Reyes Herrera
+```
  
 
 ```ACTIVITIES:
