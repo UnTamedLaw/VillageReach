@@ -13,7 +13,6 @@ import com.google.gson.Gson;
 public class DeliveryActivity extends AppCompatActivity {
 
     private static final String TAG = "MyTracker";
-    private static String RESULT = "DeliveryResponse";
     private RecyclerView recyclerView;
     private OrderRecyclerAdapter orderRecyclerAdapter;
 
@@ -58,9 +57,5 @@ public class DeliveryActivity extends AppCompatActivity {
                 fail.show();
             }
         });
-    }
-    public void formActivity(View view) {
-        Intent intent = new Intent(DeliveryActivity.this, FormActivity.class);
-        startActivity(intent);
     }
 }
