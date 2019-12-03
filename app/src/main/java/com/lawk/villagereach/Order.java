@@ -1,7 +1,6 @@
 package com.lawk.villagereach;
 
 import com.google.gson.annotations.SerializedName;
-import java.util.Date;
 
 
 public class Order {
@@ -29,6 +28,7 @@ public class Order {
     public String createdDate;
     @SerializedName("orderLineItems")
     public LineItem[] orderLineItems;
-
 }
+
+
 
