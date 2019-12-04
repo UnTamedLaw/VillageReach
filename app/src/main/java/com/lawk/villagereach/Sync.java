@@ -1,25 +1,17 @@
 package com.lawk.villagereach;
 import android.content.Context;
-import android.os.ConditionVariable;
-import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
 
-import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class Sync {
 
