@@ -7,7 +7,7 @@ Description: A Proof of Delivery application to access and fill proof of deliver
 
 
 Prerequisites: At minimum application targets Androids 5.1 with storage availability of 6GB.
-
+A google-services.json file added to the app folder
 
 Dependencies:
 
